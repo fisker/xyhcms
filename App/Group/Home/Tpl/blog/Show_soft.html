@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+			<div class="one-box">            
+            <h1>{$content.title}</h1>  
+            <div class="post-meta">
+            </div>
+            <div class="p-h3">图片展示</div>
+
+            <div class="p-note">
+            <p><img src="{$content.litpic|get_picture=600}" /></p>
+            </div>
+            <div class="p-h3">描述</div>
+            <div class="p-note">
+                <span>大小：{$content.filesize}</span> &nbsp;&nbsp;&nbsp;
+                <span>更新版本：{$content.version}</span> &nbsp;&nbsp;&nbsp;
+                <span>更新日期：{$content.updatetime|date='Y-m-d',###}</span><br/>
+                <span>适合系统：{$content.os}</span>
+            </div>
+            <div class="p-h3">下载地址</div>
+            <div class="p-note">
+            <foreach name="content['downlink']" item="v">
+                <p><a href="{$v.url}" target="_blank" >{$v.title }</a></p>
+            </foreach>
+            </div>
+
+            <div class="p-h3">介绍</div>
+            <div class="p-note">
+            {$content.content}
+            </div>
+
+
+			<div class="clear"></div>  
+			<!-- END post-bottom -->  
+        </div>
+
+        <div class="h-title">评论</div>
+
+        <!--comment -->
+	    <if condition='$commentflag eq 1'>
+	     <div class="comment-box">
+        <h3>评论(<span class="review-count">0</span>)</h3>
+		
+        <div class="more-comment">
+            后面还有<span id="more_count"></span>条评论，<a href="javascript:get_review();">点击查看>></a>
+        </div>
+        <form action="{:U(GROUP_NAME.'/Review/add')}" method="post" class="comment-item" id="reviewForm"  autocomplete="off">
+		<a name="reply_" id="reply_"></a>
+        	<input type="hidden" name="post_id" value="{$content.id}"/>
+        	<input type="hidden" name="model_id" value="{$cate.modelid}" />
+        	<input type="hidden" name="title" value="{$content.title}"/>
+        	<input type="hidden" name="review_id" value="0" />
+        	<span class="avatar"><img src="{:get_avatar(get_cookie('face'),30)}" alt="" id="my_avatar"></span>
+        	<div class="comment-bd" id="review">
+        		<div class="comment-textarea">
+					<textarea name="content" placeholder="我也来说两句..."></textarea>
+				</div>
+
+				<if condition="C('cfg_verify_review') eq 1">
+				<div class="comment-vcode">
+					
+					<input type="text" name="vcode" class="inp_small" />
+					<img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" />
+				</div>
+				</if>
+			</div>
+            <div class="comment-ft">
+				<input type="submit" class="btn_blue" value="评论&nbsp;[&nbsp;Ctrl+Enter&nbsp;]">
+			</div>
+        </form>
+        
+        <div class="login-tip" style="display:none;">
+            您可以选择 <a href="{:U(GROUP_NAME. '/Public/login')}">登录</a> | <a href="{:U(GROUP_NAME. '/Public/register')}">立即注册</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/js/review.js"></script>
+    <script type="text/javascript" language="javascript"> 
+        var get_review_url = "{:U(GROUP_NAME.'/Review/getlist')}";
+        var post_review_url = "{:U(GROUP_NAME.'/Review/add')}";   
+		function changeVcode(obj){
+			$("#VCode").attr("src",'<yang:vcodeurl />'+ '#'+Math.random());
+			return false;
+		}
+	</script>
+    </if>
+    <!--comment end-->
+		
+	</div>
+	<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

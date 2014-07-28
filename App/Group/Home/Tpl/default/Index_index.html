@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title><yang:sitetitle/></title>
+<meta name="keywords" content="<yang:sitekeywords />" />
+<meta name="description" content="<yang:sitedescription />" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+<yang:mobileauto />
+</head>
+<body>
+
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+<div class="warp1 mt">
+	<include file="Public:announce" />
+
+	<div id="syxw" class="f_l">
+	<p><yang:type typeid='1'>{$type.description|str2sub=140, true}<a href="{$type.url}">[详情]</a></yang:type>
+	</p>
+	</div>
+	<div id="banner" class="f_r">
+
+	<div id="banBox">
+		<ul id="banContentID">
+			<li><a href="javascript:void(0)"><img border="0" src="__PUBLIC__/images/p1.jpg" width="722" height="257"/></a></li>
+			<li><a href="javascript:void(0)"><img border="0" src="__PUBLIC__/images/p2.jpg" width="722" height="257"/></a></li>
+		</ul>
+	</div>
+	<ul id="banNumID">
+		<li class="">1</li>
+		<li class="">2</li>
+		<li class="">3</li>
+	</ul>
+	</div>
+</div>
+</div>
+
+<div class="warp1 mt">
+<div class="left f_l">
+<h3 class="left_bt">搜索中心</h3>
+<div class="xbox">
+	<form id="SearchForm" name="SearchForm" method="post" action="<yang:searchurl />">
+	<ul class="searchFormDiv">
+	<li>
+	  <select name="cid">
+	  	<yang:catlist typeid='0' flag='0' limit='30'>
+	    <option value="{$catlist.id}">{$catlist.name}</option>
+		</yang:catlist>
+	    </select>
+	</li>
+	<li>
+	  <input name="keyword" type="text" id="keyword"  value="请输入关键词" onfocus="if(this.value=='请输入关键词'){this.value='';}" onblur="if(this.value==''){this.value='请输入关键词';}" />
+	</li>
+	<li>
+	  <input type="submit" value="查询" class="btn_blue"/></li>
+	</ul>
+    </form>
+	</div>
+
+<div class="mt">
+	<h3 class="left_bt">最新文章</h3>
+	<div class="xbox left_box" id="abt">
+	<ul class="sywz">
+	
+	<yang:artlist limit='8' titlelen='16'>
+	<li><a href="{$artlist.url}">{$artlist.title}</a></li>
+	</yang:artlist>
+	</ul>
+	</div>
+</div>	
+
+</div>
+
+<div class="right f_r">
+
+<yang:catlist typeid='0'>
+<div class="rbox <if condition='$autoindex%2 eq 0'> f_l <else/> f_r </if> <if condition='$autoindex gt 1'> mt</if>">
+<h3 class="r_bt"><a href="{$catlist.url}">更多></a><span>{$catlist.name}</span></h3>
+<div class="xbox" style="height:185px; overflow:hidden;">
+	<ul class="sywz">
+		<yang:list typeid="$catlist['id']">
+		<li><span>{$list.publishtime|date='Y-m-d',###}</span><a href="{$list.url}" >[{$list.catename}]{$list.title}</a></li>
+		</yang:list>
+	</ul>
+</div>
+</div>
+</yang:catlist>
+<div class=" clear"></div>
+</div>
+<div class=" clear"></div>
+</div>
+
+<div class="warp1 mt">
+<h3 class="r_bt"><span>产品展示</span></h3>
+<div class="xbox" style="height:142px; overflow:hidden;">
+<div id="demc">
+    <div class="jdimg" id="my2Box">
+      <ul id="my2Contnet">
+		<yang:prolist limit='10'>
+		<li><a href="{$prolist.url}"><img src="{$prolist.litpic}" alt="{$prolist.title}"/><span>{$prolist.title}</span></a></li>
+		</yang:prolist>	  
+      </ul>
+      <div class="clear"></div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="warp1 mt">
+<h3 class="r_bt"><span>友情链接</span></h3>
+<div class="xbox" id="yqlj">
+<yang:flink limit='20'>
+<a href="{$flink.url}" target="_blank">{$flink.name}</a>
+</yang:flink>
+<div class="clear"></div>
+</div>
+</div>
+<script language="javascript" src="__PUBLIC__/js/MSClass.js"></script>
+<script type="text/javascript">
+new Marquee(["my2Box","my2Contnet"],2,1,966,140,30,0,0);
+new Marquee({MSClass:["banBox","banContentID","banNumID"],Direction:0,Step: 0.3,Width:722,Height:257,Timer:20,DelayTime:2000,WaitTime:0,ScrollStep:257,SwitchType: 0,AutoStart:1});
+</script>
+
+
+<include file="Public:footer" />
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+		var uid = <if condition="$user['id'] gt 0">{$user.id}<else/>0</if>;
+		var validate={username:1,code:1};
+		$("input[name='username']").focus();//聚焦
+		//验证用户名
+		$("input[name='username']").blur(function(){
+			var username = $("input[name='username']");
+			if($.trim(username.val())==''){
+				validate.username=1;
+				username.parent().find("span").remove().end().append("<span class='error'>用户名不能为空</span>");
+				return ;
+			}
+			$.post("{:U(GROUP_NAME.'/Login/checkusername')}",{username:$.trim(username.val()), id:uid},function(stat){
+				if(stat==1){	
+					validate.username=1;			
+					username.parent().find("span").remove().end().append("<span class='error'>用户已经存在</span>");
+				}else{					
+					validate.username=0;	
+					username.parent().find("span").remove();
+				}
+		
+			})			
+		});
+
+		$("#form_do").submit(function(){
+			if(validate.username==0){
+				return true;
+			}
+			//验证用户名
+			$("input[name='username']").trigger("blur");
+			return false;
+		});
+    });
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">添加用户</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="<if condition='$uid'>{:U(GROUP_NAME. '/Rbac/editUser')}<else/>{:U(GROUP_NAME. '/Rbac/addUser')}</if>">
+		<dl>
+			<dt> 用户名：</dt>
+			<dd>
+				<input type="text" name="username" class="inp_one" value="{$user.username}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 密码：</dt>
+			<dd>
+				<input type="password" name="password" class="inp_one" value="{$user.password}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 真实姓名：</dt>
+			<dd>
+				<input type="text" class="inp_one" name="realname" value="{$user.realname}" />
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt> 所属权限组：</dt>
+			<dd>
+			<select name="role_id[]">
+				<option value="0">请选择用户组</option>
+				<foreach name='role' item='v'>
+				<option value="{$v.id}" <if condition="$v['id'] eq $userRote[0]">selected="selected"</if>>{$v.name}</option>
+				</foreach>
+			</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 锁定：</dt>
+			<dd>
+				<input type="radio" name="islock" value="1" <if condition='$user.islock eq 1'>checked="checked"</if> />是
+				&nbsp;&nbsp;
+				<input type="radio" name="islock" value="0" <if condition='$user.islock eq 0'>checked="checked"</if> />否
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">
+		<if condition="$uid">
+		<input type="hidden" name="uid" value="{$uid}" />
+		</if>
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

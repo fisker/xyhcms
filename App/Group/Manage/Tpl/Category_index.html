@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">栏目列表</div>    
+    <div class="operate">
+        <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Category/add')}')" class="btn_blue" value="添加栏目">
+        <input type="button" onclick="document.getElementById('form_do').submit();" class="btn_blue" value="更新排序"></div>
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Category/sort')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th><input type="checkbox" id="check"></th>
+                <th>编号</th>
+                <th>名称</th>
+                <th>所属模型</th>
+                <th>显示</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+			<foreach name='cate' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
+                <td>{$v.id}</td>
+                <td class="aleft">{$v.delimiter}<if condition="$v['pid'] neq 0">├─</if><a href="<if condition='$v.type eq 0'>{:U(GROUP_NAME. '/'.ucfirst($v['tablename']). '/index', array('pid' => $v['id']))}<else/>{:U(GROUP_NAME.'/Category/edit',array('id' => $v['id']))}</if>">{$v.name}</a></td>
+                <td ><if condition='$v.type eq 1'><span style="color:red">外部链接</span><else/>{$v.modelname}</if></td>
+				<td><if condition="$v['status']">是<else/>否</if></td>
+                <td><input type="text" name="{$v.id}" value="{$v.sort}" /></td>
+                <td>
+
+                <a href="{:U(GROUP_NAME.'/Category/add',array('pid' => $v['id']))}">添加子栏目</a>
+                <a href="{:U(GROUP_NAME. '/'.ucfirst($v['tablename']). '/index', array('pid' => $v['id']))}">列表</a>
+                <a href="{:U(GROUP_NAME.'/Category/edit',array('id' => $v['id']))}">修改</a>
+                <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Category/del', array('id' => $v['id']))}', '确实要删除吗？')">删除</a>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;"> </div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+
+<div class="left f_l">
+	<h3 class="flbt">{$modelname}存档</h3>
+	<div class="xbox">
+	<ul class="fllb">
+		<yang:datelist modelid='$modelid' limit='30'>
+		<li><a href="{$datelist.url}">{$datelist.arc_year}年{$datelist.arc_month}({$datelist.arc_num})</a></li>
+		</yang:datelist>
+	</ul>
+	</div>
+</div>
+<div class="right f_r">
+	<h3 class="nybt"><i>您当前的位置：<yang:position surl="$purl" /> </i><span>{$modelname}存档列表</span></h3>
+	<div class="xbox wzzw ">	
+
+	
+	<ul class="wzli">
+		<yang:archivelist modelid='$modelid' year='$year' month='$month' pagesize='10'>
+		<if condition="$archivelist_time['flag'] eq 1">
+		<div class="search_title">{$archivelist_time.year}年{$archivelist_time.month}月</div>
+		</if>
+		<li>[{$archivelist.publishtime|date='d日',###}]<a href="{$archivelist.url}" target="_blank">{$archivelist.title}</a></li>
+		</yang:archivelist>	
+	</ul>
+
+	<!--分页 -->
+	<div class="scott mt">{$page}
+	<div class="clear"></div>
+	</div>
+	
+	</div>
+	</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+</body>
+</html>

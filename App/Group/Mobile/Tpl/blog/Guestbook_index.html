@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/> 
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="__PUBLIC__/css/base.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/comm_fun.js"></script>
+<script type="text/javascript">
+function changeVcode(obj){
+  document.getElementById("VCode").src = '<yang:vcodeurl />'+ '#'+Math.random();
+  return false;
+}
+</script>
+</head>
+<body>
+<!--顶部开始-->
+<div id="body_margins">
+<include file="Public:header" />
+
+<div class="position">位置：<yang:position ismobile='1' /></div>
+
+
+<dl class="box">
+  <dt class="title">留言本</dt>
+</dl>
+<dl class="box">
+  <dd class="">
+  <div class="form">
+    <form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Guestbook/add')}">
+    <ul class="conlist">
+      <li class="li_inputbox"><input type="text" name="username" class="li_input"  required="" placeholder="姓名" /></li>
+      <li class="li_inputbox"><input type="text" name="tel" class="li_input" placeholder="电话"/></li>
+      <li class="li_inputbox"><input type="text" name="email" class="li_input" placeholder="Email" /></li>
+      <li class="li_inputbox"><input type="text" name="qq" class="li_input" placeholder="QQ" /></li>      
+      <li class="li_inputbox">
+        <textarea name="content" cols="100%" class="li_input" style="width:100%;font-size:100%;" placeholder="留言："></textarea>
+      </li>
+      <if condition="C('cfg_verify_guestbook') eq 1">      
+      <li class="li_inputbox"><input type="text" name="vcode" class="li_input" placeholder="验证码" /></li>
+      <li><img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" /></li>
+      </if>
+    </ul>
+    <div class="form_b">    
+      <input type="submit" class="mainbtn" id="submit" value="提 交">
+    </div>
+     </form>
+  </div>
+  <div class="yang_pages">{$page}</div>
+  </dd>
+</dl>
+<dl class="box">
+  <dt class="title">留言列表</dt>
+</dl>
+<dl class="box">
+  <dd class="">
+  <foreach name='vlist' item='v'>			
+	<div class="guestbook_title">{$v.username} {$v.posttime|date='Y-m-d H:i:s', ###}</div>
+	<div class="guestbook_msg">
+	{$v.content}
+		<div class="guestbook_reply">
+			<if condition="$v['replytime']">{$v.reply}<br/>{$v.replytime|date='Y-m-d H:i:s', ###}</if>
+		</div>
+	</div>			
+</foreach>
+  
+  <div class="yang_pages">{$page}</div>
+  </dd>
+</dl>
+
+
+
+<include file="Public:footer" />
+</div>
+</body>
+</html>

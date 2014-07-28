@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+<script language="javascript">
+$(function() {
+    function i(e) {
+        $("#photobook-big img").eq(e).stop(!0, !0).fadeIn(800).siblings("img").hide(),
+        $(".photobook-t li").eq(e).addClass("hover").siblings().removeClass("hover"),
+        $.browser.msie && $.browser.version == "6.0" && !$.support.style && $("#tab-prev,#tab-next").css("height", $("#photobook-big img").eq(e).height() + "px")
+    }
+    function s() {
+        e >= 0 && e < n - 1 ? (++e, i(e)) : (e = 0, i(e));
+        if (r < 0 || r > n - t) return ! 1;
+        $("#photobook-list ul").animate({
+            left: "-=92px"
+        },
+        200),
+        r++
+    }
+    function o() {
+        if (e <= 0) return 0,
+        !1;
+        e >= 1 && (--e, i(e));
+        if (r < 2 || r > n + t) return ! 1;
+        $("#photobook-list ul").animate({
+            left: "+=92px"
+        },
+        200),
+        r--
+    }
+    var e = 0,
+    t = 5,
+    n = $("#photobook-big img").length,
+    r = 1;
+    $("#photobook-big img").eq(0).show(),
+    $.browser.msie && $.browser.version == "6.0" && !$.support.style && $("#tab-prev,#tab-next").css("height", $("#photobook-big img").eq(0).height() + "px"),
+    $(".photobook-t li").eq(0).addClass("hover"),
+    $(".photobook-t tt").each(function(e) {
+        var t = e + 1 + "/" + n;
+        $(this).html(t)
+    }),
+    $(".bntnext,#tab-next").click(function() {
+        s()
+    }),
+    $(".bntprev,#tab-prev").click(function() {
+        o()
+    }),
+    $(".photobook-t li").click(function() {
+        e = $(".photobook-t li").index(this),
+        i(e)
+    })
+})
+</script>
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+
+    <div class="ez-wr">
+        <div class="one-box">            
+            <h1 class="center">{$content.title}</h1>  
+            <div class="post-meta">
+                <span class="meta-date">{$content.publishtime|date='Y-m-d',###}</span>
+                <span class="meta-category">{$cate.name}</span>
+                <span class="meta-author">阅读<yang:click />次</span>
+                <span class="meta-permalink"><a href="{$content.url}">永久链接</a></span>
+            </div>
+
+            <div id="photobook-big">
+                <foreach name="content['pictureurls']" item="v">
+                <img src="{$v['url']|get_picture=0}" alt="" style="margin:10px 0;" />
+                </foreach> 
+                <a id="tab-prev">&#8249;</a> 
+                <a id="tab-next">&#8250;</a>
+            </div>
+            <div class="clear"></div>  
+            <div class="photobook-t">
+                <a href="javascript:;" class="bntprev"></a>
+                <div id="photobook-list">
+                    <ul>
+                        <foreach name="content['pictureurls']" item="v">
+                        <li><img src="{$v['url']|get_picture=160,160}" alt=""  /></li>
+                        </foreach> 
+                    </ul>
+                </div>              
+                <a href="javascript:;" class="bntnext"></a>
+            </div>
+            <div class="clear"></div>  
+            <div class="p-h3">介绍</div>
+            <div class="p-note">
+            {$content.content}
+            </div>
+
+            <div class="clear"></div>  
+            <!-- END post-bottom -->  
+        </div>
+    </div>
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        <div class="h-title">评论</div>
+
+        <!--comment -->
+	    <if condition='$commentflag eq 1'>
+	     <div class="comment-box">
+        <h3>评论(<span class="review-count">0</span>)</h3>
+		
+        <div class="more-comment">
+            后面还有<span id="more_count"></span>条评论，<a href="javascript:get_review();">点击查看>></a>
+        </div>
+        <form action="{:U(GROUP_NAME.'/Review/add')}" method="post" class="comment-item" id="reviewForm"  autocomplete="off">
+		<a name="reply_" id="reply_"></a>
+        	<input type="hidden" name="post_id" value="{$content.id}"/>
+        	<input type="hidden" name="model_id" value="{$cate.modelid}" />
+        	<input type="hidden" name="title" value="{$content.title}"/>
+        	<input type="hidden" name="review_id" value="0" />
+        	<span class="avatar"><img src="{:get_avatar(get_cookie('face'),30)}" alt="" id="my_avatar"></span>
+        	<div class="comment-bd" id="review">
+        		<div class="comment-textarea">
+					<textarea name="content" placeholder="我也来说两句..."></textarea>
+				</div>
+
+				<if condition="C('cfg_verify_review') eq 1">
+				<div class="comment-vcode">
+					
+					<input type="text" name="vcode" class="inp_small" />
+					<img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" />
+				</div>
+				</if>
+			</div>
+            <div class="comment-ft">
+				<input type="submit" class="btn_blue" value="评论&nbsp;[&nbsp;Ctrl+Enter&nbsp;]">
+			</div>
+        </form>
+        
+        <div class="login-tip" style="display:none;">
+            您可以选择 <a href="{:U(GROUP_NAME. '/Public/login')}">登录</a> | <a href="{:U(GROUP_NAME. '/Public/register')}">立即注册</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="__PUBLIC__/js/review.js"></script>
+    <script type="text/javascript" language="javascript"> 
+        var get_review_url = "{:U(GROUP_NAME.'/Review/getlist')}";
+        var post_review_url = "{:U(GROUP_NAME.'/Review/add')}";   
+		function changeVcode(obj){
+			$("#VCode").attr("src",'<yang:vcodeurl />'+ '#'+Math.random());
+			return false;
+		}
+	</script>
+    </if>
+    <!--comment end-->		
+	</div>
+
+	   <div class="ez-last ez-oh">
+        <div class="sidebar">       
+        <div class="sidebar-box clearfix">
+            <h4>近期文章</h4>   
+            <ul>
+                <yang:list limit='5' titlelen='16'>
+                <li><a href="{$list.url}">{$list.title}</a></li>
+                </yang:list>
+            </ul>
+        </div>
+
+        <div class="sidebar-box clearfix">
+            <h4>分类目录</h4>   
+            <ul>
+                <yang:catlist typeid='0' limit='100' flag='1'>
+                <li><a href="{$catlist.url}">{$catlist.name}</a></li>
+                <volist name='catlist["child"]' id='v'>
+                <li>&nbsp;--&nbsp;<a href="{$v|getUrl}">{$v.name}</a></li>
+                </volist>
+                </yang:catlist>
+            </ul>
+        </div>
+        
+        
+        </div>
+        </div>
+
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

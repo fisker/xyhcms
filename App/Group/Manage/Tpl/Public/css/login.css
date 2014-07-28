@@ -1,0 +1,22 @@
+body{background:#626262;padding:0px;margin: 0px;font-size:14px;color:#FFFFFF;}
+input,button{ border:solid 1px #dcdcdc;height:30px; line-height:30px; padding:3px 6px;color:#999;background:#fff; vertical-align: middle;}
+select{border:solid 1px #ccc;}
+img{border:none;}
+a{ text-decoration: none;color:#3361AD;}
+table,th,td{ border-collapse: collapse;}
+
+.btn_blue{background:#00497d;height:30px;padding:0px 30px; border:0px;/*border-radius: 5px;*/line-height:1.8em;color:#fff;font-size:16px; cursor: pointer;}
+.btn_blue:hover {background-color: #015997;}
+.len220{width:220px;}
+
+div.login{background:#0077ca url(../images/login_bg.jpg) no-repeat 0 0px;width:500px; height:330px;border:solid 5px #5a5a5a;padding:0px;position: absolute;left: 50%;top: 50%;overflow: hidden;display:block;margin:-165px 0 0 -250px;}
+div.login .loginForm{padding:20px;}
+div.login .title{font-size:16px; font-weight:bold;height: 50px;}
+
+
+
+div.login th{ text-align: right; width: 100px;}
+div.login th,div.login td{padding:8px 8px;}
+td.msg{padding:0px 8px; text-align:center; height:20px;}
+.error{font-size: 12px; color: #f0ff00;}
+.vcode{cursor:pointer;}

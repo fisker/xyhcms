@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function changeVcode(obj){
+	$("#VCode").attr("src",'<yang:vcodeurl />'+ '#'+Math.random());
+	return false;
+}
+</script>
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+<div class="left f_l">
+	
+	
+	
+	
+	</div>
+<div class="right f_r">
+<h3 class="nybt"><span>会员登录</span></h3>
+<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Public/login')}">
+		<dl>
+			<dt>邮箱：</dt>
+			<dd>
+				<input type="text" name="email" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 密码：</dt>
+			<dd>
+				<input type="password" name="password" class="inp_one" value=""/>
+			</dd>
+		</dl>
+		<if condition="C('cfg_verify_login') eq 1">
+		<dl>
+			<dt>验证码</dt>
+			<dd>
+				<input type="text" name="vcode" class="inp_small" /><img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" />
+			</dd>
+		</dl>
+		</if>
+
+		<div class="form_b">		
+			<input type="submit" class="btn_blue" id="submit" value="登录">
+			<a href="{:U(GROUP_NAME. '/Public/register')}" class="btn_blue">注册</a>
+			<input type="hidden" name="furl" value="{$furl}"/>
+		</div>
+	   </form>
+	</div>
+
+</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

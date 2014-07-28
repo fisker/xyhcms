@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">{$modelname}存档列表</h1>
+				<div id="sub-description">
+				<p></p>
+				</div>
+			</div>
+			<yang:archivelist modelid='$modelid' year='$year' month='$month' pagesize='9'>
+			<div class="one-box">
+				<if condition="$archivelist_time['flag'] eq 1">
+				<h2 class="one-box-title">{$archivelist_time.year}年{$archivelist_time.month}月</h2>
+				</if>
+				<h2 class="one-box-title"><a href="{$archivelist.url}">{$archivelist.title}</a></h2>
+				<div class="post-meta">
+					<span class="meta-date">{$archivelist.publishtime|date='Y年m月d日',###}</span>
+					<span class="meta-category">{$archivelist.catename}</span>
+					<span class="meta-permalink"><a href="{$archivelist.url}">永久链接</a></span>
+				</div>
+				<if condition="!empty($archivelist['litpic'])">
+					<p class="center"><img src="{$archivelist.litpic}" /></p>
+				</if>
+				{$archivelist.description}
+			</div>
+			</yang:archivelist>		
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		
+		<div class="ez-last ez-oh">
+		<div class="sidebar">     
+		
+		<div class="sidebar-box clearfix">
+			<h4>文章归档</h4>
+			<ul>
+				<yang:datelist modelid='$modelid' limit='30'>				
+				<li><a href='{$datelist.url}'>{$datelist.arc_year}年{$datelist.arc_month}[{$datelist.arc_num}]</a></li>
+				</yang:datelist>
+			</ul>
+		</div>
+		
+		</div>
+		</div>
+
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

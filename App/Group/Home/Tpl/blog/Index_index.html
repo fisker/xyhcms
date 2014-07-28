@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title><yang:sitetitle/></title>
+<meta name="keywords" content="<yang:sitekeywords />" />
+<meta name="description" content="<yang:sitedescription />" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+<yang:mobileauto />
+</head>
+<body>
+
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<div class="ez-wr header">
+		<div class="logo">
+		<h1><a href="<yang:siteurl />" title="<yang:sitename />" rel="home"><yang:sitename /></a></h1>
+		<p><yang:sitedescription /></p>
+		</div>        
+		<div class="top-ad"> </div>
+	</div>
+	<div class="ez-wr nav">
+		<ul class="nav-menu">
+			<li><a href="<yang:siteurl />">首 页</a></li>
+			<yang:navlist typeid='0'>
+			<li><a href='{$navlist.url}'>{$navlist.name}</a></li>
+			</yang:navlist>
+		</ul>
+	</div>
+	<div class="ez-wr">
+		<div class="banner" id="Banner">
+			<div class="banner-box" id="BannerBox">
+				<ul class="banner-content" id="BannerContent">
+					<li><a href="javascript:void(0)"><IMG src="__PUBLIC__/images/photo/2.jpg"></a></li>
+					<li><a href="javascript:void(0)"><IMG src="__PUBLIC__/images/photo/1.jpg"></a></li>
+				</ul>
+			</div>
+			<div class="banner-tab">
+				<a class="tab-prev" id="BannerPrev" href="javascript:void(0);"><span>&#8249;</span></a> 
+				<a class="tab-next" id="BannerNext" href="javascript:void(0);"><span>&#8250;</span></a>
+			</div>
+		</div>
+	</div>
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+			<yang:artlist pagesize='9' pagetheme='%upPage% %linkPage% %downPage% &lt;span&gt;共%totalPage%页&lt;/span&gt;'>
+			<div class="one-box">
+				<h2 class="one-box-title"><a href="{$artlist.url}">{$artlist.title}</a></h2>
+				<div class="post-meta">
+					<span class="meta-date">{$artlist.publishtime|date='Y年m月d日',###}</span>
+					<span class="meta-category">{$artlist.catename}</span>
+					<span class="meta-permalink"><a href="{$artlist.url}">永久链接</a></span>
+				</div>
+				<if condition="!empty($artlist['litpic'])">
+					<p class="center"><img src="{$artlist.litpic}" /></p>
+				</if>
+				{$artlist.description}
+			</div>
+			</yang:artlist>	
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		<div class="ez-last ez-oh">
+		<div class="sidebar">          
+		<div class="sidebar-box clearfix">
+			<form method="post" id="searchbar" action="{:U('Search/index')}">
+				<input type="text" size="16" name="keyword" value="搜索" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;" id="search" />
+				<input type="submit" id="searchsubmit" value="" />
+			</form>
+		</div>
+		<div class="sidebar-box clearfix">
+			<h4>近期文章</h4>	
+			<ul>
+				<yang:artlist limit='5' titlelen='16'>
+				<li><a href="{$artlist.url}">{$artlist.title}</a></li>
+				</yang:artlist>
+			</ul>
+		</div>
+		<div class="sidebar-box clearfix">
+			<h4>分类目录</h4>	
+			<ul>
+				<yang:catlist typeid='0' limit='100' flag='1'>
+				<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+				<volist name='catlist["child"]' id='v'>
+				<li>&nbsp;--&nbsp;<a href="{$v|getUrl}">{$v.name}</a></li>
+				</volist>
+				</yang:catlist>
+			</ul>
+		</div>
+		
+		<div class="sidebar-box clearfix">
+			<h4>文章归档</h4>
+			<ul>
+				<yang:datelist limit='100'>				
+				<li><a href='{$datelist.url}'>{$datelist.arc_year}年{$datelist.arc_month}[{$datelist.arc_num}]</a></li>
+				</yang:datelist>
+			</ul>
+		</div>
+		
+		<div class="sidebar-box clearfix">
+			<h4>访客留言</h4>
+			<ul>
+				<yang:gbooklist limit='10'>				
+				<li><span class="name">{$gbooklist.username}</span> <span class="time">({$gbooklist.posttime|date="Y-m-d H:i:s",###})</span>
+				<p>{$gbooklist.content}</p>
+				</li>
+				</yang:gbooklist>
+				<li style="text-align:right"><a href="<yang:gbookurl />">查看所有留言</a></li>
+			</ul>
+		</div>
+		
+		</div>
+		</div>
+	</div>
+	<div class="ez-box">
+		<div class="flink-box clearfix">
+			<h4>友情连接</h4>		
+			<div class="note">
+				<yang:flink limit='20'>
+				<a href="{$flink.url}" target="_blank">{$flink.name}</a>
+				</yang:flink>
+			</div>
+		</div>	
+	</div>
+	<include file="Public:footer" />
+</div>
+<script language="javascript" src="__PUBLIC__/js/MSClass.js"></script>
+<script type="text/javascript">
+new Marquee(
+{
+	MSClass	  : ["BannerBox","BannerContent"],
+	PrevBtnID : "BannerPrev",
+	NextBtnID : "BannerNext",
+	Direction : 2,
+	Step	  : 0.2,
+	Width	  : 960,
+	Height	  : 350,
+	Timer	  : 20,
+	DelayTime : 3000,
+	WaitTime  : 1000,
+	ScrollStep: 0,
+	SwitchType: 0,
+	AutoStart : true
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+		<div class="ez-last ez-oh">
+		<div class="sidebar">   
+		
+		<div class="sidebar-box clearfix">
+			<h4>会员中心</h4>
+			<ul>			
+				<li><a href="{:U('Member/index')}">会员中心</a></li>
+				<li><a href="{:U('Member/name')}">昵称修改</a></li>
+				<li><a href="{:U('Member/person')}">基本资料</a></li>
+				<li><a href="{:U('Member/password')}">修改密码</a></li>
+				<if condition="get_cookie('uid') gt 0">
+				<li><a href="{:U('Public/logout')}">安全退出</a></li>
+				</if>
+				
+			</ul>
+		</div>
+		
+		</div>
+		</div>

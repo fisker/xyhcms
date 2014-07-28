@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">
+		  <div class="one-box">              
+            <h1 class="page-title">{$cate.name}</h1>			
+   			<blockquote>
+            <p>{$cate.content}</p>
+            </blockquote>
+
+			<div class="clear"></div>  
+			<!-- END post-bottom -->  
+        </div>
+		</div>
+		<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

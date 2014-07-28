@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/'. MODULE_NAME .'/move')}">
+		
+
+		<dl>
+			<dt> 目标栏目：</dt>
+			<dd>
+				<select name="cid">
+					<foreach name='cate' item='v'>
+					<option value="{$v.id}">{$v.delimiter}{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 文档ID：</dt>
+			<dd>
+				<input type="text" name="id" class="inp_large" value="{$id}" />
+			</dd>
+		</dl>
+	
+
+		<div class="form_b">
+			<input type="hidden" name="pid" value="{$pid}" />
+			<input type="submit" class="btn_blue" id="submit" value="确定"> <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/'. MODULE_NAME .'/index', array('pid' => $pid))}')" class="btn_blue" value="返回">
+		</div>
+	   </form>
+	</div>
+</div>
+
+</body>
+</html>

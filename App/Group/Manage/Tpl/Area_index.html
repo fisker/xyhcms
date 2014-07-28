@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}</div>    
+    <div class="operate">
+        <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Area/add', array('pid' => $pid))}')" class="btn_blue" value="添加地区">
+        <input type="button" onclick="doConfirmBatch('{:U(GROUP_NAME.'/Area/del', array('batchFlag' => 1,'pid' => $pid))}', '确实要删除选择项吗？')" class="btn_blue" value="删除">
+        <input type="button" onclick="document.getElementById('form_do').submit();" class="btn_blue" value="更新排序"></div>
+        <if condition="$pid gt 0">
+        <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Area/index', array('pid' => 0))}')" class="btn_blue" value="返回顶级">
+        <else/>
+        <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Area/createJsArea', array('pid' => 0))}')" class="btn_blue" value="生成JS">
+        </if>
+        </div>
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Area/sort', array('pid' => $pid))}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th><input type="checkbox" id="check"></th>
+                <th>编号</th>
+                <th>名称</th>
+                <th>简称</th>
+                <th>英文名</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+			<foreach name='vlist' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
+                <td>{$v.id}</td>
+                <td class="aleft"><a href="{:U(GROUP_NAME.'/Area/index',array('pid' => $v['id']))}">{$v.name}</a></td>
+                <td >{$v.sname}</td>
+				<td>{$v.ename}</td>
+                <td><input type="text" name="{$v.id}" value="{$v.sort}" /></td>
+                <td>
+                <a href="{:U(GROUP_NAME.'/Area/edit',array('id' => $v['id'], 'pid' => $v['pid']))}">修改</a>
+                <a href="{:U(GROUP_NAME. '/Area/del', array('id' => $v['id'], 'pid' => $v['pid']))}">删除</a>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;">{$page}</div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

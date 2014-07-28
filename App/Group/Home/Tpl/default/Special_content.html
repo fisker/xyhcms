@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+	<div class="wzzw">
+		<ul class="spelia">
+		<yang:artlist typeid='0' limit='50'>
+		<li class="b{:mt_rand(1,5)}"><a href="{$artlist.url}" target="_blank">{$artlist.description}</a></li>
+		</yang:artlist>
+		</ul>
+		<div class="clear"></div>
+	</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

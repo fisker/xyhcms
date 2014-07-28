@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/> 
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link href="__PUBLIC__/css/base.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/touchslider.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/comm_fun.js"></script>
+</head>
+<body>
+
+<div id="body_margins">
+<include file="Public:header" />
+
+<div class="position">位置：<yang:position ismobile='1' /></div>
+
+<div class="nav_list">
+<yang:navlist > 
+    <a href="{$navlist.url}">{$navlist.name}</a>
+</yang:navlist>
+<div style="clear:both"></div>
+</div>
+
+<dl class="box">
+  <dt class="title"><a href="{$cate.url}" class="more arr-round arr-round-blue"></a>{$cate.name}</dt>
+</dl>
+<dl class="box">
+  <dd class="">
+  <ul class="info-list">
+  <yang:list pagesize='10'>
+    <li><a href="{$list.url}" title="{$list.title}"><h5>{$list.title|str2sub=20}</h5><div class="summary"></div></a></li>
+  </yang:list>
+  </ul>
+  <div class="yang_pages">{$page}</div>
+  </dd>
+</dl>
+
+
+<include file="Public:footer" />
+</div>
+</body>
+</html>

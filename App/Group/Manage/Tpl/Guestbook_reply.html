@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="{:U(GROUP_NAME. '/Public/editor', array('editorId' => 'reply'))}"></script>	
+</head>
+<body>
+<div class="main">
+    <div class="pos">回复留言</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Guestbook/reply')}">
+		<dl>
+			<dt> 姓名：</dt>
+			<dd>{$vo.username}</dd>
+		</dl>
+		<dl>
+			<dt> 电话：</dt>
+			<dd>{$vo.tel}</dd>
+		</dl>	
+		<dl>
+			<dt> Email：</dt>
+			<dd>{$vo.email}</dd>
+		</dl>	
+		<dl>
+			<dt> QQ：</dt>
+			<dd>{$vo.qq}</dd>
+		</dl>
+		<dl>
+			<dt> 留言：</dt>
+			<dd>
+			<dd>{$vo.content}<if condition="$vo['status']">(悄悄话)</if></dd>
+		</dl>
+		<dl>
+			<dt> 回复：</dt>
+			<dd>
+			<dd>
+				<textarea name="reply" id="reply">{$vo.reply}</textarea>
+			</dd>
+		</dl>	
+		</div>
+		<div class="form_b">
+			<input type="hidden" name="id" value="{$vo.id}" />	
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+			<input type="button" class="btn_blue" value="返 回" onclick="javascript:history.go(-1);">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

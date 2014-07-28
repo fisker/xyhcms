@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">专题</h1>
+			</div>
+			<div class="one-pictrue-box">
+				<ul class="spe-li">
+				<yang:spelist pagesize='10'>
+					<li>
+						<a href="{$spelist.url}" class="preview"><img src="{$spelist.litpic}"></a>
+						<a href="{$spelist.url}" class="title">{$spelist.title}</a>
+						<span class="info">
+							<small>日期：</small>{$spelist.publishtime|date='Y-m-d H:i:s',###}	
+						</span>
+						<p class="intro">
+							{$spelist.description}
+						</p>
+					</li>
+				</yang:spelist>
+				</ul>	
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

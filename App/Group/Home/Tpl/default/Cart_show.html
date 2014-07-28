@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/css/product.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//$("input[name=buynum]").change(function(){
+	$("input[name=buynum]").keyup(function(){
+		var id=parseInt($(this).attr('id'));
+		var value=parseInt($(this).attr('value'))
+			$.ajax({
+				type:"POST",
+				url:"<?php echo URLREWRITE?'':'.';?>/?p=<?php echo $request["p"]; ?>&a=updatebasketfornum",
+				data:"r="+id+"&num="+value,
+				timeout:"4000",
+				dataType:"json",                                 
+				success: function(html){
+					$("#change_"+id).html(html.curprice);
+					$("#totalnum").html(html.num);
+					$("#totalprice").html(html.price);
+					alert("更新成功");
+				},
+				error:function(){
+					alert("超时,请重试");
+				}
+			});
+	});
+	$("a.del").click(function(){
+		var del=$(this).parent().parent();
+		$.ajax({
+			type:"POST",
+			url:"<?php echo URLREWRITE?'':'.';?>/?p=<?php echo $request["p"]; ?>&a=updatebasketfordel",
+			data:"r="+parseInt($(this).attr('id')),
+			timeout:"4000",
+			dataType:"json",                                 
+			success: function(html){
+				switch (html.flag){
+					case "0": $("#submitbasket").remove();$("#totalnum").html('0'); $("#totalprice").html('0');del.next().append('<td colspan="6">购物车为空，请继续购物！</td>');break;
+					case "1": $("#totalnum").html(html.num); $("#totalprice").html(html.price); break;
+					default:;
+				}
+				del.remove();
+				alert("操作成功");
+			},
+			error:function(){
+				alert("超时,请重试");
+			}
+		});
+	}); 
+});
+</script>
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+<div id="ggao"><b>最新公告：</b><span><marquee>公司新网站上线</marquee></span></div>
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+
+<div class="left f_l">
+
+	<if condition='$flag_son'>
+	<h3 class="flbt">栏目列表</h3>
+	<div class="xbox">
+	<ul class="fllb">
+		<yang:catlist typeid='$cid' type='son' flag='1'>
+		<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+		</yang:catlist>
+	</ul>
+	</div>
+	</if>
+
+	<div class="mt">
+	<h3 class="left_bt"><a href="/about/lianxi/">更多></a>联系我们</h3>
+	<div class="xbox left_box">
+	<p align="center"><img src="__PUBLIC__/images/tel.jpg" /></p>
+	</div>
+	</div>
+
+	<div class="mt">
+	<h3 class="left_bt"><yang:type typeid='3'><a href="{$type.url}">更多></a>{$type.name}</yang:type></h3>
+	<div class="xbox left_box" id="abt">
+	<ul class="sywz">
+	
+	<yang:list typeid="3" limit='6'>
+	<li><a href="{$list.url}">{$list.title}</a></li>
+	</yang:list>
+	</ul>
+	</div>
+	</div>	
+</div>
+<div class="right f_r">
+	<h3 class="nybt"><i>您当前的位置：<yang:position /> </i><span>{$cate.name}</span></h3>
+	
+	<div id="mycart">
+            		<span id="mycarttitle">我的购物车</span>
+                    <ol id="step1">
+                    	<li id="selected">1.加入购物车</li>
+                        <li>2.确认订单</li>
+                        <li>3.提交订单</li>
+                    </ol>
+                    <div class="ordercontents">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                          <tr align="center">
+                            <td width="15%" height="30" class="titleborder">商品编号</td>
+                            <td width="35%" class="titleborder">商品名称</td>
+                            <td width="10%" class="titleborder">单价</td>
+                            <td width="12%" class="titleborder">数量</td>
+                            <td width="13%" class="titleborder">小计（RMB）</td>
+                            <td class="titleborder">操作</td>
+                          </tr>
+                          <foreach name="cartinfo['productinfo']" item='v'>
+                          <tr align="center">
+                          	<td width="15%" height="30" class="orderborder"><img src="{$v.litpic}" width="60" height="40"/></td>
+                            <td width="35%" class="orderborder">{$v.title}</td>
+                            <td width="10%" class="orderborder">{$v.price}</td>
+                            <td width="12%" class="orderborder"><input type="text" name="buynum" id="'.$v['id'].'buynum" value="{$v.num}" size="2"/></td>
+                            <td width="13%" class="orderborder">{$v['price']*$v['num']}</td>
+                            <td class="orderborder"><a href="#" id="{$v.id}" class="del">删除</a></td>
+                          </tr>
+                          </foreach>
+						</table>
+                    </div>
+                    <if condition='$flag'>
+      				<div id="prototal">
+      					<span>商品总数：</span><span class="totalnum" id="totalnum"><?php echo $num; ?></span><span>件，</span>
+                    	<span>总价：</span><span class="totalprice" id="totalprice"><?php echo $price; ?></span><span>RMB</span>
+                    </div>
+                    </if>
+                    <div id="nextbutton">					
+						 
+                    	<if condition='$flag'>
+                       		<a id="submitbasket" href="/<?php echo $pfileName; ?>/basketqr/" class="btn_blue" >去结算</a>
+					
+						</if>
+                    </div> 
+				  </div>
+
+	</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

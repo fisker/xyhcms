@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="{:U(GROUP_NAME. '/Public/editor')}"></script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$vo.name}
+    <if condition='ACTION_NAME eq "index"'>
+        | <foreach name='poscate' item='v'>
+        <a href="{:U(GROUP_NAME. '/' . ucfirst($v['tablename']) .'/index', array('pid' => $v['id']))}">{$v.name} &gt; </a>
+        </foreach>
+    </if>
+    </div>
+    <if condition="$subcate">
+    <div class="sub"><span>子栏目：</span>
+        <foreach name='subcate' item='v'>
+            <a href="{:U(GROUP_NAME. '/'. ucfirst($v['tablename']) . '/index', array('pid' => $v['id']))}">{$v.name}</a>
+        </foreach>
+    </div>   
+    </if>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Page/indexHandle')}">
+		<dl><dt>摘要：</dt>
+			<dd>
+				<textarea name="description" class="tarea_default">{$vo.description}</textarea>
+			</dd>
+		</dl>
+		<dl><dt>内容：</dt><dd>
+				<textarea name="content" id="content">{$vo.content}</textarea>
+			</dd>
+		</dl>
+		<dl>
+			
+		</dl>	
+		</div>
+		<div class="form_b">
+			<input type="hidden" name="id" value="{$pid}" />
+			<input type="hidden" name="pid" value="{$pid}" />
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

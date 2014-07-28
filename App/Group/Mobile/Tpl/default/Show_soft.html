@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/> 
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link href="__PUBLIC__/css/base.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/touchslider.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/comm_fun.js"></script>
+</head>
+<body>
+<div id="body_margins">
+<include file="Public:header" />
+
+<div class="position">位置：<yang:position ismobile='1' /></div>
+<dl class="box">
+  <dt class="title">
+  <yang:type typeid="$content['cid']"><a href="{$type.url}" class="more arr-round arr-round-blue"></a>{$type.name}</yang:type></dt>
+</dl>
+
+<div class="content">
+  <h1 class="theme">{$content.title}</h1>
+  <div class="pro_h3">图片展示</div>
+  <div class="intro">
+  <foreach name="content['pictureurls']" item="v">
+		<p><img src="{$v['url']|get_picture=300,300}" /></p>
+	</foreach>
+  </div>
+
+	<div class="pro_h3">描述</div>
+	<div class="intro">
+		<span>大小：{$content.filesize}</span><br/>
+		<span>更新版本：{$content.version}</span><br/>
+		<span>更新日期：{$content.updatetime|date='Y-m-d',###}</span><br/>
+		<span>适合系统：{$content.os}</span>
+	</div>
+	<div class="pro_h3">下载地址</div>
+	<div class="intro">
+	<foreach name="content['downlink']" item="v">
+		<p><a href="{$v.url}" target="_blank" >{$v.title }</a></p>
+	</foreach>
+	</div>
+	<div class="pro_h3">详细介绍</div>
+	<div class="intro">
+	{$content.content}
+	</div>
+
+</div>
+<div class="pager-next-pre">
+上一篇：<yang:prev titlelen='15' /><br />
+下一篇：<yang:next titlelen='15' />
+</div>
+
+<include file="Public:footer" />
+</div>
+</body>
+</html>

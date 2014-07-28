@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>后台管理</title>
+<script language="javascript" type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script src="__PUBLIC__/js/frame.js" language="javascript" type="text/javascript"></script>
+<link href="__PUBLIC__/css/frame.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	function get_cate(){
+		$.get("{:U(GROUP_NAME.'/Index/getParentCate')}",
+            {
+                'pid' : 0, 
+                'rnd' : Math.floor(111+Math.random()*100000)
+            },
+            function(data){
+                var listUl = $('#dl_items_2_4 ul');
+                if(!isNaN(data.count) && data.count>0){
+                	listUl.text('');
+                }
+                if(data.list && (typeof data.list == 'object')){
+                    $.each(data.list, function(i, v){
+                        var html = '<li><a href="'+v.url+'" target="main">'+v.name+'</a></li>';
+                        listUl.append(html);
+                    });
+                }
+                               
+            },'json');
+	}
+
+</script>
+<!--[if IE 6]>
+<script src="__PUBLIC__/js/DD_belatedPNG_0.0.8a-min.js" language="javascript" type="text/javascript"></script>
+<script>
+  DD_belatedPNG.fix('.nav ul li a,.top_link ul li,background');   /* string argument can be any CSS selector */
+</script>
+<![endif]-->
+</head>
+<body class="showmenu">
+<div class="pagemask"></div>
+<iframe class="iframemask"></iframe>
+<div class="head">
+<div class="top_logo"> <img src="__PUBLIC__/images/main/logo.png" /> </div>
+     <div class="nav" id="nav">
+      <ul>
+		  <li id="menu_count"><a class="thisclass" href="{:U(GROUP_NAME. '/Public/main')}" _for="common" target="main"><b>常规管理</b></a></li>
+		  <li id="menu_search"><a href="{:U(GROUP_NAME. '/System/url')}" _for="search" target="main"><b>伪静态|缓存</b></a></li>
+		  <li id="menu_order"><a href="{:U(GROUP_NAME. '/Personal/index')}" _for="content" target="main"><b>我的账户</b></a></li>
+		  <li id="menu_sys"><a href="{:U(GROUP_NAME. '/System/site')}" _for="system" target="main"><b>系统设置</b></a></li>
+      </ul>
+    </div>
+	 <div class="top_link">
+      <ul>
+	    <li id="i_self">你好，{$Think.session.yang_adm_username}</li>
+		<li id="i_hide_menu"><a href="#" id="togglemenu">隐藏菜单</a></li>
+        <li id="i_home"><a href="{:C('cfg_weburl')}" target="_blank">首页</a></li> 
+        <li id="i_help"><a href="{:goLinkEncode('http://www.0871k.com/xyhcms/')}" target="_blank">帮助</a></li>    
+        <li id="i_exit"><a href="{:U(GROUP_NAME.'/Login/logout')}" target="_top">退出</a></li>		
+      </ul>
+    </div>
+</div>
+<!-- header end -->
+
+<div class="left">
+<div class="span"></div>
+<div class="menu" id="menu">
+<div id="items_system">
+	<dl id="dl_items_1_1">
+		<dt>系统设置</dt>
+		<dd>
+		<ul>
+		<li><a href="{:U(GROUP_NAME.'/System/site')}" target="main">网站设置</a></li>
+		<li><a href="{:U(GROUP_NAME.'/System/online')}" target="main">在线客服设置</a></li>
+		<li><a href="{:U(GROUP_NAME.'/Model/index')}" target="main">模型管理</a></li>	
+		<li><a href="{:U(GROUP_NAME.'/Itemgroup/index')}" target="main">联动管理</a></li>	
+		<li><a href="{:U(GROUP_NAME.'/Area/index')}" target="main">区域管理</a></li>
+		<li><a href="{:U(GROUP_NAME.'/Database/index')}" target="main">数据库管理</a></li>
+		</ul>
+		</dd>
+	</dl>
+
+	
+	<dl id="dl_items_2_1">
+		<dt>会员管理</dt>
+		<dd>
+		<ul>			
+			<li><a href="{:U(GROUP_NAME.'/Member/index')}" target="main">会员管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Membergroup/index')}" target="main">会员组管理</a></li>
+		</ul>
+		</dd>
+	</dl>
+	
+	<dl id="dl_items_3_1">
+		<dt>用户权限管理</dt>
+		<dd>
+		<ul>
+			<li><a href="{:U(GROUP_NAME.'/Rbac/index')}" target="main">系统用户管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Rbac/role')}" target="main">用户组设置</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Rbac/node')}" target="main">节点列表</a></li>
+		</ul>
+		</dd>
+	</dl>
+	
+	
+	
+</div><!-- Item End -->
+
+<div id="items_content">
+<dl id="dl_items_1_2">
+        <dt>我的账户</dt>
+        <dd>
+          <ul>
+  
+		<li><a href="{:U(GROUP_NAME.'/Personal/index')}" target="main">修改我的信息</a></li>
+		<li><a href="{:U(GROUP_NAME.'/Personal/pwd')}" target="main">修改密码</a></li>
+		</ul>
+</dd>
+</dl>
+</div>
+
+<div id="items_search">
+<dl id="dl_items_1_3">
+	<dt>伪静态|缓存</dt>
+	<dd>
+		<ul>
+			<li><a target="main" href="{:U(GROUP_NAME. '/System/url')}">伪静态|缓存</a></li>
+		</ul>
+	</dd>
+</dl>
+<dl id="dl_items_2_3">
+	<dt>系统缓存更新</dt>
+	<dd>
+		<ul>
+			<li><a target="main" href="{:U(GROUP_NAME. '/System/clearCache')}">清除系统缓存</a></li>
+		</ul>
+	</dd>
+</dl>
+<dl id="dl_items_3_3">
+	<dt>静态缓存更新</dt>
+	<dd>
+		<ul>			
+			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/all')}">一键更新全站</a></li>
+			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/home')}">更新首页</a></li>
+			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/lists')}">更新栏目</a></li>
+			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/shows')}">更新文档</a></li>
+			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/special')}">更新专题</a></li>
+		</ul>
+	</dd>
+</dl>
+
+</div>
+
+<div id="items_common">
+	<dl id="dl_items_1_4">
+		<dt>栏目管理</dt>
+		<dd>
+		<ul>
+			<li style="display:none;"><a href="{:U(GROUP_NAME.'/Public/main')}" target="main">后台首页</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Category/index')}" target="main">栏目管理</a></li>
+		</ul>
+		</dd>
+	</dl>
+		
+	<dl id="dl_items_2_4">
+		<dt>内容管理</dt>
+		<dd>
+		<ul>
+			<foreach name='menudoclist' item='v'>			
+			<li><a href="{:U(GROUP_NAME.'/'. ucfirst($v['tablename']) .'/index', array('pid'=>$v['id']))}" target="main">{$v.name}</a></li>
+			</foreach>
+		</ul>
+		</dd>
+	</dl>
+<dl id="dl_items_3_4">
+	<dt>快捷操作</dt>
+	<dd>
+		<ul>
+			<li><a href="{:U(GROUP_NAME.'/Special/index')}" target="main">专题管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Block/index')}" target="main">自由块管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Announce/index')}" target="main">公告管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Link/index')}" target="main">友情链接</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Guestbook/index')}" target="main">留言本管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Comment/index')}" target="main">评论管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/Member/index')}" target="main">会员管理</a></li>
+			<li><a href="{:U(GROUP_NAME.'/System/clearCache')}" target="main">清除缓存</a></li> 
+		</ul>
+	</dd>
+</dl>
+</div>
+</div>
+</div>
+<!-- left end -->
+
+<div class="right">
+	<div class="rightContent">
+	<iframe id="main" name="main" frameborder="0" scrolling="yes" src="{:U(GROUP_NAME. '/Public/main')}" ></iframe>
+	</div>    
+</div>
+<!-- right end -->
+
+<div class="qucikmenu" id="qucikmenu">
+  <ul>
+<li><a href="content_list.htm" target="main">数据列表</a></li>
+<li><a href="catalog_main.htm" target="main">栏目管理</a></li>
+<li><a href="sys_info.htm" target="main">修改系统参数</a></li>
+  </ul>
+</div>
+<!-- qucikmenu end -->
+</body>
+</html>

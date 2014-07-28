@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+
+<script type="text/javascript" src="{:U(GROUP_NAME. '/Public/editor')}"></script>	
+<script type="text/javascript">
+	var data_path = "__DATA__";
+	var tpl_public = "__PUBLIC__";
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/jBox.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/calendar.config.js"></script>
+<script type="text/javascript" src="__DATA__/static/jq_plugins/iColorPicker/iColorPicker.js"></script>
+<script type="text/javascript">
+$(function () {
+	//缩略图上传
+	var litpic_tip = $(".litpic_tip");
+	var btn = $(".litpic_btn span");
+	$("#fileupload").wrap("<form id='myupload' action='{:U(GROUP_NAME. '/Public/upload', array('tb' => 2))}' method='post' enctype='multipart/form-data'></form>");
+    $("#fileupload").change(function(){
+    	if($("#fileupload").val() == "") return;
+		$("#myupload").ajaxSubmit({
+			dataType:  'json',
+			beforeSend: function() {
+        		$('#litpic_show').empty();
+				btn.html("上传中...");				
+				litpic_tip.html("上传中...");
+    		},
+			success: function(data) {
+				//litpic_tip.html("<b>"+data.title+"("+data.size+"k)</b> <span class='delimg' rel='"+data.url+"'>删除</span>");
+				if(data.state == 'SUCCESS'){					
+					litpic_tip.html(""+ data.title +" 上传成功("+data.size+"k)");
+					var img = data.url;
+					var timg = data.turl;
+					$('#litpic_show').html("<img src='"+timg+"' width='120'>");
+					$("#litpic").val(timg);
+				}else {
+					litpic_tip.html(data.state);		
+				}			
+					btn.html("添加缩略图");
+
+			},
+			error:function(xhr){
+				btn.html("上传失败");
+				litpic_tip.html(xhr);
+			}
+		});
+	});
+
+
+
+	//文件上传
+	var file_tip = $(".file_tip");
+	var filebtn = $(".file_btn span");
+	$("#fileuploadF").wrap("<form id='myfileuploadform' action='{:U(GROUP_NAME. '/Public/uploadFile')}' method='post' enctype='multipart/form-data'></form>");
+    $("#fileuploadF").change(function(){
+    	if($("#fileuploadF").val() == "") return;
+		$("#myfileuploadform").ajaxSubmit({
+			dataType:  'json',
+			beforeSend: function() {
+				filebtn.html("上传中...");
+				file_tip.html("上传中...");
+    		},
+			success: function(data) {
+				if(data.state == 'SUCCESS'){					
+					file_tip.html(""+ data.title +" 上传成功("+data.size+"k)");					
+					$('#downlink').val("本地下载$$$" + data.url + '\n' + $('#downlink').val());
+					//$("#fileurl").val(data.url);
+					$("#filesize").val(data.size+"KB");
+				}else {
+					file_tip.html(data.state);		
+				}			
+					filebtn.html("添加文件");
+
+			},
+			error:function(xhr){
+				filebtn.html("上传失败");
+				file_tip.html(xhr);
+			}
+		});
+	});
+
+
+
+
+	$('#CK_JumpUrl').click(function(){
+            var inputs = $(this).parents('dl').find('input');
+            if($(this).attr('checked')) {
+                $('#JumpUrlDiv').show();
+
+            }else {
+                $('#JumpUrlDiv').hide();
+            }
+            
+     });
+
+	
+});
+
+$(function () {
+
+	$('#BrowerPicture').click(function(){
+		$.jBox("iframe:{:U(GROUP_NAME.'/Public/browseFile', array('stype' => 'picture'))}",{
+			title:'XYHCMS',
+			width: 650,
+   			height: 350,
+    		buttons: { '关闭': true }
+   			}
+		);
+	});	
+
+	$('#BrowerFile').click(function(){
+		$.jBox("iframe:{:U(GROUP_NAME.'/Public/browseFile')}",{
+			title:'XYHCMS',
+			width: 650,
+   			height: 350,
+    		buttons: { '关闭': true }
+   			}
+		);
+	});	
+
+});
+
+
+function selectFile(sfile) {
+	$('#downlink').val("本地下载$$$" + sfile + '\n' + $('#downlink').val());
+	$.jBox.tip("选择文件成功");
+	$.jBox.close(true);
+}
+
+
+function selectPicture(sfile) {
+	$.jBox.tip("选择文件成功");
+	$.jBox.close(true);
+	$("#litpic").val(sfile);
+	$('#litpic_show').html("<img src='"+sfile+"' width='120'>");
+}
+
+
+</script>
+
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Soft/add')}">
+		<dl>
+			<dt> 名称：</dt>
+			<dd>
+				<input type="text" name="title" class="inp_large" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt>标题颜色：</dt>
+			<dd>
+				<input type="text" name="color"  id="color" class="inp_small iColorPicker" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt> 自定义属性：</dt>
+			<dd>
+				<foreach name='flagtypelist' item='v'>
+				<label><input type='checkbox' name='flags[]' value='{$key}' <if condition="$key eq B_JUMP">id="CK_JumpUrl"</if> /> {$v}</label>&nbsp; 
+				</foreach>
+			</dd>
+		</dl>
+		<dl id="JumpUrlDiv" style="display:none;">
+			<dt> 跳转网址：</dt>
+			<dd>
+				<input type="text" name="jumpurl" class="inp_large" />
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 软件版本：</dt>
+			<dd>
+				<input type="text" name="version" class="inp_small" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 更新时间：</dt>
+			<dd>
+				<input type="text" class="inp_one" name="updatetime" id="updatetime" value="{:date('Y-m-d',time())}">
+                <script type="text/javascript">
+                    Calendar.setup({
+                        weekNumbers: true,
+                        inputField : "updatetime",
+                        trigger    : "updatetime",
+                        dateFormat: "%Y-%m-%d",
+                        showTime: true,
+                        minuteStep: 1,
+                        onSelect   : function() {this.hide();}
+                    });
+                </script>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 所属栏目：</dt>
+			<dd>
+				<select name="cid">
+					<foreach name='cate' item='v'>
+					<option value="{$v.id}" <if condition="$pid eq $v['id']">selected="selected"</if>>{$v.delimiter}{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 缩略图：</dt>
+			<dd>
+				<div class="litpic_show">
+				    <div style="float:left;">
+				    <input type="text" class="inp_w250" name="litpic" id="litpic"  value="" />
+				    <input type="button" class="btn_blue_b" id="BrowerPicture" value="选择站内图片">
+				    </div>
+						<div class="litpic_btn">
+				        <span>添加缩略图</span>
+				        <input id="fileupload" type="file" name="mypic">
+				    </div>
+				    <div class="litpic_tip"></div>
+				    <div id="litpic_show"> </div>
+				</div>
+			</dd>
+		</dl>
+		
+		<dl>
+			<dt> 文件上传：</dt>
+			<dd>
+				<div class="file_show">
+				    <div style="float:left;">
+				    	<!--input type="text" class="inp_w250" name="fileurl" id="fileurl"  value="" /-->
+				    	<input type="button" class="btn_blue_b" id="BrowerFile" value="选择站内文件">
+				    </div>
+						<div class="file_btn">
+				        <span>添加文件</span>
+				        <input id="fileuploadF" type="file" name="myfile">
+				    	</div>				    
+				    <div class="file_tip"></div>
+				</div>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 文件大小：</dt>
+			<dd>
+				<input type="text" name="filesize" id="filesize" class="inp_small" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 下载地址：</dt>
+			<dd><div>一行一个地址,以$$$分割，如<br/>下载地址1$$$http://a.com</div>
+				<textarea name="downlink" id="downlink" class="tarea_default"></textarea>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 内容：</dt>
+			<dd>
+				<textarea name="content" id="content"></textarea>
+			</dd>
+		</dl>	
+
+		<dl>
+			<dt> 更新日志：</dt>
+			<dd>
+				<textarea name="updatelog" id="updatelog" class="tarea_default"></textarea>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt> 关键词：</dt>
+			<dd>
+				<input type="text" name="keywords" class="inp_w250" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 摘要：</dt>
+			<dd>
+				<textarea name="description" class="tarea_default"></textarea>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 软件分类：</dt>
+			<dd>
+				<select name="softtype">
+					<foreach name='softtypelist' item='v'>
+					<option value="{$key}">{$v}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 软件语言：</dt>
+			<dd>
+				<select name="language">
+					<foreach name='softlanguage' item='v'>
+					<option value="{$key}">{$v}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 运行环境：</dt>
+			<dd>
+				
+					<span><input type="checkbox" id="EnvWin0" value="WinXP" name="os[]"> <label for="EnvWin0">WinXP</label></span>
+					<span><input type="checkbox" id="EnvWin1" value="Win7" name="os[]"> <label for="EnvWin1">Win7</label></span>
+					<span><input type="checkbox" id="EnvWin7" value="Win832" name="os[]"> <label for="EnvWin7">Win8</label></span>
+					<span><input type="checkbox" id="EnvWin6" value="Vista64" name="os[]"> <label for="EnvWin6">Vista 64</label></span>
+					<span><input type="checkbox" id="EnvWin5" value="Win764" name="os[]"> <label for="EnvWin5">Win7 64</label></span>     
+					<span><input type="checkbox" id="EnvWin8" value="Win864" name="os[]"> <label for="EnvWin8">Win8 64</label></span>
+					<span><input type="checkbox" id="EnvWin2" value="Vista" name="os[]"> <label for="EnvWin2">Vista</label></span>
+					<span><input type="checkbox" id="EnvWin3" value="Win2003" name="os[]"> <label for="EnvWin3">Win2003</label></span>
+					<span><input type="checkbox" id="EnvWin4" value="WinNT" name="os[]"> <label for="EnvWin4">WinNT</label></span>
+				
+			</dd>
+		</dl>	
+		<dl>
+            <dt> 发布时间：</dt>
+            <dd>
+                
+                <input type="text" class="inp_one" name="publishtime" id="publishtime" value="{:date('Y-m-d H:i:s',time())}">
+                <script type="text/javascript">
+                    Calendar.setup({
+                        weekNumbers: true,
+                        inputField : "publishtime",
+                        trigger    : "publishtime",
+                        dateFormat: "%Y-%m-%d %H:%M:%S",
+                        showTime: true,
+                        minuteStep: 1,
+                        onSelect   : function() {this.hide();}
+                    });
+                </script>
+            </dd>
+        </dl>
+
+		<dl>
+			<dt> 评论：</dt>
+			<dd>
+				<input type="radio" name="commentflag" value="1" checked="checked" />允许 <input type="radio" name="commentflag" value="0" />禁止
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">		
+			<input type="hidden" name="pid" value="{$pid}" />
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

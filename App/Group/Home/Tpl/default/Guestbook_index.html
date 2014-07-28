@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function changeVcode(obj){
+	$("#VCode").attr("src",'<yang:vcodeurl />'+ '#'+Math.random());
+	return false;
+}
+</script>
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+<div class="warp1 mt">
+<h3 class="nybt"><span>留言本</span></h3>
+<div class="form">
+		<form method='post' id="form_do" name="form_do" action="<yang:gbookaddurl />">
+		<dl>
+			<dt>姓名：</dt>
+			<dd>
+				<input type="text" name="username" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 电话：</dt>
+			<dd>
+				<input type="text" name="tel" class="inp_one"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt>Email：</dt>
+			<dd>
+				<input type="text" name="email" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>QQ：</dt>
+			<dd>
+				<input type="text" name="qq" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>留言：</dt>
+			<dd>
+				<textarea name="content" cols="50" rows="10"></textarea>
+			</dd>
+		</dl>
+
+		<if condition="C('cfg_verify_guestbook') eq 1">
+		<dl>
+			<dt>验证码</dt>
+			<dd>
+				<input type="text" name="vcode" class="inp_small" /><img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" />
+			</dd>
+		</dl>
+		</if>
+		<div class="form_b">		
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+<div class=" clear"></div>
+</div>
+
+
+<div class="warp1 mt"> 
+	<h3 class="nybt"><span>留言列表</span></h3>   
+	<foreach name='vlist' item='v'>			
+			<div class="guestbook_title">{$v.username} {$v.posttime|date='Y-m-d H:i:s', ###}</div>
+			<div class="guestbook_msg">
+			{$v.content}
+			<if condition="$v['replytime']">
+				<div class="guestbook_reply">
+					<strong>回复：</strong>{$v.reply} {$v.replytime|date='Y-m-d H:i:s', ###}
+				</div>
+			</if>
+			</div>			
+    </foreach>
+    <!--分页 -->
+	<div class="scott mt">{$page}
+	<div class="clear"></div>
+	</div>
+ 
+</div>
+
+
+
+
+
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

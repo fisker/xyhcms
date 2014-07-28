@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function(){
+		var rid = <if condition="$role['id'] gt 0">{$role.id}<else/>0</if>;
+		var validate={name:1,code:1};
+		$("input[name='name']").focus();//聚焦
+		//验证用户名
+		$("input[name='name']").blur(function(){
+			var name = $("input[name='name']");
+			if($.trim(name.val())==''){
+				validate.name = 1;
+				name.parent().find("span").remove().end().append("<span class='error'>用户组名不能为空</span>");
+				return ;
+			}
+			$.post("{:U(GROUP_NAME.'/Login/checkRoleName')}",{name:$.trim(name.val()), id:rid},function(stat){
+				if(stat==1){	
+					validate.name = 1;			
+					name.parent().find("span").remove().end().append("<span class='error'>用户组已经存在</span>");
+				}else{					
+					validate.name = 0;	
+					name.parent().find("span").remove();
+				}
+		
+			})			
+		});
+
+		$("#form_do").submit(function(){
+			if(validate.name==0){
+				return true;
+			}
+			//验证用户组名
+			$("input[name='name']").trigger("blur");
+			return false;
+		});
+    });
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}用户组(角色)</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="<if condition='$id'>{:U(GROUP_NAME. '/Rbac/editRole')}<else/>{:U(GROUP_NAME. '/Rbac/addRole')}</if>">
+		<dl>
+			<dt> 用户组名：</dt>
+			<dd>
+				<input type="text" name="name" class="inp_one" value="{$role.name}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 描述：</dt>
+			<dd>
+				<input type="text" name="remark" class="inp_one" value="{$role.remark}"/>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 开启：</dt>
+			<dd>
+				<input type="radio" name="status" value="1" <if condition='$role.status eq 1'>checked="checked"</if> />开启
+				<input type="radio" name="status" value="0" <if condition='$role.status eq 0'>checked="checked"</if> />关闭
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">
+		<input type="hidden" name="pid" value="0" />
+			<if condition="$id">
+			<input type="hidden" name="id" value="{$id}" />
+			</if>
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

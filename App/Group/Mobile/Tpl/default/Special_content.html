@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/> 
+<title>{$title}-<yang:sitename /></title>
+<link href="__PUBLIC__/css/base.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/touchslider.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/comm_fun.js"></script>
+</head>
+<body>
+
+<div id="body_margins">
+<include file="Public:header" />
+
+<div class="position">位置：<yang:position ismobile='1' /></div>
+
+
+<dl class="box">
+  <dt class="title">{$title}</dt>
+</dl>
+<dl class="box">
+  <dd class="">
+  <ul class="info-list">
+  <yang:artlist typeid='0' pagesize='20'>
+    <li><a href="{$artlist.url}"><h5>{$artlist.title}</h5><div class="summary">{$artlist.description}</div></a></li>
+  </yang:artlist>
+  </ul>
+  </dd>
+</dl>
+
+
+<include file="Public:footer" />
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+<script type="text/javascript">
+function changeVcode(obj){
+	$("#VCode").attr("src",'<yang:vcodeurl />'+ '#'+Math.random());
+	return false;
+}
+</script>
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">留言本</h1>
+				<div class="form">
+				<form method='post' id="form_do" name="form_do" action="<yang:gbookaddurl />">
+				<dl>
+					<dt>姓名：</dt>
+					<dd>
+						<input type="text" name="username" class="inp_one" />
+					</dd>
+				</dl>
+				<dl>
+					<dt> 电话：</dt>
+					<dd>
+						<input type="text" name="tel" class="inp_one"/>
+					</dd>
+				</dl>
+				<dl>
+					<dt>Email：</dt>
+					<dd>
+						<input type="text" name="email" class="inp_one" />
+					</dd>
+				</dl>
+				<dl>
+					<dt>QQ：</dt>
+					<dd>
+						<input type="text" name="qq" class="inp_one" />
+					</dd>
+				</dl>
+				<dl>
+					<dt>留言：</dt>
+					<dd>
+						<textarea name="content" cols="50" rows="10" class="inp_one"></textarea>
+					</dd>
+				</dl>
+				<if condition="C('cfg_verify_guestbook') eq 1">
+				<dl>
+					<dt>验证码</dt>
+					<dd>
+						<input type="text" name="vcode" class="inp_small" /><img src="<yang:vcodeurl />" id="VCode" onclick="javascript:changeVcode(this);" />
+					</dd>
+				</dl>
+				</if>
+				<div class="form_b">		
+					<input type="submit" class="btn_blue" id="submit" value="提 交">
+				</div>
+			   </form>
+			</div>
+			</div>
+			<yang:gbooklist pagesize='9'>
+			
+			<div class="one-box">
+				<div>
+					<span class="name">{$gbooklist.username}</span>
+					<span class="time">{$gbooklist.posttime|date="Y-m-d H:i:s",###}</span>
+				</div>
+				<p>
+				{$gbooklist.content}
+				</p>
+				<if condition="$gbooklist['replytime']">
+				<div class="reply">
+					<strong>回复：</strong>{$gbooklist.reply} {$gbooklist.replytime|date='Y-m-d H:i:s', ###}
+				</div>
+				</if>
+			</div>
+			</yang:gbooklist>	
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+	<include file="Member:left" />
+<div class="right f_r">
+<h3 class="nybt"><span>个人中心</span></h3>
+<div class="form">
+	<form method='post' id="form_do" name="form_do" action="">
+		<div class="personInfo line200">{:get_cookie('nickname')}，你好！<br/>
+		<a href="{:U('Member/name')}" class="btn_blue">修改昵称</a>	
+		</div>
+		
+		<div class="h3">基本信息</div>
+		<ul class="personInfo">
+
+                <li>邮箱：{:get_cookie('email')}</li>
+                <li>姓名：{$user.detail.realname}</li>
+                <li>生日：{$user.detail.birthday}</li>
+                <li>性别：{$user.detail.sex}</li>
+                <li>生肖：{$user.detail.animal}</li>
+   		  </ul>
+		<div class="form_b">
+					
+		</div>
+	</form>
+	</div>
+
+</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

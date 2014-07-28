@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type} </div>
+    <if condition='ACTION_NAME eq "all"'>
+    <div class="sub"><span>说明：</span>
+        只有开启静态缓存，才能使用此功能。 一键更新全站静态缓存(Html)。
+    </div> 
+    <div class="operate">
+        <div class="left">
+            <form action="" method="post" id="form_do" name="form_do">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/all')}', 'form_do')" class="btn_green" value="开始更新全站">
+            </form>
+                   
+        </div>   
+    </div>    
+    </if>
+
+
+    <if condition='ACTION_NAME eq "home"'>
+    <div class="sub"><span>说明：</span>
+        只有开启静态缓存，才能使用此功能。 更新首页静态缓存(Html)。
+    </div> 
+    <div class="operate">
+        <div class="left">
+            <form action="" method="post" id="form_do" name="form_do">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/home')}', 'form_do')" class="btn_blue" value="开始更新首页">
+            </form>
+                   
+        </div>   
+    </div>
+    </if>
+
+
+    <if condition='ACTION_NAME eq "lists"'>
+    <div class="sub"><span>说明：</span>
+        只有开启静态缓存，才能使用此功能。 更新栏目列表静态缓存(Html)。
+    </div> 
+    <div class="operate">
+        <div class="left">
+                <input type="button" onclick="doGoBatch('{:U(GROUP_NAME. '/ClearHtml/lists')}')" class="btn_blue" value="更新选中的栏目">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/lists', array('isall' => 1))}', 'form_do')" class="btn_green" value="一键更新所有栏目">
+
+        </div>   
+    </div>
+    <div class="list">   
+
+    <form action="{:U(GROUP_NAME. '/ClearHtml/lists')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th width="50"><input type="checkbox" id="check"></th>
+                <th class="aleft">栏目</th>
+            </tr>
+            <foreach name='cate' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
+                <td class="aleft">{$v.delimiter}<if condition="$v['pid'] neq 0">├─</if>{$v.name}</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="th" style="clear: both;"> </div>
+    </form> 
+   
+    </div>
+    </if>
+
+
+    <if condition='ACTION_NAME eq "shows"'>
+    <div class="sub"><span>说明：</span>
+        只有开启静态缓存，才能使用此功能。 更新文档(内容页)静态缓存(Html)。
+    </div> 
+    <div class="operate">
+        <div class="left">
+                <input type="button" onclick="doGoBatch('{:U(GROUP_NAME. '/ClearHtml/shows')}')" class="btn_blue" value="更新选中的栏目下文档">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/shows', array('isall' => 1))}', 'form_do')" class="btn_green" value="一键更新所有文档">
+
+        </div>   
+    </div>
+    <div class="list">   
+
+    <form action="{:U(GROUP_NAME. '/ClearHtml/shows')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th width="50"><input type="checkbox" id="check"></th>
+                <th class="aleft">栏目</th>
+            </tr>
+            <foreach name='cate' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" value="{$v.id}" <if condition="$v.tablename eq 'page'">disabled="disabled"</if></td>
+                <td class="aleft">{$v.delimiter}<if condition="$v['pid'] neq 0">├─</if>{$v.name}</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="th" style="clear: both;"> </div>
+    </form> 
+   
+    </div>
+    
+    </if>
+
+
+    <if condition='ACTION_NAME eq "special"'>    
+    <div class="sub"><span>说明：</span>
+        只有开启静态缓存，才能使用此功能。 更新专题静态缓存(Html)。
+    </div> 
+    <div class="operate">
+        <div class="left">
+            <form action="" method="post" id="form_do" name="form_do">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/special')}', 'form_do')" class="btn_blue" value="更新专题列表">
+                <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/ClearHtml/special', array('isall' => 1))}', 'form_do')" class="btn_green" value="一键更新所有专题">
+            </form>
+                   
+        </div>   
+    </div>
+    
+    </if>
+
+</div>
+</body>
+</html>

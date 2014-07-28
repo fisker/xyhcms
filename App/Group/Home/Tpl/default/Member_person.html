@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+	<include file="Member:left" />
+<div class="right f_r">
+<h3 class="nybt"><span>个人中心</span></h3>
+<div class="form">
+	<form method='post' id="form_do" name="form_do" action="{:U('Member/person')}">		
+		<div class="h3">基本资料</div>
+		<dl>
+			<dt>邮箱：</dt>
+			<dd>{$vo.email}</dd>
+		</dl>
+		<dl>
+			<dt>姓名：</dt>
+			<dd>
+				<input type="text" name="realname" id="realname" value="{$vo.realname}" class="inp_one" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>性别：</dt>
+			<dd>
+				<select name="sex">
+					<option value="0" <if condition="$vo.sex eq 0">selected="selected"</if>>&nbsp;男&nbsp;</option>
+					<option value="1" <if condition="$vo.sex eq 1">selected="selected"</if>>&nbsp;女&nbsp;</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>出生年月：</dt>
+			<dd>
+				<input type="text" name="birthday" id="birthday" value="{$vo.birthday}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>联系地址：</dt>
+			<dd>
+				<input type="text" name="address" id="address" value="{$vo.address}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>联系电话：</dt>
+			<dd>
+				<input type="text" name="tel" id="tel" value="{$vo.tel}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>手机：</dt>
+			<dd>
+				<input type="text" name="mobile" id="mobile" value="{$vo.mobile}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>QQ：</dt>
+			<dd>
+				<input type="text" name="qq" id="qq" value="{$vo.qq}" />
+			</dd>
+		</dl>
+
+
+
+		<div class="form_b">
+			<input type="hidden" name='new' value="{$vo.new}"/>
+			<input type="submit" class="btn_blue" id="submit" value="保存">		
+		</div>
+	</form>
+
+	</div>
+
+</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+</html>

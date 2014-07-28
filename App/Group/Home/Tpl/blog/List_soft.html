@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">{$cate.name}</h1>
+				<div id="sub-description">
+				<p>{$cate.description}</p>
+				</div>
+			</div>
+			<div class="one-pictrue-box">
+				<ul class="spe-li">
+				<yang:list pagesize='9'>
+					<li>
+						<a href="{$list.url}" class="preview"><img src="{$list.litpic|get_picture=200,200}"></a>
+						<a href="{$list.url}" class="title">{$list.title}</a>
+						<span class="info">
+							<small>更新日期：</small>{$list.updatetime|date='Y-m-d',###}					
+							<small>大小：</small>{$list.filesize}	
+						</span>
+						<p class="intro">
+							{$list.description}
+						</p>
+					</li>
+				</yang:list>
+				</ul>	
+				<div class="clear"></div>
+			</div>
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

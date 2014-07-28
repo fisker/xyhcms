@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link href="__PUBLIC__/css/css.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--top -->
+<div id="top">
+<include file="Public:header" />
+
+<div class="warp1 mt">
+	<include file="Public:announce" />
+</div>
+<div class="clear"></div>
+
+</div>
+
+<div class="content">
+	<div class="warp1 mt">
+
+<div class="left f_l">
+
+	<if condition="$flag_son">
+	<h3 class="flbt">栏目列表</h3>
+	<div class="xbox">
+	<ul class="fllb">
+		<yang:catlist typeid='$cid' type='son' flag='1'>
+		<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+		</yang:catlist>
+	</ul>
+	</div>
+	<div class="mt"></div>
+	<else/>
+	<if condition = "$cate['pid'] gt 0">
+	<h3 class="flbt">栏目列表</h3>
+	<div class="xbox">
+	<ul class="fllb">
+		<yang:catlist typeid="$cate['pid']" type='son' flag='1'>
+		<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+		</yang:catlist>
+	</ul>
+	</div>
+	<div class="mt"></div>
+	</if>
+	</if>
+
+	<div class="">
+	<h3 class="left_bt">联系我们</h3>
+	<div class="xbox left_contactbox">
+	  <p>联系地址：<yang:address /><br />
+	  电话：<yang:phone /></p>
+	</div>
+	</div>
+
+	<div class="mt">
+	<h3 class="left_bt">最新文章</h3>
+	<div class="xbox left_box" id="abt">
+	<ul class="sywz">
+	
+	<yang:artlist limit='6' titlelen='16'>
+	<li><a href="{$artlist.url}">{$artlist.title}</a></li>
+	</yang:artlist>
+	</ul>
+	</div>
+	</div>	
+</div>
+<div class="right f_r">
+	<h3 class="nybt"><i>您当前的位置：<yang:position /> </i><span>{$cate.name}</span></h3>
+	<div class="xbox wzzw ">
+	
+	<ul class="wzli">	
+	<yang:list typeid="$cid" pagesize='15' pageroll='4'>
+	<li><span>{$list.publishtime|date='Y-m-d',###}</span><a href="{$list.url}">{$list.title}</a></li>
+	</yang:list>
+	
+	</ul>
+	<!--分页 -->
+	<div class="scott mt">{$page}
+	<div class="clear"></div>
+	</div>
+	
+	</div>
+	</div>
+<div class=" clear"></div>
+</div>
+</div>
+
+<include file="Public:footer" />
+</body>
+</html>

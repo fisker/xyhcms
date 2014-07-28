@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+    <!--
+    var URL = '__URL__';
+    var APP	 = '__APP__';
+    var SELF='__SELF__';
+    var PUBLIC='__PUBLIC__';
+    $(function(){
+
+        $('input[level=1]').click(function(){
+            var inputs = $(this).parents('.app').find('input');
+            if ( $(this).attr('checked')) {
+                inputs.attr('checked','checked');
+            }else {
+                inputs.removeAttr('checked');
+            }
+            
+        });
+
+        $('input[level=2]').click(function(){
+            var inputs = $(this).parents('dl').find('input');
+            if($(this).attr('checked')) {
+                inputs.attr('checked','checked');
+                var inputParent = $(this).parents('.app').find('p>input');                
+                inputParent.attr('checked','checked');
+
+            }else {
+                inputs.removeAttr('checked');
+            }
+            
+        });
+
+        $('input[level=3]').click(function(){
+            var inputs = $(this).parents('dl').find('dt>input');
+            if($(this).attr('checked')) {
+                inputs.attr('checked','checked');
+                var inputParent = $(this).parents('.app').find('p>input');                
+                inputParent.attr('checked','checked');
+
+            }else {
+            }
+            
+        });
+    });
+    //-->
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">权限设置</div>    
+    <div class="operate">
+        <div class="left"><input type="button" onclick="add('{:U(GROUP_NAME. '/Rbac/role')}')" class="btn_blue" value="返回"></div>
+    </div>
+    <div class="list">    
+        <div id="wrap">
+        <form action="{:U(GROUP_NAME. '/Rbac/access')}" method="post">
+
+        <foreach name='node' item='app'>
+        <div class="app">
+        <p><input type="checkbox" name="access[]" value="{$app.id}_{$app.level}" level="1" <if condition="$app['access']">checked="checked"</if>/> <strong>{$app.title}</strong></p>
+
+
+        <foreach name = "app.child" item='action'>
+        <dl>
+            <dt><input type="checkbox" name="access[]" value="{$action.id}_{$action.level}" level="2" <if condition="$action['access']">checked="checked"</if>/> <strong>{$action.title}</strong></dt>
+
+            <foreach name = "action.child" item='method'>
+            <dd><input type="checkbox" name="access[]" value="{$method.id}_{$method.level}" level="3" <if condition="$method['access']">checked="checked"</if>/> <span>{$method.title}</span></dd>
+
+            </foreach>
+        </dl>
+
+        </foreach>
+
+        </div>
+        </foreach>
+        <input type="hidden" name="rid" value="{$rid}"/>
+        <input type="submit" class="btn_blue" value="保存权限"/>
+        </form>
+
+        </div>   
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js" ></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">个人中心</h1>
+			</div>
+			<div class="one-box">
+				<div class="form">
+					<form method='post' id="form_do" name="form_do" action="{:U('Member/name')}">		
+						<div class="h3">昵称修改</div>
+						<dl>
+							<dt>邮箱：</dt>
+							<dd>{$user.email}</dd>
+						</dl>
+						<dl>
+							<dt>昵称：</dt>
+							<dd>
+								<input type="text" name="nickname" class="inp_one"  value="{$user.nickname}" />
+							</dd>
+						</dl>
+
+						<div class="form_b">
+							<input type="submit" class="btn_blue" id="submit" value="保存">		
+						</div>
+					</form>
+				</div>
+			</div>
+		
+		</div>
+		
+		<include file="Member:left" />
+
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

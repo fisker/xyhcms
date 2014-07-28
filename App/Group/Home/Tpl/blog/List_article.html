@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title}-<yang:sitename /></title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/main.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/ez.css" />
+</head>
+<body>
+<!-- Layout 2 -->
+<div class="ez-mw wraper">
+	<include file="Public:header" />
+	
+    <!-- Module 2A -->
+	<div class="ez-wr marginT">
+		<div class="ez-fl ez-negmr ez-66">	
+        	<div class="one-box">
+				<h1 id="archive-title">{$cate.name}</h1>
+				<div id="sub-description">
+				<p>{$cate.description}</p>
+				</div>
+			</div>
+			<yang:list pagesize='9'>
+			<div class="one-box">
+				<h2 class="one-box-title"><a href="{$list.url}">{$list.title}</a></h2>
+				<div class="post-meta">
+					<span class="meta-date">{$list.publishtime|date='Y年m月d日',###}</span>
+					<span class="meta-category">{$list.catename}</span>
+					<span class="meta-permalink"><a href="{$list.url}">永久链接</a></span>
+				</div>
+				<if condition="!empty($list['litpic'])">
+					<p class="center"><img src="{$list.litpic}" /></p>
+				</if>
+				{$list.description}
+			</div>
+			</yang:list>	
+			
+			<div class="pager clearfix">{$page}</div>
+		
+		</div>
+		<include file="Public:left" />
+	</div>
+	
+	<include file="Public:footer" />
+</div>
+
+</body>
+</html>

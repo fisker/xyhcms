@@ -1,0 +1,15 @@
+<div id="header">
+  <div class="logo">
+    <h1><a href="<yang:siteurl />" title="<yang:sitename />" rel="home"><yang:sitename /></a></h1>
+    <p><yang:sitedescription /></p>
+    </div> 
+  <div class="navBtn">
+  <div class="navArea">
+  <a class="nvali" href="{:U('Index/index')}">网站首页</a>
+  <yang:navlist typeid='0'>
+  <if condition='$autoindex eq 3 || $autoindex eq 7'></div><div class="navArea"></if>
+  <a href='{$navlist.url}'>{$navlist.name}</a>
+  </yang:navlist>
+  </div>
+  </div>
+</div>

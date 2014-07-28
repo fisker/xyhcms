@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/> 
+<title>{$title}-<yang:sitename /></title>
+<link href="__PUBLIC__/css/base.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/js/touchslider.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/comm_fun.js"></script>
+</head>
+<body>
+
+<div id="body_margins">
+<include file="Public:header" />
+
+<div class="position">位置：<yang:position ismobile='1' surl="$purl" /></div>
+
+
+<dl class="box">
+  <dt class="title">{$title}</dt>
+</dl>
+<dl class="box">
+  <dd class="">
+  <ul class="info-list">
+  <yang:archivelist modelid='$modelid' year='$year' month='$month' pagesize='10'>
+	<if condition="$archivelist_time['flag'] eq 1">
+	<li class="title">{$archivelist_time.year}年{$archivelist_time.month}月</li>
+	</if>
+	<li><h5><a href="{$archivelist.url}" target="_blank">[{$archivelist.publishtime|date='d日',###}]{$archivelist.title}</a></h5><div class="summary"></div></li>
+  </yang:archivelist>	
+
+  </ul>
+  <div class="yang_pages">{$page}</div>
+  </dd>
+</dl>
+
+
+<include file="Public:footer" />
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}
+    <if condition='ACTION_NAME eq "index"'>
+        | <foreach name='poscate' item='v'>
+        <a href="{:U(GROUP_NAME. '/' . ucfirst($v['tablename']) .'/index', array('pid' => $v['id']))}">{$v.name} &gt; </a>
+        </foreach>
+    </if>
+    </div>
+    <if condition="$subcate">
+    <div class="sub"><span>子栏目：</span>
+        <foreach name='subcate' item='v'>
+            <a href="{:U(GROUP_NAME. '/'. ucfirst($v['tablename']) . '/index', array('pid' => $v['id']))}">{$v.name}</a>
+        </foreach>
+    </div>   
+    </if>
+    <div class="operate">
+        <div class="left">
+            <if condition='ACTION_NAME eq "index"'>
+                <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Soft/add', array('pid'=>$pid))}')" class="btn_blue" value="添加软件下载">
+                <input type="button" onclick="toGetSubmit('{:U(GROUP_NAME.'/Soft/move', array('pid' => $pid))}', {:C('URL_MODEL')}, '{:C('URL_PATHINFO_DEPR')}')" class="btn_blue" value="移动">
+                <input type="button" onclick="doConfirmBatch('{:U(GROUP_NAME.'/Soft/del', array('batchFlag' => 1,'pid' => $pid))}', '确实要删除选择项吗？')" class="btn_blue" value="删除">
+                <input type="button" onclick="goUrl('{:U(GROUP_NAME.'/Soft/trach', array('pid' => $pid))}')" class="btn_green" value="回收站">
+            <else/>
+                <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Soft/index', array('pid'=>$pid))}')" class="btn_blue" value="返回">
+                <input type="button" onclick="doGoBatch('{:U(GROUP_NAME.'/Soft/restore',  array('batchFlag' => 1, 'pid' => $pid))}')" class="btn_green" value="还原">
+                <input type="button" onclick="doConfirmBatch('{:U(GROUP_NAME.'/Soft/clear', array('batchFlag' => 1, 'pid' => $pid))}', '确实要彻底删除选择项吗？')" class="btn_orange" value="彻底删除">
+            </if>
+
+
+            
+        </div>
+        <if condition='ACTION_NAME eq "index"'>
+        <div class="left_pad">
+            <form method="post" action="{:U(GROUP_NAME. '/Soft/index')}">
+                <input type="text" name="keyword" title="关键字" class="inp_default" value="{$keyword}">
+                <input type="hidden" name="pid" value="{$pid}">
+                <input type="submit" class="btn_blue" value="查  询">
+            </form>
+        </div>
+        </if>
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Soft/del')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th><input type="checkbox" id="check"></th>
+                <th>编号</th>
+                <th>标题</th>
+                <th>分类</th>
+                <th>版本</th>
+                <th>点击次数</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+			<foreach name='vlist' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
+                <td>{$v.id}</td>
+                <td class="aleft" style="color:{$v.color}">{$v.title}<if condition="$v.flag gt 0"><span style="color:#079B04;">[{$v.flag|flag2Str}]</span></if></td>
+                <td>{$v.catename}</td>
+                <td>{$v.version}</td>
+                <td>{$v.click}</td>
+                <td>{$v.updatetime|date='Y-m-d', ###}</td>
+                <td>
+                <if condition='ACTION_NAME eq "index"'>
+
+                <if condition="($v.flag & B_JUMP) && !empty($v['jumpurl']) ">
+                <a href="{$v.jumpurl|goLinkEncode}" target="_blank">查看</a>
+                <else/>
+                <a href="{:U(C('DEFAULT_GROUP'). '/Show/soft',array('id' => $v['id']), '').'#'.rand(1000,time())}" target="_blank">查看</a>
+                </if>
+
+                <a href="{:U(GROUP_NAME. '/Soft/edit',array('id' => $v['id'],'pid' => $pid), '')}">编辑</a>
+                <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Soft/del',array('id' => $v['id'], 'pid' => $pid), '')}', '确实要删除吗？')">删除</a>
+                <else/>
+                <a href="{:U(GROUP_NAME. '/Soft/restore',array('id' => $v['id'], 'pid' => $pid), '')}">还原</a>
+                <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Soft/clear',array('id' => $v['id'], 'pid' => $pid), '')}', '确实要彻底删除吗？')">彻底删除</a>
+                </if>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;">{$page}</div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

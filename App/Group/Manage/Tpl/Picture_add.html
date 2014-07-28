@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="{:U(GROUP_NAME. '/Public/editor')}"></script>
+<script type="text/javascript">
+	var data_path = "__DATA__";
+	var tpl_public = "__PUBLIC__";
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/calendar.config.js"></script>
+<script type="text/javascript" src="__DATA__/static/jq_plugins/iColorPicker/iColorPicker.js"></script>
+
+<script type="text/javascript">
+$(function () {
+
+
+	//图片集上传
+	var picture_show = $('#picture_show');
+	var picture_tip = $(".picture_tip");
+	$("#picture_upload").wrap("<form id='picture_form' action='{:U(GROUP_NAME. '/Public/upload')}' method='post' enctype='multipart/form-data'></form>");
+    $("#picture_upload").change(function(){
+    	if($("#picture_upload").val() == "") return;
+    
+		$("#picture_form").ajaxSubmit({
+			dataType:  'json',
+			beforeSend: function() {
+				picture_tip.html("上传中...");
+    		},
+			success: function(data) {
+				//picture_tip.html("<b>"+data.title+"("+data.size+"k)</b> <span class='delimg' rel='"+data.url+"'>删除</span>");
+				if(data.state == 'SUCCESS'){	
+					picture_tip.html(""+ data.title +" 上传成功("+data.size+"k)");					
+					var img = data.url;
+					var picture_html= '<div class="picture_item"><img src="'+ img +'" width="120"><div class="picture_del">删除</div><div class="picture_go_up">前移</div><input type="hidden" name="pictureurls[]" value="'+ img +'" /></div>'
+					picture_show.append(picture_html);
+					//picture_show.parent().find("span").remove().end().append("<span class='error'>描述不能为空</span>");
+				}else {
+					picture_tip.html(data.state);	
+				}			
+
+			},
+			error:function(xhr){
+				picture_tip.html("上传失败"+xhr);
+
+			}
+		});
+	});
+
+	
+
+});
+
+$(function () {
+	//jquery1.7后没有live
+	//$(document).on 也行
+	$('#picture_show').on('mouseenter',"#picture_show>.picture_item",function(){
+			$(this).find('.picture_go_up').show();
+			$(this).find('.picture_del').show();
+		}).on('mouseleave',"#picture_show>.picture_item",function(){
+			$(this).find('.picture_go_up').hide();
+			$(this).find('.picture_del').hide();
+		}
+	); 
+
+    $('#picture_show').on('click','#picture_show .picture_go_up',function () {
+        var parent = $(this).parent();
+        if (parent.index() == 0){
+        }else{
+        	parent.prev().before(parent);
+        	$(this).hide();
+        	parent.find('.picture_del').hide();
+        } 
+        
+    });
+
+
+
+    $('#picture_show').on('click','#picture_show .picture_del',function () {
+        var img = $(this).next().val();//下个元素input的值 
+		$(this).parent().remove();////移除父元素
+
+		return;
+		$.post("action.php?act=delimg",{imagename:pic},function(msg){
+			if(msg==1){
+				litpic_show.empty();
+			}else{
+				alert(msg);
+			}
+		});        
+    });
+
+    
+
+	$('#CK_JumpUrl').click(function(){
+            var inputs = $(this).parents('dl').find('input');
+            if($(this).attr('checked')) {
+                $('#JumpUrlDiv').show();
+
+            }else {
+                $('#JumpUrlDiv').hide();
+            }
+            
+     });
+    
+});
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">添加图片集</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Picture/add')}">
+		<dl>
+			<dt>标题：</dt>
+			<dd>
+				<input type="text" name="title" class="inp_large" />
+			</dd>
+		</dl>	
+		<dl>
+			<dt>标题颜色：</dt>
+			<dd>
+				<input type="text" name="color"  id="color" class="inp_small iColorPicker" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 自定义属性：</dt>
+			<dd>
+				<foreach name='flagtypelist' item='v'>
+				<label><input type='checkbox' name='flags[]' value='{$key}' <if condition="$key eq B_JUMP">id="CK_JumpUrl"</if> /> {$v}</label>&nbsp; 
+				</foreach>
+			</dd>
+		</dl>
+		<dl id="JumpUrlDiv" style="display:none;">
+			<dt> 跳转网址：</dt>
+			<dd>
+				<input type="text" name="jumpurl" class="inp_large" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 所属栏目：</dt>
+			<dd>
+				<select name="cid">
+					<foreach name='cate' item='v'>
+					<option value="{$v.id}" <if condition="$pid eq $v['id']">selected="selected"</if>>{$v.delimiter}{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 图集：</dt>
+			<dd>
+				<div class="litpic_show">				    
+					<div class="btn_up">
+				        <span>上传多图</span>
+				        <input id="picture_upload" type="file" name="mypic1">
+				    </div>
+				    <div class="picture_tip"></div>
+				    <div id="picture_show"></div>
+				</div>
+			</dd>
+		</dl>	
+		<dl>
+			<dt> 关键词：</dt>
+			<dd>
+				<input type="text" name="keywords" class="inp_w250" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 摘要：</dt>
+			<dd>				
+				<textarea name="description" class="tarea_default"></textarea>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 来源：</dt>
+			<dd>
+				<input type="text" name="copyfrom" class="inp_w250" value="" /><span class="tip"></span>
+			</dd>
+		</dl>			
+		<dl>
+			<dt> 内容：</dt>
+			<dd>
+				<textarea name="content" id="content"></textarea>
+			</dd>
+		</dl>	
+		<dl>
+            <dt> 发布时间：</dt>
+            <dd>
+                
+                <input type="text" class="inp_one" name="publishtime" id="publishtime" value="{:date('Y-m-d H:i:s',time())}">
+                <script type="text/javascript">
+                    Calendar.setup({
+                        weekNumbers: true,
+                        inputField : "publishtime",
+                        trigger    : "publishtime",
+                        dateFormat: "%Y-%m-%d %H:%M:%S",
+                        showTime: true,
+                        minuteStep: 1,
+                        onSelect   : function() {this.hide();}
+                    });
+                </script>
+            </dd>
+        </dl>
+		<dl>
+			<dt> 评论：</dt>
+			<dd>
+				<input type="radio" name="commentflag" value="1" checked="checked" />允许 <input type="radio" name="commentflag" value="0" />禁止
+			</dd>
+		</dl>	
+		<div class="form_b">		
+			<input type="hidden" name="pid" value="{$pid}" />
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+</div>
+
+
+</body>
+</html>

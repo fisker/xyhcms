@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.form.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/calendar/jscal2.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/calendar/border-radius.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/calendar/win2k.css"/>
+<script type="text/javascript" src="__PUBLIC__/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/calendar/lang/en.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Member/person')}">
+		<dl>
+			<dt>姓名：</dt>
+			<dd>
+				<input type="text" name="realname" id="realname" value="{$vo.realname}" class="inp_one" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>性别：</dt>
+			<dd>
+				<select name="sex">
+					<option value="0" <if condition="$vo.sex eq 0">selected="selected"</if>>&nbsp;男&nbsp;</option>
+					<option value="1" <if condition="$vo.sex eq 1">selected="selected"</if>>&nbsp;女&nbsp;</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>出生年月：</dt>
+			<dd>
+				<input type="text" name="birthday" id="birthday" class="inp_one" value="{$vo.birthday}" />
+				<script type="text/javascript">
+                    Calendar.setup({
+                        weekNumbers: true,
+                        inputField : "birthday",
+                        trigger    : "birthday",
+                        dateFormat: "%Y-%m-%d",
+                        showTime: true,
+                        minuteStep: 1,
+                        onSelect   : function() {this.hide();}
+                    });
+                </script>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>联系地址：</dt>
+			<dd>
+				<input type="text" name="address" class="inp_one" value="{$vo.address}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>联系电话：</dt>
+			<dd>
+				<input type="text" name="tel" class="inp_one" value="{$vo.tel}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>手机：</dt>
+			<dd>
+				<input type="text" name="mobile" class="inp_one" value="{$vo.mobile}" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>QQ：</dt>
+			<dd>
+				<input type="text" name="qq" class="inp_one" value="{$vo.qq}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>签名：</dt>
+			<dd>
+				<textarea name="maxim" class="tarea_default">{$vo.maxim}</textarea>
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">
+			<input type="hidden" name="id" value="{$vo.userid}" />			
+			<input type="hidden" name="new" value="{$vo.new}" />
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

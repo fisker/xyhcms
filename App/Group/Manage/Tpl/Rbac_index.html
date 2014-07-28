@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">用户列表</div>    
+    <div class="operate">
+        <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Rbac/addUser')}')" class="btn_blue" value="添加管理员">
+        <input type="button" onclick="doConfirmBatch('{:U(GROUP_NAME.'/Rbac/delUser', array('batchFlag' => 1))}','确实要删除选择项吗？')" class="btn_blue" value="删除选中"></div>
+        <div class="left_pad">
+            <form method="post" action="{:U(GROUP_NAME. '/Rbac/index')}">
+                <input type="text" name="keyword" title="管理员名称" class="inp_default" value="{$keyword}">
+                <input type="submit" class="btn_blue" value="查  询">
+            </form>
+        </div>
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Rbac/delAllUser')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th><input type="checkbox" id="check"></th>
+                <th>编号</th>
+                <th>用户名</th>
+                <th>权限组</th>
+                <th>上次登录ip</th>
+                <th>上次登录时间</th>
+				<th>锁定</th>
+                <th>操作</th>
+            </tr>
+			<foreach name='user' item='v'>
+            <tr>
+                <td><input type="checkbox" name="key[]" <if condition="$v['usertype'] eq 9">disabled="disabled"</if> value="{$v.id}"></td>
+                <td>{$v.id}</td>
+                <td>{$v.username}</td>
+                <td>
+                <if condition="$v['usertype'] eq 9">
+                超级管理员
+                <else/>
+				<foreach name='v["role"]' item='value'>
+				{$value.name}|
+				</foreach>
+
+				</if>
+				</td>
+                <td>{$v.loginip}</td>
+                <td>{$v.logintime|date='Y-m-d H:i:s',###}</td>
+				<td><if condition="$v['islock']">是<else/>否</if></td>
+                <td>
+				<if condition="$v['usertype'] eq 9">                
+				<a href="{:U(GROUP_NAME. '/Rbac/addUser',array('uid' => $v['id']),'')}">修改</a>
+				删除
+                <else />
+				<a href="{:U(GROUP_NAME. '/Rbac/addUser',array('uid' => $v['id']),'')}">修改</a>
+				<a href="{:U(GROUP_NAME. '/Rbac/delUser',array('uid' => $v['id']),'')}" onclick="del('{:U(GROUP_NAME. '/Rbac/delUser',array('uid' => $v['id']),'')}'); return false;">删除</a>
+                </if>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;">{$page}</div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

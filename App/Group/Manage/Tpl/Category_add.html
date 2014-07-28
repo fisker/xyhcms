@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		setStyleSelect('1');//默认样式选择
+
+		$("#form_do").submit(function(){
+			var name = $("input[name='name']");
+			if($.trim(name.val())==''){
+				name.parent().find("span").remove().end().append("<span class='error'>名称不能为空</span>");
+				return false;			
+			}else {
+				name.parent().find("span").remove().end();
+			}
+
+		});
+
+
+		$("input[name='type']").click(function(){
+            //var inputs = $(this).parents('dl').find('dt');
+            var dl = $(this).parents('dl').next();//.find('dt');
+            var nextdls = $("#nextdl").nextAll();
+            
+            if($(this).attr('checked')) {
+                dl.find('dt').html('链接地址：');
+                dl.find('span').hide();
+                //var inputParent = $(this).parents('.app').find('p>input');    
+                nextdls.hide();
+
+            }else {
+            	dl.find('dt').html('别名(拼音)：');
+            	dl.find('span').show();
+            	nextdls.show();
+            }
+            
+        });
+
+
+
+        $("select[name='modelid']").change(function(){
+        	
+			$("select[name='modelid'] option").each(function(i,o){
+			if($(this).attr("selected")){
+				//$(".city").hide();
+				//$(".city").eq(i).show();
+				var styleid = $(this).val();
+				setStyleSelect(styleid);
+				
+			}
+			});
+		});
+		
+		function setStyleSelect(id){
+			var template_list = $("select[name='template_list']");
+        	var template_show = $("select[name='template_show']");
+			switch (id){
+				<foreach name='mlist' key='key' item='v'>				
+				case '{$v.id}':
+					template_list.val("{$v.template_list}");
+					template_show.val("{$v.template_show}");
+				 	break;				 	
+				</foreach>
+			}
+
+		}
+
+    });
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">添加栏目</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME.'/Category/Add')}">
+		<dl>
+			<dt> 所属栏目：</dt>
+			<dd>
+				<select name="pid">
+					<option value="0">顶级栏目</option>
+					<foreach name='cate' item='v'>
+					<option value="{$v.id}" <if condition="$pid eq $v['id']">selected="selected"</if>>{$v.delimiter}{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 内容模型：</dt>
+			<dd>
+				<select name="modelid">
+					<foreach name='mlist' item='v'>
+					<option value="{$v.id}">{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt> 栏目名称：</dt>
+			<dd>
+				<input type="text" name="name" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>栏目模板：</dt>
+			<dd>
+				<select name="template_list">
+					<foreach name='styleListList' item='v'>
+					<option value="{$v}">{$v}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>内容页模板：</dt>
+			<dd>
+				<select name="template_show">
+					<foreach name='styleShowList' item='v'>
+					<option value="{$v}">{$v}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>外部链接</dt>
+			<dd>
+				<input type="checkbox" name="type" value="1" />外部链接
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>别名(拼音)：</dt>
+			<dd>
+				<input type="text" name="ename" class="inp_one" /><span>只能包含字母，数字</span>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 排序：</dt>
+			<dd>
+				<input type="text" name="sort" class="inp_one" value="1" />
+			</dd>
+		</dl>
+		<dl id="nextdl">
+			<dt> 显示：</dt>
+			<dd>
+				<input type="radio" name="status" value="1" checked="checked"/>显示
+				<input type="radio" name="status" value="0"/>隐藏
+			</dd>
+		</dl>
+
+		<dl>
+			<dt> Seo标题：</dt>
+			<dd>
+				<input type="text" name="seotitle" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 关键词：</dt>
+			<dd>
+				<input type="text" name="keywords" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 栏目描述：</dt>
+			<dd>
+				<textarea name="description" class="tarea_default"></textarea>
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

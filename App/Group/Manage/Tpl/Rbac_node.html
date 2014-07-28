@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">节点列表</div>    
+    <div class="operate">
+        <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Rbac/addNode')}')" class="btn_blue" value="添加应用(节点)"></div>
+        <div class="left" style="line-height:30px; padding:0px 10px;">节点：应用(level:1)->控制器(level:2)->方法(level:3) </div>
+    </div>
+    <div class="list">    
+        <div id="wrap">
+        <foreach name='node' item='app'>
+        <div class="app">
+        <p><strong <if condition="$app['status'] eq 0">class="disable"</if>>{$app.title}</strong>[<a href="{:U(GROUP_NAME. '/Rbac/addNode',array('pid' => $app['id'],'level' => 2))}">添加控制器</a>]
+        [<a href="{:U(GROUP_NAME. '/Rbac/editNode',array('id' => $app['id']))}">修改</a>]
+        <if condition="!$app['child']">[<a href="{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $app['id']))}" onclick="del('{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $app['id']))}'); return false;">删除</a>]</if>
+        </p>
+
+
+        <foreach name = "app.child" item='action'>
+        <dl>
+            <dt><strong <if condition="$action['status'] eq 0">class="disable"</if>>{$action.title}</strong>[<a href="{:U(GROUP_NAME. '/Rbac/addNode',array('pid' => $action['id'],'level' => 3))}">添加方法</a>]
+            [<a href="{:U(GROUP_NAME. '/Rbac/editNode',array('id' => $action['id']))}">修改</a>]
+            <if condition="!$action['child']">[<a href="{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $action['id']))}" onclick="del('{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $action['id']))}'); return false;">删除</a>]</if>
+
+            </dt>
+
+            <foreach name = "action.child" item='method'>
+            <dd><span <if condition="$method['status'] eq 0">class="disable"</if>>{$method.title}</span>[<a href="{:U(GROUP_NAME. '/Rbac/editNode',array('id' => $method['id']))}">修改</a>][<a href="{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $method['id']))}" onclick="del('{:U(GROUP_NAME. '/Rbac/delNode',array('id' => $method['id']))}'); return false;">删除</a>]</dd>
+
+            </foreach>
+        </dl>
+
+        </foreach>
+
+        </div>
+        </foreach>
+        </div>   
+
+    </div>
+</div>
+</body>
+</html>

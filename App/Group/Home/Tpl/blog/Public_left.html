@@ -1,0 +1,52 @@
+	<div class="ez-last ez-oh">
+		<div class="sidebar">          
+		<div class="sidebar-box clearfix">
+			<form method="post" id="searchbar" action="{:U('Search/index')}">
+				<input type="text" size="16" name="keyword" value="搜索" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;" id="search" />
+				<input type="submit" id="searchsubmit" value="" />
+			</form>
+		</div>
+
+		<if condition="isset($cate) && isset($flag_son) && $flag_son eq 1">
+		<div class="sidebar-box clearfix">
+			<h4>{$cate.name}</h4>	
+			<ul>
+				<yang:catlist typeid="$cate['id']" type='son' flag='1'>
+				<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+				</yang:catlist>
+			</ul>
+		</div>
+		</if>
+
+		<div class="sidebar-box clearfix">
+			<h4>近期文章</h4>	
+			<ul>
+				<yang:list limit='5' titlelen='16'>
+				<li><a href="{$list.url}">{$list.title}</a></li>
+				</yang:list>
+			</ul>
+		</div>
+
+		<div class="sidebar-box clearfix">
+			<h4>分类目录</h4>	
+			<ul>
+				<yang:catlist typeid='0' limit='100' flag='1'>
+				<li><a href="{$catlist.url}">{$catlist.name}</a></li>
+				<volist name='catlist["child"]' id='v'>
+				<li>&nbsp;--&nbsp;<a href="{$v|getUrl}">{$v.name}</a></li>
+				</volist>
+				</yang:catlist>
+			</ul>
+		</div>
+		
+		<div class="sidebar-box clearfix">
+			<h4>文章归档</h4>
+			<ul>
+				<yang:datelist limit='100'>				
+				<li><a href='{$datelist.url}'>{$datelist.arc_year}年{$datelist.arc_month}[{$datelist.arc_num}]</a></li>
+				</yang:datelist>
+			</ul>
+		</div>
+		
+		</div>
+		</div>
