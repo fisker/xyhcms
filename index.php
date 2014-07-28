@@ -4,7 +4,7 @@
  * @package        yangyang
  * @copyright      Copyright (c) 2014 - 2014.
  * @license        http://www.0871k.com/xyhcms
- * @link           http://www.0871k.com
+ * @link           http://www.xyhcms.com
  */
 
 define('APP_DEBUG',false);//是否调试
