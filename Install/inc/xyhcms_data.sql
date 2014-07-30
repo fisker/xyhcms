@@ -972,6 +972,7 @@ CREATE TABLE IF NOT EXISTS `#xyh#_membergroup` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '',
   `description` varchar(255) DEFAULT '',
+  `rank` smallint(6) NOT NULL DEFAULT '0',
   `status` tinyint(1) DEFAULT '0',
   `sort` tinyint(3) unsigned DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -1124,39 +1125,40 @@ INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pi
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(105, 'shows', '更新文档', 1, NULL, 4, 101, 3);
 INSERT INTO `#xyh#_node` (`id`, `name`, `title`, `status`, `remark`, `sort`, `pid`, `level`) VALUES(106, 'special', '更新专题', 1, NULL, 5, 101, 3);
 
-DROP TABLE IF EXISTS `#xyh#_order`;
-CREATE TABLE IF NOT EXISTS `#xyh#_order` (
-  `orderid` varchar(80) NOT NULL,
-  `memberid` int(10) unsigned NOT NULL,
+DROP TABLE IF EXISTS `#xyh#_orderinfo`;
+CREATE TABLE IF NOT EXISTS `#xyh#_orderinfo` (
+  `orderid` varchar(30) NOT NULL,
+  `userid` int(10) unsigned NOT NULL DEFAULT '0',
   `paytype` tinyint(2) NOT NULL DEFAULT '1' COMMENT '支付方式',
   `expressprice` float(13,2) NOT NULL DEFAULT '0.00' COMMENT '邮费/运费',
-  `price` float(13,2) NOT NULL DEFAULT '0.00' COMMENT '产品总价格',
-  `priceCount` float(13,2) NOT NULL COMMENT '总价格',
+  `prdouctprice` float(13,2) NOT NULL DEFAULT '0.00' COMMENT '产品总价格',
+  `totalprice` float(13,2) NOT NULL DEFAULT '0.00' COMMENT '总价格',
   `consignee` varchar(30) DEFAULT NULL COMMENT '收件人',
   `address` varchar(255) NOT NULL DEFAULT '',
   `zip` int(10) NOT NULL DEFAULT '0',
   `tel` varchar(60) NOT NULL DEFAULT '',
-  `email` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `remark` varchar(255) NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
   `state` tinyint(1) NOT NULL DEFAULT '0',
   `ip` char(15) NOT NULL DEFAULT '',
   `stime` int(10) NOT NULL DEFAULT '0',
-  KEY `stime` (`stime`),
-  KEY `orderid` (`orderid`)
+  PRIMARY KEY (`orderid`),
+  KEY `stime` (`stime`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `#xyh#_orderdetail`;
 CREATE TABLE IF NOT EXISTS `#xyh#_orderdetail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `orderid` varchar(50) DEFAULT NULL COMMENT '订单ID',
+  `orderid` varchar(30) DEFAULT NULL COMMENT '订单ID',
   `productid` int(11) DEFAULT NULL,
-  `memberid` int(10) NOT NULL,
+  `userid` int(10) NOT NULL DEFAULT '0',
   `title` varchar(50) NOT NULL DEFAULT '',
   `price` float(13,2) NOT NULL DEFAULT '0.00',
   `num` int(10) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `#xyh#_picture`;
 CREATE TABLE IF NOT EXISTS `#xyh#_picture` (
