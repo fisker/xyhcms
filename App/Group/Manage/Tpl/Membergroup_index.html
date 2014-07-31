@@ -32,18 +32,20 @@
                 <th><input type="checkbox" id="check"></th>
                 <th>编号</th>
                 <th>组名</th>
+                <th>级别值</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
 			<foreach name='vlist' item='v'>
             <tr>
-                <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
+                <td><input type="checkbox" name="key[]" value="{$v.id}" <if condition="$v['id'] lt 4">disabled="disabled"</if>></td>
                 <td>{$v.id}</td>
                 <td>{$v.name}</td>
+                <td>{$v.rank}</td>
                 <td><if condition="$v['status']">禁用<else/>正常</if></td>
                 <td>
                     <a href="{:U(GROUP_NAME. '/Membergroup/edit',array('id' => $v['id']), '')}">编辑</a>
-                    <a href="{:U(GROUP_NAME. '/Membergroup/del',array('id' => $v['id']), '')}">删除</a>
+                    <if condition="$v['id'] gt 3"><a href="{:U(GROUP_NAME. '/Membergroup/del',array('id' => $v['id']), '')}">删除</a></if>
 				</td>
             </tr>
             </foreach>

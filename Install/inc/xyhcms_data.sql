@@ -777,6 +777,18 @@ INSERT INTO `#xyh#_category` (`id`, `name`, `ename`, `pid`, `modelid`, `type`, `
 INSERT INTO `#xyh#_category` (`id`, `name`, `ename`, `pid`, `modelid`, `type`, `seotitle`, `keywords`, `description`, `template_category`, `template_list`, `template_show`, `content`, `status`, `sort`) VALUES(10, '联系我们', 'lianxiwomen', 0, 2, 0, '联系我们', '', '', '', 'List_page.html', 'Show_page.html', '<p>欢迎光临！</p><p>&nbsp;</p><p>公司地址：云南省昆明市北京路299<br/>&nbsp;</p><p>公司电话：0871-100000</p><p>售前咨询客服QQ-01：<br/>售前咨询客服QQ-02：<br/>客户售前咨询热线：<br/>客户售后服务热线：<br/>客服信箱：</p><p>&nbsp;</p><p>&nbsp;</p>', 1, 7);
 INSERT INTO `#xyh#_category` (`id`, `name`, `ename`, `pid`, `modelid`, `type`, `seotitle`, `keywords`, `description`, `template_category`, `template_list`, `template_show`, `content`, `status`, `sort`) VALUES(11, '精彩专题', '@special/index', 0, 0, 1, '', '', '', '', 'List_article.html', 'Show_article.html', NULL, 1, 1);
 
+DROP TABLE IF EXISTS `#xyh#_category_access`;
+CREATE TABLE IF NOT EXISTS `#xyh#_category_access` (
+  `catid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `roleid` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `flag` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `action` varchar(30) NOT NULL DEFAULT '',
+  KEY `catid` (`catid`),
+  KEY `roleid` (`roleid`),
+  KEY `flag` (`flag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 DROP TABLE IF EXISTS `#xyh#_comment`;
 CREATE TABLE IF NOT EXISTS `#xyh#_comment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -976,10 +988,11 @@ CREATE TABLE IF NOT EXISTS `#xyh#_membergroup` (
   `status` tinyint(1) DEFAULT '0',
   `sort` tinyint(3) unsigned DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
-INSERT INTO `#xyh#_membergroup` (`id`, `name`, `description`, `status`, `sort`) VALUES(1, '初级会员', '', 0, 0);
-INSERT INTO `#xyh#_membergroup` (`id`, `name`, `description`, `status`, `sort`) VALUES(2, '中级会员', '', 0, 0);
+INSERT INTO `#xyh#_membergroup` (`id`, `name`, `description`, `rank`, `status`, `sort`) VALUES(1, '游客', '', 0, 0, 0);
+INSERT INTO `#xyh#_membergroup` (`id`, `name`, `description`, `rank`, `status`, `sort`) VALUES(2, '注册会员', '', 10, 0, 0);
+INSERT INTO `#xyh#_membergroup` (`id`, `name`, `description`, `rank`, `status`, `sort`) VALUES(3, '中级会员', '', 30, 0, 0);
 
 DROP TABLE IF EXISTS `#xyh#_model`;
 CREATE TABLE IF NOT EXISTS `#xyh#_model` (

@@ -162,7 +162,7 @@ class PublicAction extends Action {
 	public function register() {
 
 		if (IS_POST) {
-			$this->registerHandle();
+			$this->registerPost();
 			exit();
 		}
 
@@ -170,9 +170,14 @@ class PublicAction extends Action {
 		$this->display();
 	}
 
+	//兼容v1.5之前的注册提交
+	public function registerHandle() {
+		$this->register();		
+	}
+
 
 	//注册
-	public function registerHandle() {
+	public function registerPost() {
 
 		if (!IS_POST) {
 			exit(0);
@@ -213,10 +218,16 @@ class PublicAction extends Action {
 			$this->error('此昵称系统禁用，请重新更换一个！');
 		}
 
+		//判断后台是否开始邮件验证
+		$data['groupid'] = 2;//注册会员
+		/*
 		$mGroup = M('membergroup')->Field('id')->find();
 		if ($mGroup) {
 			$data['groupid'] = $mGroup['id'];
 		}
+		*/
+
+
 		$email = I('email', '', 'htmlspecialchars,trim');
 		$data['email'] = $email;
 		$data['nickname'] = $nickname;
@@ -228,7 +239,6 @@ class PublicAction extends Action {
 		$data['encrypt'] = $passwordinfo['encrypt'];
 		$regtime = date('Y年m月d日', time());
 		$nextday = date('Y年m月d日 H:i', strtotime("+2 day"));
-		$subject = "[{$cfg_webname}]请激活你的帐号，完成注册";
 
 
 
@@ -344,7 +354,7 @@ str;
 
 		$msg .= '验证邮件发送失败，请写管理员联系';
 	}
-	$this->success($msg ,U(GROUP_NAME. '/Member/index'), 60);
+	$this->success($msg ,U(GROUP_NAME. '/Member/index'), 10);
 	    
 	}
 

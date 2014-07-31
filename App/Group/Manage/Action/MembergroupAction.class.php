@@ -12,7 +12,7 @@ class MembergroupAction extends CommonAction {
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$list = M('membergroup')->order('id')->limit($limit)->select();
+		$list = M('membergroup')->order('rank,id')->limit($limit)->select();
 
 		$this->page = $page->show();
 		$this->vlist = $list;

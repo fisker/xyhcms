@@ -30,7 +30,8 @@ function changeVcode(obj){
 				<div class="form">
 					<form method='post' id="form_do" name="form_do" action="">
 						<div class="personInfo line200">{:get_cookie('nickname')}，你好！<br/>
-						<a href="{:U('Member/name')}" class="btn_blue">修改昵称</a>	
+						<a href="{:U('Member/name')}" class="btn_blue">修改昵称</a>	<br/>
+						会员级别：{$user.groupname}
 						</div>
 						
 						<h2 class="h3">基本信息</h2>
@@ -42,6 +43,26 @@ function changeVcode(obj){
 				                <li>性别：{$user.detail.sex}</li>
 				                <li>生肖：{$user.detail.animal}</li>
 				   		  </ul>
+				   		<if condition="C('cfg_member_verifyemail') eq 1">
+				   		<div class="h3">邮箱激活状态</div>
+				   		<dd>
+							{:get_cookie('email')}
+							<if condition="get_cookie('status') eq 0">
+							未激活
+							<div class="sub">
+				            <a href="#" title="立即查收邮件" class="btn_blue">请立即查收邮件</a>
+				        	</div>
+							<ol class="help">
+				            <li>没有收到邮件？</li>
+				            <li>1. 请先检查一下邮件是否在垃圾邮件列表中</li>
+				            <li>2. 如果仍未收到，请点击按钮重新发送 <a href="{:U(GROUP_NAME. '/Public/sendActivate')}"  target="_blank" class="btn_blue" id="J_resend">重新发送</a></li>
+				            <li>3. 重新发送邮件后仍未收到，<a href="#" >处理方法</a></li>
+				       		</ol>
+				       		<else/>
+				       		已激活
+							</if>
+						</dd>
+						</if>
 						<div class="form_b">
 									
 						</div>
