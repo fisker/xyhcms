@@ -26,6 +26,7 @@ class CategoryAction extends CommonAction {
 		$this->cate = Category::unlimitedForLevel($cate, '---',0);
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();
 		$this->groupList = M('membergroup')->order('rank')->select();
+		$this->roleList = M('role')->order('id')->select();//管理员组
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');
 		$this->display();
@@ -106,7 +107,8 @@ class CategoryAction extends CommonAction {
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::unlimitedForLevel($cate, '---',0);
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();			
-		$this->groupList = M('membergroup')->order('rank')->select();	
+		$this->groupList = M('membergroup')->order('rank')->select();
+		$this->roleList = M('role')->order('id')->select();//管理员组	
 		$this->visitData = M('categoryAccess')->where(array('catid' => $id, 'flag' => 0 , 'action' => 'visit'))->getField('roleid', true);
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');

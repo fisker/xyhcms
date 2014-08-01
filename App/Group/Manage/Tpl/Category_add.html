@@ -185,19 +185,48 @@
 
 		<div id="div_setting_3" style="display:none;">
 		<dl>
-			<dt>组名</dt>
+			<dt>管理员组权限</dt>
 			<dd>
-				允许访问
+				<table class="t-list">
+				  <tr>
+				    <th>管理员组名称</th>
+				    <th>查看</th>				    
+				    <th>添加</th>				    
+				    <th>修改</th>				    
+				    <th>删除</th>
+				  </tr>
+				  <foreach name='roleList' item='v'>	
+				  <tr>
+				    <td>{$v.name}</td>
+				    <td align="center"><input type="checkbox" name="acc_roleid[]" value="index,{$v.id}" /></td>
+				    <td align="center"><input type="checkbox" name="acc_roleid[]" value="add,{$v.id}" /></td>
+				    <td align="center"><input type="checkbox" name="acc_roleid[]" value="edit,{$v.id}" /></td>
+				    <td align="center"><input type="checkbox" name="acc_roleid[]" value="del,{$v.id}" /></td>
+				  </tr>
+				  </foreach>
+				</table>
+				
 			</dd>
 		</dl>
-		<foreach name='groupList' item='v'>					
 		<dl>
-			<dt>{$v.name}</dt>
+			<dt>会员组权限</dt>
 			<dd>
-				<input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" />
+				<table class="t-list">
+				  <tr>
+				    <th>会员组名称</th>
+				    <th>允许访问</th>
+				  </tr>
+				  <foreach name='groupList' item='v'>	
+				  <tr>
+				    <td>{$v.name}</td>
+				    <td align="center"><input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" /></td>
+				  </tr>
+				  </foreach>
+				</table>
+				
 			</dd>
 		</dl>
-		</foreach>
+		
 
 		</div>
 

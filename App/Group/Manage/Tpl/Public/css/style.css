@@ -233,3 +233,8 @@ padding: 2px;
 .col-tab .content{border:1px solid #dce3ed;_zoom:1;}
 .col-tab .content-r{border-top:1px solid #dce3ed}
 .col-tab .contentList{border:1px solid #dce3ed;_zoom:1;}
+
+/*table*/
+.t-list{ width: 100%;border-collapse: collapse; border-spacing: 0;}
+.t-list td{ border-bottom:#ccc 1px solid; line-height: 260%;}
+.t-list th,.t-list .th{height: 32px;border-bottom:1px solid #cccccc; font-weight: bold; background:#eeeeee; padding:0px 10px;}
