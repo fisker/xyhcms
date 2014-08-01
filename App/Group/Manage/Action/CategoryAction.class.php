@@ -17,7 +17,7 @@ class CategoryAction extends CommonAction {
 	public function add() {
 	
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->pid = I('pid', 0, 'intval');
@@ -25,6 +25,7 @@ class CategoryAction extends CommonAction {
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::unlimitedForLevel($cate, '---',0);
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();
+		$this->groupList = M('membergroup')->order('rank')->select();
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');
 		$this->display();
@@ -32,9 +33,11 @@ class CategoryAction extends CommonAction {
 
 	//添加分类处理
 
-	public function addHandle() {
+	public function addPost() {
 
 		$data = I('post.', '');
+		$acc_groupid = I('acc_groupid', '');//会员权限
+
 		
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);		
@@ -58,7 +61,23 @@ class CategoryAction extends CommonAction {
 		}	
 	
 
-		if (M('category')->add($data)) {
+		if ($id = M('category')->add($data)) {
+			//会员权限
+			if (!empty($acc_groupid)) {
+				$access = array();
+				foreach ($acc_groupid as $v) {
+					$tmp = explode(',', $v);
+					$access[] = array(
+							'catid' => $id,
+							'roleid' => $tmp[1],
+							'action' => $tmp[0],
+							'flag' => 0,
+							);
+				}
+				M('categoryAccess')->addAll($access);
+			}
+			
+
 			getCategory(0,1);//清除栏目缓存
 			getCategory(1,1);//清除栏目缓存
 			getCategory(2,1);//清除栏目缓存
@@ -86,10 +105,12 @@ class CategoryAction extends CommonAction {
 		$cate = M('category')->order('sort')->select();
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::unlimitedForLevel($cate, '---',0);
-		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();		
+		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();			
+		$this->groupList = M('membergroup')->order('rank')->select();	
+		$this->visitData = M('categoryAccess')->where(array('catid' => $id, 'flag' => 0 , 'action' => 'visit'))->getField('roleid', true);
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');
-	
+		
 		$this->display();
 	}
 
@@ -101,7 +122,8 @@ class CategoryAction extends CommonAction {
 
 		$data = I('post.', '');		
 		$id = $data['id'] = intval($data['id']);
-		$pid = $data['pid'];
+		$pid = $data['pid'];		
+		$acc_groupid = I('acc_groupid', '');//会员权限
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);		
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
@@ -145,6 +167,22 @@ class CategoryAction extends CommonAction {
 					M($tablename)->where(array('cid' => $id))->delete();
 					$msg = '!!!';
 				}
+			}
+
+			//会员权限
+			M('categoryAccess')->where(array('catid' => $id, 'flag' => 0))->delete();
+			if (!empty($acc_groupid)) {
+				$access = array();
+				foreach ($acc_groupid as $v) {
+					$tmp = explode(',', $v);
+					$access[] = array(
+							'catid' => $id,
+							'roleid' => $tmp[1],
+							'action' => $tmp[0],
+							'flag' => 0,
+							);
+				}
+				M('categoryAccess')->addAll($access);
 			}
 
 			getCategory(0,1);//清除栏目缓存

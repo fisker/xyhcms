@@ -25,14 +25,14 @@ class MembergroupAction extends CommonAction {
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->display();
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 		//M验证
 		$validate = array(
 			array('name','require','会员组名必须填写！'), 
@@ -56,7 +56,7 @@ class MembergroupAction extends CommonAction {
 		$actionName = strtolower($this->getActionName());
 
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		
@@ -66,7 +66,7 @@ class MembergroupAction extends CommonAction {
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
 		$name = I('name', '', 'trim');
 		$id = I('id', 0, 'intval');

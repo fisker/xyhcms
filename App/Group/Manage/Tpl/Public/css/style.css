@@ -223,3 +223,13 @@ padding: 2px;
 .page a:active{border:1px solid #0d9ae4; text-decoration:none; BACKGROUND-COLOR:#0d9ae4;}
 .page span.current{BORDER: #237ac7 1px solid; PADDING:1px 5px;  FONT-WEIGHT: bold;  COLOR: #fff; MARGIN-RIGHT: 2px; BACKGROUND-COLOR: #0d9ae4;MARGIN-RIGHT: 5px;}
 .page span.disabled{BORDER:#237ac7 1px solid; PADDING:2px 5px; COLOR:#237ac7; MARGIN-RIGHT: 5px; background:#d8f1ff;}
+
+
+/*tabnav*/
+.tabnav{height:27px; padding-left:0px;position:relative;bottom:-1px}
+.tabnav li{float:left; border:1px solid #dce3ed; height:25px; line-height:26px; margin-right:5px;}
+.tabnav li{ background:#eaeef4; padding:0 8px; cursor: pointer; font-size: 14px;}
+.tabnav li.on{position:relative; background:#fff;border-bottom:0;height:26px;_height:27px; font-weight:700;}
+.col-tab .content{border:1px solid #dce3ed;_zoom:1;}
+.col-tab .content-r{border-top:1px solid #dce3ed}
+.col-tab .contentList{border:1px solid #dce3ed;_zoom:1;}

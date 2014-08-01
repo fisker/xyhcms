@@ -165,6 +165,19 @@ function getCheckValues(){
 }
 
 
+function switchTab(name,sclass,cnt,cur){
+        for(i=1;i<=cnt;i++){
+            if(i==cur){
+                 $('#div_'+name+'_'+i).show();
+                 $('#tab_'+name+'_'+i).addClass(sclass);
+            }else{
+                 $('#div_'+name+'_'+i).hide();
+                 $('#tab_'+name+'_'+i).removeClass(sclass);
+            }
+        }
+    }
+
+
 $(function(){
     //选中列表行变色
     $(".list tr").mouseover(function(){

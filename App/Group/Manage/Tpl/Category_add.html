@@ -26,18 +26,17 @@
 		$("input[name='type']").click(function(){
             //var inputs = $(this).parents('dl').find('dt');
             var dl = $(this).parents('dl').next();//.find('dt');
-            var nextdls = $("#nextdl").nextAll();
+          
             
             if($(this).attr('checked')) {
                 dl.find('dt').html('链接地址：');
                 dl.find('span').hide();
                 //var inputParent = $(this).parents('.app').find('p>input');    
-                nextdls.hide();
+ 
 
             }else {
             	dl.find('dt').html('别名(拼音)：');
             	dl.find('span').show();
-            	nextdls.show();
             }
             
         });
@@ -73,12 +72,19 @@
 
     });
 </script>
+
 </head>
 <body>
 <div class="main">
     <div class="pos">添加栏目</div>
 	<div class="form">
 		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME.'/Category/Add')}">
+		<ul class="tabnav">
+			<li id="tab_setting_1" onclick="switchTab('setting','on',3,1);" class="on">基本选项</li>
+			<li id="tab_setting_2" onclick="switchTab('setting','on',3,2);">高级设置</li>
+			<li id="tab_setting_3" onclick="switchTab('setting','on',3,3);">权限设置</li>
+		</ul>
+		<div id="div_setting_1">
 		<dl>
 			<dt> 所属栏目：</dt>
 			<dd>
@@ -107,26 +113,6 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>栏目模板：</dt>
-			<dd>
-				<select name="template_list">
-					<foreach name='styleListList' item='v'>
-					<option value="{$v}">{$v}</option>
-					</foreach>
-				</select>
-			</dd>
-		</dl>
-		<dl>
-			<dt>内容页模板：</dt>
-			<dd>
-				<select name="template_show">
-					<foreach name='styleShowList' item='v'>
-					<option value="{$v}">{$v}</option>
-					</foreach>
-				</select>
-			</dd>
-		</dl>
-		<dl>
 			<dt>外部链接</dt>
 			<dd>
 				<input type="checkbox" name="type" value="1" />外部链接
@@ -145,11 +131,35 @@
 				<input type="text" name="sort" class="inp_one" value="1" />
 			</dd>
 		</dl>
-		<dl id="nextdl">
+		<dl>
 			<dt> 显示：</dt>
 			<dd>
 				<input type="radio" name="status" value="1" checked="checked"/>显示
 				<input type="radio" name="status" value="0"/>隐藏
+			</dd>
+		</dl>
+
+		</div>
+
+		<div id="div_setting_2" style="display:none;">		
+		<dl>
+			<dt>栏目模板：</dt>
+			<dd>
+				<select name="template_list">
+					<foreach name='styleListList' item='v'>
+					<option value="{$v}">{$v}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt>内容页模板：</dt>
+			<dd>
+				<select name="template_show">
+					<foreach name='styleShowList' item='v'>
+					<option value="{$v}">{$v}</option>
+					</foreach>
+				</select>
 			</dd>
 		</dl>
 
@@ -171,6 +181,26 @@
 				<textarea name="description" class="tarea_default"></textarea>
 			</dd>
 		</dl>
+		</div>
+
+		<div id="div_setting_3" style="display:none;">
+		<dl>
+			<dt>组名</dt>
+			<dd>
+				允许访问
+			</dd>
+		</dl>
+		<foreach name='groupList' item='v'>					
+		<dl>
+			<dt>{$v.name}</dt>
+			<dd>
+				<input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" />
+			</dd>
+		</dl>
+		</foreach>
+
+		</div>
+
 		</div>
 		<div class="form_b">
 			<input type="submit" class="btn_blue" id="submit" value="提 交">

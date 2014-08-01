@@ -25,18 +25,15 @@
 		$("input[name='type']").click(function(){
             //var inputs = $(this).parents('dl').find('dt');
             var dl = $(this).parents('dl').next();//.find('dt');
-            var nextdls = $("#nextdl").nextAll();
-            
+                 
             if($(this).attr('checked')) {
                 dl.find('dt').html('链接地址：');
                 dl.find('span').hide();
                 //var inputParent = $(this).parents('.app').find('p>input');    
-                nextdls.hide();
 
             }else {
             	dl.find('dt').html('别名(拼音)：');
             	dl.find('span').show();
-            	nextdls.show();
             }
             
         });
@@ -46,12 +43,10 @@
 
         	var inputs = $("input[name='type']")
         	var dl = inputs.parents('dl').next();//.find('dt');
-            var nextdls = $("#nextdl").nextAll();
             
             if(inputs.attr('checked')) {
                 dl.find('dt').html('链接地址：');
                 dl.find('span').hide();  
-                nextdls.hide();
 
             }
 
@@ -96,6 +91,12 @@
     <div class="pos">添加栏目</div>
 	<div class="form">
 		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME.'/Category/edit')}">
+		<ul class="tabnav">
+			<li id="tab_setting_1" onclick="switchTab('setting','on',3,1);" class="on">基本选项</li>
+			<li id="tab_setting_2" onclick="switchTab('setting','on',3,2);">高级设置</li>
+			<li id="tab_setting_3" onclick="switchTab('setting','on',3,3);">权限设置</li>
+		</ul>
+		<div id="div_setting_1">
 		<dl>
 			<dt> 所属栏目：</dt>
 			<dd>
@@ -123,6 +124,35 @@
 				<input type="text" name="name" class="inp_one" value="{$data.name}" />
 			</dd>
 		</dl>	
+
+		<dl>
+			<dt>外部链接</dt>
+			<dd>
+				<input type="checkbox" name="type" value="1" <if condition='$data.type eq 1'>checked="checked"</if> />外部链接
+			</dd>
+		</dl>	
+		<dl>
+			<dt>别名(拼音)：</dt>
+			<dd>
+				<input type="text" name="ename" class="inp_one" value="{$data.ename}" /><span>只能包含字母，数字</span>
+			</dd>
+		</dl>	
+		<dl>
+			<dt> 排序：</dt>
+			<dd>
+				<input type="text" name="sort" class="inp_one" value="{$data.sort}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 显示：</dt>
+			<dd>
+				<input type="radio" name="status" value="1" <if condition='$data.status eq 1'>checked="checked"</if> />显示
+				<input type="radio" name="status" value="0" <if condition='$data.status eq 0'>checked="checked"</if> />隐藏
+			</dd>
+		</dl>
+		</div>
+
+		<div id="div_setting_2"  style="display:none;">		
 		<dl>
 			<dt>栏目模板：</dt>
 			<dd>
@@ -143,32 +173,6 @@
 				</select>
 			</dd>
 		</dl>
-
-		<dl>
-			<dt>外部链接</dt>
-			<dd>
-				<input type="checkbox" name="type" value="1" <if condition='$data.type eq 1'>checked="checked"</if> />外部链接
-			</dd>
-		</dl>	
-		<dl>
-			<dt>别名(拼音)：</dt>
-			<dd>
-				<input type="text" name="ename" class="inp_one" value="{$data.ename}" /><span>只能包含字母，数字</span>
-			</dd>
-		</dl>	
-		<dl>
-			<dt> 排序：</dt>
-			<dd>
-				<input type="text" name="sort" class="inp_one" value="{$data.sort}" />
-			</dd>
-		</dl>
-		<dl id="nextdl">
-			<dt> 显示：</dt>
-			<dd>
-				<input type="radio" name="status" value="1" <if condition='$data.status eq 1'>checked="checked"</if> />显示
-				<input type="radio" name="status" value="0" <if condition='$data.status eq 0'>checked="checked"</if> />隐藏
-			</dd>
-		</dl>	
 		<dl>
 			<dt> Seo标题：</dt>
 			<dd>
@@ -187,6 +191,23 @@
 				<textarea name="description" class="tarea_default">{$data.description}</textarea>
 			</dd>
 		</dl>
+		</div>
+		<div id="div_setting_3" style="display:none;">
+		<dl>
+			<dt>组名</dt>
+			<dd>
+				允许访问
+			</dd>
+		</dl>
+		<foreach name='groupList' item='v'>					
+		<dl>
+			<dt>{$v.name}</dt>
+			<dd>
+				<input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" <if condition="is_array($visitData) AND in_array($v['id'], $visitData)">checked="checked"</if> />
+			</dd>
+		</dl>
+		</foreach>
+		</div>
 		</div>
 		<div class="form_b">
 			<input type="hidden" name="id" value="{$data.id}"/>			
