@@ -25,6 +25,15 @@ class ListAction extends Action{
 		$self['url'] = getUrl($self);
 
 
+		//访问权限
+		$groupid = intval(get_cookie('groupid'));
+		$groupid = empty($groupid) ? 1 : $groupid;//1为游客
+		//判断访问权限
+		$access = M('categoryAccess')->where(array('catid' => $cid, 'flag' => 0 , 'action' => 'visit'))->getField('roleid', true);
+		//权限存在，则判断
+		if (!empty($access) && !in_array($groupid, $access)) {
+			$this->error('您没有访问该信息的权限！');
+		}
 
 
 		$this->cate = $self;

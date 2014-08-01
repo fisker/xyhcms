@@ -74,6 +74,7 @@ class PublicAction extends Action {
 		set_cookie( array('name' => 'uid', 'value' => $user['id'] ));
 		set_cookie( array('name' => 'email', 'value' => $user['email'] ));
 		set_cookie( array('name' => 'nickname', 'value' => $user['nickname'] ));
+		set_cookie( array('name' => 'groupid', 'value' => $user['groupid'] ));//20140801
 		set_cookie( array('name' => 'logintime', 'value' => date('Y-m-d H:i:s', $user['logintime'])));
 		set_cookie( array('name' => 'loginip', 'value' => $user['loginip']));
 		set_cookie( array('name' => 'status', 'value' => $user['status']));//激活状态
@@ -98,11 +99,10 @@ class PublicAction extends Action {
 
 		//session_unset();
 		//session_destroy();
-
-
 		del_cookie(array('name' => 'uid'));
 		del_cookie(array('name' => 'email'));
-		del_cookie(array('name' => 'nickname'));
+		del_cookie(array('name' => 'nickname'));		
+		del_cookie(array('name' => 'groupid'));
 		del_cookie(array('name' => 'logintime'));
 		del_cookie(array('name' => 'loginip'));
 		del_cookie(array('name' => 'status'));
