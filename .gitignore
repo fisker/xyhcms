@@ -5,6 +5,8 @@
 /App/uploads/abc1/*
 /App/uploads/file1/*
 /App/uploads/img1/*
+/Data/resource/backupdata/*
+/Install/install.lock
 !/App/Conf/README.md
 !/App/Runtime/README.md
 !/App/Html/README.md
@@ -12,3 +14,4 @@
 !/App/uploads/file1/README.md
 !/App/uploads/file1/201403/
 !/App/uploads/file1/README.md
+!/Data/resource/backupdata/README.md
