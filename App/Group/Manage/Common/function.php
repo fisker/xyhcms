@@ -42,4 +42,32 @@ function flag2Str($flag, $delimiter=' ', $iskey = false, $isarray = false) {
 }
 
 
+/**
+* 检查栏目权限
+* @param $catid 栏目ID
+* @param $action 动作
+* @param $roleid 角色
+* @param $flag 是否为管理组[0会员组,1管理员组]
+* @return boolean $value 返回true|false  
+*/
+function check_category_access($catid, $action, $roleid, $flag = 1) {
+	$value = false;
+	static $access = null;
+	if (!is_array($access)) {
+		$access = M('categoryAccess')->where(array('catid' => $catid))->select();
+		if (empty($access)) {
+			$access = array();
+		}
+	}	
+	
+	foreach ($access as $v) {
+		if($v['flag']==$flag && $v['roleid']==$roleid && $v['action']==$action) {
+			$value = true;
+			break;
+		}
+	}
+	return $value;
+}
+
+
 ?>

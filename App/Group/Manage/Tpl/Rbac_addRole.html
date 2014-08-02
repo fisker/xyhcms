@@ -62,8 +62,8 @@
 		<dl>
 			<dt> 开启：</dt>
 			<dd>
-				<input type="radio" name="status" value="1" <if condition='$role.status eq 1'>checked="checked"</if> />开启
-				<input type="radio" name="status" value="0" <if condition='$role.status eq 0'>checked="checked"</if> />关闭
+				<input type="radio" name="status" value="1" <if condition='$id eq 0 OR $role.status eq 1'>checked="checked"</if> />开启
+				<input type="radio" name="status" value="0" <if condition='$id gt 0 AND $role.status eq 0'>checked="checked"</if> />关闭
 			</dd>
 		</dl>
 		</div>

@@ -37,7 +37,8 @@ class CategoryAction extends CommonAction {
 	public function addPost() {
 
 		$data = I('post.', '');
-		$acc_groupid = I('acc_groupid', '');//会员权限
+		$acc_groupid = I('acc_groupid', '');//会员组权限
+		$acc_roleid = I('acc_roleid', '');//管理组权限
 
 		
 		$data['name'] = trim($data['name']);
@@ -63,7 +64,23 @@ class CategoryAction extends CommonAction {
 	
 
 		if ($id = M('category')->add($data)) {
-			//会员权限
+			//管理员组权限
+			if (!empty($acc_roleid)) {
+				$access = array();
+				foreach ($acc_roleid as $v) {
+					$tmp = explode(',', $v);
+					$access[] = array(
+							'catid' => $id,
+							'roleid' => $tmp[1],
+							'action' => $tmp[0],
+							'flag' => 1,
+							);
+				}
+
+				M('categoryAccess')->addAll($access);
+			}
+
+			//会员组权限
 			if (!empty($acc_groupid)) {
 				$access = array();
 				foreach ($acc_groupid as $v) {
@@ -77,7 +94,6 @@ class CategoryAction extends CommonAction {
 				}
 				M('categoryAccess')->addAll($access);
 			}
-			
 
 			getCategory(0,1);//清除栏目缓存
 			getCategory(1,1);//清除栏目缓存
@@ -109,7 +125,7 @@ class CategoryAction extends CommonAction {
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();			
 		$this->groupList = M('membergroup')->order('rank')->select();
 		$this->roleList = M('role')->order('id')->select();//管理员组	
-		$this->visitData = M('categoryAccess')->where(array('catid' => $id, 'flag' => 0 , 'action' => 'visit'))->getField('roleid', true);
+
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
 		$this->styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Show_*');
 		
@@ -125,7 +141,10 @@ class CategoryAction extends CommonAction {
 		$data = I('post.', '');		
 		$id = $data['id'] = intval($data['id']);
 		$pid = $data['pid'];		
-		$acc_groupid = I('acc_groupid', '');//会员权限
+		
+		$acc_groupid = I('acc_groupid', '');//会员组权限
+		$acc_roleid = I('acc_roleid', '');//管理组权限
+		
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);		
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
@@ -171,8 +190,25 @@ class CategoryAction extends CommonAction {
 				}
 			}
 
-			//会员权限
-			M('categoryAccess')->where(array('catid' => $id, 'flag' => 0))->delete();
+			//清除权限
+			M('categoryAccess')->where(array('catid' => $id))->delete();
+			//管理员组权限
+			if (!empty($acc_roleid)) {
+				$access = array();
+				foreach ($acc_roleid as $v) {
+					$tmp = explode(',', $v);
+					$access[] = array(
+							'catid' => $id,
+							'roleid' => $tmp[1],
+							'action' => $tmp[0],
+							'flag' => 1,
+							);
+				}
+
+				M('categoryAccess')->addAll($access);
+			}
+
+			//会员组权限
 			if (!empty($acc_groupid)) {
 				$access = array();
 				foreach ($acc_groupid as $v) {

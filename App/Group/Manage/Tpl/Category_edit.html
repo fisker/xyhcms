@@ -203,14 +203,22 @@
 					    <th>添加</th>				    
 					    <th>修改</th>				    
 					    <th>删除</th>
+					    <th>移动</th>		    
+					    <th>回收站</th>	    
+					    <th>还原</th>	    
+					    <th>清除</th>
 					  </tr>
 					  <foreach name='roleList' item='v'>	
 					  <tr>
 					    <td>{$v.name}</td>
-					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="index,{$v.id}" /></td>
-					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="add,{$v.id}" /></td>
-					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="edit,{$v.id}" /></td>
-					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="del,{$v.id}" /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="index,{$v.id}" <if condition="check_category_access($data['id'],'index',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="add,{$v.id}" <if condition="check_category_access($data['id'],'add',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="edit,{$v.id}" <if condition="check_category_access($data['id'],'edit',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="del,{$v.id}" <if condition="check_category_access($data['id'],'del',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="move,{$v.id}" <if condition="check_category_access($data['id'],'move',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="trach,{$v.id}" <if condition="check_category_access($data['id'],'trach',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="restore,{$v.id}" <if condition="check_category_access($data['id'],'restore',$v['id']) eq 1">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="clear,{$v.id}" <if condition="check_category_access($data['id'],'clear',$v['id']) eq 1">checked="checked"</if> /></td>
 					  </tr>
 					  </foreach>
 					</table>
@@ -228,7 +236,7 @@
 					  <foreach name='groupList' item='v'>	
 					  <tr>
 					    <td>{$v.name}</td>
-					    <td align="center"><input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" <if condition="is_array($visitData) AND in_array($v['id'], $visitData)">checked="checked"</if> /></td>
+					    <td align="center"><input type="checkbox" name="acc_groupid[]" value="visit,{$v.id}" <if condition="check_category_access($data['id'], 'visit', $v['id'], 0) eq 1">checked="checked"</if> /></td>
 					  </tr>
 					  </foreach>
 					</table>

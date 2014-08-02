@@ -194,6 +194,11 @@
 					    <th>添加</th>				    
 					    <th>修改</th>				    
 					    <th>删除</th>
+					    <th>移动</th>		    
+					    <th>回收站</th>	    
+					    <th>还原</th>	    
+					    <th>清除</th>
+
 					  </tr>
 					  <foreach name='roleList' item='v'>	
 					  <tr>
@@ -202,6 +207,10 @@
 					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="add,{$v.id}" /></td>
 					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="edit,{$v.id}" /></td>
 					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="del,{$v.id}" /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="move,{$v.id}" /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="trach,{$v.id}" /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="restore,{$v.id}" /></td>
+					    <td align="center"><input type="checkbox" name="acc_roleid[]" value="clear,{$v.id}" /></td>
 					  </tr>
 					  </foreach>
 					</table>

@@ -12,6 +12,21 @@ class CommonContentAction extends Action {
 			$this->redirect(GROUP_NAME . '/Login/index');
 		}
 
+		$adminFlag = isset($_SESSION[C('ADMIN_AUTH_KEY')]) ? $_SESSION[C('ADMIN_AUTH_KEY')] : 0;
+		$adminRole = $_SESSION['yang_adm_roleid'];
+
+		if (!$adminFlag) {
+			$pid = I('pid', 0, 'intval');	
+			if (empty($pid)) {
+				$pid = I('get.pid', 0, 'intval');
+			}	
+							
+			check_category_access($pid, ACTION_NAME, $adminRole) || $this->error('没有权限');
+			//var_dump(check_category_access($pid, ACTION_NAME, 1));
+			
+
+		}
+
 	}
 }
 

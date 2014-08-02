@@ -7,6 +7,11 @@ class PageAction extends CommonContentAction {
 		//当前控制器名称
 		$actionName = strtolower($this->getActionName());
 		$pid = I('pid', 0, 'intval');
+		if (IS_POST) {
+			$this->indexPost();
+			exit();
+		}
+		
 		$vo = M('category')->find($pid);//直接是编辑
 	
 		$vo['content'] = htmlspecialchars($vo['content']);//ueditor
@@ -23,7 +28,7 @@ class PageAction extends CommonContentAction {
 
 
 	//修改文章处理
-	public function indexHandle() {
+	public function indexPost() {
 
 		$id = I('pid', 0, 'intval');
 		$pid = I('pid', 0, 'intval');
