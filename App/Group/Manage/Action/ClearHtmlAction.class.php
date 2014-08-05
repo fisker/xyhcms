@@ -59,7 +59,7 @@ class ClearHtmlAction extends CommonAction {
 		$cate = D('CategoryView')->where(array('category.type' => 0))->order('category.sort')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
+		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
 
 		$this->type = '更新栏目|静态缓存';
 		$this->display('all');
@@ -91,7 +91,7 @@ class ClearHtmlAction extends CommonAction {
 		$cate = D('CategoryView')->where(array('category.type' => 0))->order('category.sort')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
+		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
 
 		$this->type = '更新内容页(文档)|静态缓存';
 		$this->display('all');

@@ -797,17 +797,17 @@ str;
 	
 	//\$type为top,忽略$typeid
 	if(\$_typeid == 0 || \$_type == 'top') {
-		\$_catlist  = Category::unlimitedForLayer(\$__catlist);
+		\$_catlist  = Category::toLayer(\$__catlist);
 	}else {
 		//同级分类
 		if (\$_type == 'self') {
 			\$_typeinfo  = Category::getSelf(\$__catlist, \$_typeid );
 			//if (\$_typeinfo['pid'] != 0) {
-				\$_catlist  = Category::unlimitedForLayer(\$__catlist, 'child', \$_typeinfo['pid']);
+				\$_catlist  = Category::toLayer(\$__catlist, 'child', \$_typeinfo['pid']);
 			//}
 		}else {
 			//son，子类列表
-			\$_catlist  = Category::unlimitedForLayer(\$__catlist, 'child', \$_typeid);
+			\$_catlist  = Category::toLayer(\$__catlist, 'child', \$_typeid);
 		}
 	}
 
@@ -836,9 +836,9 @@ str;
 	\$_navlist = getCategory(1);
 	import('Class.Category', APP_PATH);	
 	if(\$_typeid == 0) {
-		\$_navlist  = Category::unlimitedForLayer(\$_navlist);
+		\$_navlist  = Category::toLayer(\$_navlist);
 	}else {
-		\$_navlist  = Category::unlimitedForLayer(\$_navlist, 'child', \$_typeid);
+		\$_navlist  = Category::toLayer(\$_navlist, 'child', \$_typeid);
 	}
 
 	foreach(\$_navlist as \$autoindex => \$navlist):

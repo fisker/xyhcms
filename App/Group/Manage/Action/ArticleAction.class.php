@@ -60,7 +60,7 @@ class ArticleAction extends CommonContentAction {
 		//$cate = D('CategoryView')->where(array('type' => 0))->order('category.sort')->select();
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->flagtypelist = getArrayOfItem('flagtype');//文档属性
 		$this->cate = Category::getLevelOfModel($cate, $actionName);
 		$this->display();
@@ -190,7 +190,7 @@ class ArticleAction extends CommonContentAction {
 		//$cate = D('CategoryView')->where(array('type' => 0))->order('category.sort')->select();
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->cate = Category::getLevelOfModel($cate, $actionName);
 
 		
@@ -344,7 +344,7 @@ class ArticleAction extends CommonContentAction {
 	
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->cate = Category::getLevelOfModel($cate, $actionName);
 
 		

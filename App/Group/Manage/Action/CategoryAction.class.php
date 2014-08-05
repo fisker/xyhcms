@@ -9,7 +9,7 @@ class CategoryAction extends CommonAction {
 		$cate = D('CategoryView')->order('category.sort')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
+		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
 		$this->display();
 	}
 
@@ -23,7 +23,7 @@ class CategoryAction extends CommonAction {
 		$this->pid = I('pid', 0, 'intval');
 		$cate = M('category')->order('sort')->select();
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate, '---',0);
+		$this->cate = Category::toLevel($cate, '---',0);
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();
 		$this->groupList = M('membergroup')->order('rank')->select();
 		$this->roleList = M('role')->order('id')->select();//管理员组
@@ -121,7 +121,7 @@ class CategoryAction extends CommonAction {
 		$this->data = $data;
 		$cate = M('category')->order('sort')->select();
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate, '---',0);
+		$this->cate = Category::toLevel($cate, '---',0);
 		$this->mlist = M('model')->where(array('status' => 1))->order('sort')->select();			
 		$this->groupList = M('membergroup')->order('rank')->select();
 		$this->roleList = M('role')->order('id')->select();//管理员组	

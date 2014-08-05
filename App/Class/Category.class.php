@@ -29,7 +29,7 @@ class Category {
 
 	
 	//一维数组
-	static public function unlimitedForLevel($cate, $delimiter = '———', $pid = 0, $level = 0) {
+	static public function toLevel($cate, $delimiter = '———', $pid = 0, $level = 0) {
 		
 		$arr = array();
 		foreach ($cate as $v) {
@@ -37,7 +37,7 @@ class Category {
 				$v['level'] = $level + 1;
 				$v['delimiter'] = str_repeat($delimiter, $level);
 				$arr[] = $v;
-				$arr = array_merge($arr, self::unlimitedForLevel($cate, $delimiter, $v['id'], $v['level']));
+				$arr = array_merge($arr, self::toLevel($cate, $delimiter, $v['id'], $v['level']));
 			}
 		}
 
@@ -47,12 +47,12 @@ class Category {
 
 
 	//组成多维数组
-	static public function unlimitedForLayer($cate, $name = 'child', $pid = 0){
+	static public function toLayer($cate, $name = 'child', $pid = 0){
 
 		$arr = array();
 		foreach ($cate as $v) {
 			if ($v['pid'] == $pid) {
-				$v[$name] = self::unlimitedForLayer($cate, $name, $v['id']);
+				$v[$name] = self::toLayer($cate, $name, $v['id']);
 				$arr[] = $v;
 			}
 		}

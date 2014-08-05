@@ -47,7 +47,7 @@ class SpecialAction extends CommonAction {
 
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate);
+		$this->cate = Category::toLevel($cate);
 		$_styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Special_*');
 
 		$styleShowList = array();
@@ -160,7 +160,7 @@ class SpecialAction extends CommonAction {
 
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$this->cate = Category::unlimitedForLevel($cate);
+		$this->cate = Category::toLevel($cate);
 		$_styleShowList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'Special_*');
 		$styleShowList = array();		
 		foreach ($_styleShowList as $v) {

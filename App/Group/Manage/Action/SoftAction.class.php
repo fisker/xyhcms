@@ -60,7 +60,7 @@ class SoftAction extends CommonContentAction {
 
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->softtypelist = getArrayOfItem('softtype');
 		$this->softlanguage = getArrayOfItem('softlanguage');
 		$this->type = "添加软件下载";
@@ -197,7 +197,7 @@ class SoftAction extends CommonContentAction {
 
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->cate = Category::getLevelOfModel($cate, $actionName);
 
 		$this->softtypelist = getArrayOfItem('softtype');
@@ -357,7 +357,7 @@ class SoftAction extends CommonContentAction {
 	
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
-		$cate = Category::unlimitedForLevel($cate);
+		$cate = Category::toLevel($cate);
 		$this->cate = Category::getLevelOfModel($cate, $actionName);
 
 		
