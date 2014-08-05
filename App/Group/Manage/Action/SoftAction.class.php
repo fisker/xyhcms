@@ -10,7 +10,7 @@ class SoftAction extends CommonContentAction {
 		//所有子栏目列表
 		import('Class.Category', APP_PATH);
 		$cate = getCategory();
-		$this->subcate = Category::getChilds($cate, $pid);
+		$this->subcate = Category::clearCate(Category::getChilds($cate, $pid),'type');
 		$this->poscate = Category::getParents($cate, $pid);
 		
 		

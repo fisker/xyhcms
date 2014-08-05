@@ -11,7 +11,7 @@ class ArticleAction extends CommonContentAction {
 		import('Class.Category', APP_PATH);
 		//$cate = D('CategoryView')->order('category.sort')->select();
 		$cate = getCategory();
-		$this->subcate = Category::getChilds($cate, $pid);
+		$this->subcate = Category::clearCate(Category::getChilds($cate, $pid),'type');
 		$this->poscate = Category::getParents($cate, $pid);
 		
 		

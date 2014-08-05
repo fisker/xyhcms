@@ -2,12 +2,12 @@
 
 class Category {
 
-	//导航显示（清除隐藏的分类）
-	static public function getclearHide($cate, $status = 'status') {
+	//清除包含对应字段的分类
+	static public function clearCate($cate, $status = 'status', $value = 1) {
 
 		$arr = array();
 		foreach ($cate as $v) {
-			if ($v[$status] == 1) {
+			if ($v[$status] != $value) {
 				$arr[] = $v;
 			}
 		}
