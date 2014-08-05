@@ -43,6 +43,7 @@ class LoginAction extends Action{
 		//更新数据库
 		M('admin')->save($data);
 		$user['roleid'] = M('roleUser')->where(array('user_id' => $user['id']))->getField('role_id');
+		$user['roleid'] = empty($user['roleid']) ? 0 : $user['roleid'];
 
 		//保存Session
 		session(C('USER_AUTH_KEY'), $user['id']);
