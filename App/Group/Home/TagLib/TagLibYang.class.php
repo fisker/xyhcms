@@ -396,7 +396,7 @@ str;
 	if ($pagesize > 0) {
 		
 		import('Class.Page', APP_PATH);
-		\$count = D('PictureView')->where(\$where)->count();
+		\$count = D2('ArcView','picture')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
 		
@@ -415,7 +415,7 @@ str;
 	}
 	
 
-	\$_piclist = D('PictureView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_piclist = D2('ArcView','picture')->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
 	if (empty(\$_piclist)) {
 		\$_piclist = array();
@@ -487,7 +487,7 @@ str;
 	if ($pagesize > 0) {
 		
 		import('Class.Page', APP_PATH);
-		\$count = D('SoftView')->where(\$where)->count();
+		\$count = D2('ArcView','soft')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
 		
@@ -505,7 +505,7 @@ str;
 	}
 	
 
-	\$_soflist = D('SoftView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_soflist = D2('ArcView','soft')->nofield('content,pictureurls,updatelog,downlink')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
 	if (empty(\$_soflist)) {
 		\$_soflist = array();

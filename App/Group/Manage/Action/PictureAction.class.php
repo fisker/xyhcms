@@ -28,13 +28,13 @@ class PictureAction extends CommonContentAction {
 		
 		//分页
 		import('Class.Page', APP_PATH);
-		$count = D('PictureView')->where($where)->count();
+		$count = D2('ArcView','picture')->where($where)->count();
 
 		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('PictureView')->where($where)->order('picture.id DESC')->limit($limit)->select();
+		$art = D2('ArcView','picture')->nofield('content,pictureurls')->where($where)->order('picture.id DESC')->limit($limit)->select();
 
 		$this->pid = $pid;
 		$this->keyword = $keyword;
@@ -395,13 +395,13 @@ class PictureAction extends CommonContentAction {
 	public function trach() {
 		import('Class.Page', APP_PATH);
 		$where = array('picture.status' => 1);
-		$count = D('PictureView')->where($where)->count();
+		$count = D2('ArcView','picture')->where($where)->count();
 
 		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('PictureView')->where($where)->order('picture.id DESC')->limit($limit)->select();
+		$art = D2('ArcView','picture')->nofield('content,pictureurls')->where($where)->order('picture.id DESC')->limit($limit)->select();
 
 		$this->pid = I('pid', 0, 'intval');
 		$this->page = $page->show();
@@ -509,7 +509,7 @@ class PictureAction extends CommonContentAction {
 		}
 		
 		$pid = I('get.pid', 0, 'intval');
-		$modelid = D('PictureView')->where(array('id' => $id))->getField('modelid');
+		$modelid = D2('ArcView','picture')->where(array('id' => $id))->getField('modelid');
 
 		if (M('picture')->delete($id)) {
 			// delete picture index
@@ -533,7 +533,7 @@ class PictureAction extends CommonContentAction {
 			$this->error('请选择要彻底删除的项');
 		}
 		$where = array('id' => array('in', $idArr));
-		$modelid = D('PictureView')->where(array('id' => $idArr[0]))->getField('modelid');//for delete picture index,use
+		$modelid = D2('ArcView','picture')->where(array('id' => $idArr[0]))->getField('modelid');//for delete picture index,use
 
 		if (M('picture')->where($where)->delete()) {
 			// delete picture index

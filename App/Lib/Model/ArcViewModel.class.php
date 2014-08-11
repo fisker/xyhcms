@@ -152,8 +152,7 @@ class ArcViewModel extends ViewModel {
      * 指定字段排除
      * @access public
      * @param mixed $field
-     * @param boolean $except 是否排除
-     * @return Model
+     * @return array
      */
     public function nofield($field){
        if(is_string($field)) {
@@ -170,7 +169,7 @@ class ArcViewModel extends ViewModel {
      * @param array $fields 字段数组
      * @return array
      */
-    private function _checkFields($name,$fields) {
+    protected function _checkFields($name,$fields) {
         if(false !== $pos = array_search('*',$fields)) {// 定义所有字段
             $fields  =  array_merge($fields,M($name)->getDbFields());
             unset($fields[$pos]);
