@@ -6,7 +6,7 @@ class CategoryAction extends CommonAction {
 	public function index() {
 
 		//CategoryView 视图模型
-		$cate = D('CategoryView')->order('category.sort')->select();
+		$cate = D('CategoryView')->nofield('content')->order('category.sort,category.id')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);

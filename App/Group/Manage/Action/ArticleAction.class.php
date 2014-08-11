@@ -9,7 +9,7 @@ class ArticleAction extends CommonContentAction {
 
 		//所有子栏目列表
 		import('Class.Category', APP_PATH);
-		//$cate = D('CategoryView')->order('category.sort')->select();
+		//$cate = D('CategoryView')->nofield('content')->order('category.sort,category.id')->select();
 		$cate = getCategory();
 		$this->subcate = Category::clearCate(Category::getChilds($cate, $pid),'type');
 		$this->poscate = Category::getParents($cate, $pid);
@@ -57,7 +57,7 @@ class ArticleAction extends CommonContentAction {
 		}
 
 
-		//$cate = D('CategoryView')->where(array('type' => 0))->order('category.sort')->select();
+		//'type' => 0
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);
@@ -187,7 +187,7 @@ class ArticleAction extends CommonContentAction {
 			exit();
 		}
 
-		//$cate = D('CategoryView')->where(array('type' => 0))->order('category.sort')->select();
+		//'type' => 0
 		$cate = getCategory(2);
 		import('Class.Category', APP_PATH);
 		$cate = Category::toLevel($cate);

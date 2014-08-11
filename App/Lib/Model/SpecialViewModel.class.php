@@ -1,13 +1,10 @@
 <?php
 
 //视图模型
-class SpecialViewModel extends ViewModel {
+class SpecialViewModel extends ExViewModel {
 	
 	protected $viewFields = array(
-		'special' => array('id', 'title', 'shorttitle', 'color', 'publishtime', 'updatetime', 'author', 'keywords', 'click', 'description', 'litpic', 'cid', 'filename', 
-		'flag', 'jumpurl',
-		'_type' => 'LEFT'
-		),
+		'special' => array('*','_type' => 'LEFT'),
 		'category' => array(		
 		//'name' => 'cate',//v1.1废除
 		'name' => 'catename',

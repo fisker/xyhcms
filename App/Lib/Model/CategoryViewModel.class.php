@@ -1,13 +1,10 @@
 <?php
 
 //视图模型
-class CategoryViewModel extends ViewModel {
+class CategoryViewModel extends ExViewModel {
 	
 	protected $viewFields = array(
-		'category' => array('id', 'name', 'ename', 'pid', 'type', 'seotitle', 'keywords', 'description', 'modelid',
-		'template_category', 'template_list', 'template_show', 'status', 'sort',
-		'_type' => 'LEFT'
-		),
+		'category' => array('*','_type' => 'LEFT'),
 		'model' => array(
 		'name' => 'modelname',//显示字段name as model
 		'tablename' => 'tablename',//显示字段name as model

@@ -6,7 +6,7 @@ class MemberAction extends CommonAction {
 
 
 		$uid = get_cookie('uid');
-		$user = D('MemberView')->find($uid);
+		$user = D('MemberView')->nofield('password,encrypt')->find($uid);
 		if (!$user) {
 			$this->error('请重新登录',U(GROUP_NAME.'/Public/login'));
 		}
@@ -35,7 +35,7 @@ class MemberAction extends CommonAction {
 
 	public function name() {
 		$uid = get_cookie('uid');
-		$user = D('MemberView')->find($uid);
+		$user = M('member')->find($uid);
 		if (!$user) {
 			$this->error('请重新登录',U(GROUP_NAME.'/Public/login'));
 		}

@@ -22,7 +22,7 @@ class SpecialAction extends CommonAction {
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('SpecialView')->where($where)->order('id DESC')->limit($limit)->select();
+		$art = D('SpecialView')->nofield('content')->where($where)->order('id DESC')->limit($limit)->select();
 
 		
 		$this->keyword = $keyword;
@@ -269,7 +269,7 @@ class SpecialAction extends CommonAction {
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('SpecialView')->where($where)->limit($limit)->select();
+		$art = D('SpecialView')->nofield('content')->where($where)->limit($limit)->select();
 
 		$this->pid = I('pid', 0, 'intval');
 		$this->page = $page->show();

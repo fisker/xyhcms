@@ -56,7 +56,7 @@ class ClearHtmlAction extends CommonAction {
 			exit();
 		}
 
-		$cate = D('CategoryView')->where(array('category.type' => 0))->order('category.sort')->select();
+		$cate = D('CategoryView')->nofield('content')->where(array('category.type' => 0))->order('category.sort,category.id')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);
@@ -88,7 +88,7 @@ class ClearHtmlAction extends CommonAction {
 			exit();
 		}
 
-		$cate = D('CategoryView')->where(array('category.type' => 0))->order('category.sort')->select();
+		$cate = D('CategoryView')->where(array('category.type' => 0))->order('category.sort,category.id')->select();
 		//$cate = getCategory();
 		import('Class.Category', APP_PATH);
 		$this->cate = Category::toLevel($cate, '&nbsp;&nbsp;&nbsp;&nbsp;', 0);

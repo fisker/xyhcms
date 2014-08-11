@@ -697,7 +697,7 @@ str;
 		\$limit = "$limit";
 	}	
 
-	\$_spelist = D('SpecialView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_spelist = D('SpecialView')->nofield('content')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_spelist)) {
 		\$_spelist = array();
 	}
@@ -897,7 +897,7 @@ str;
 	}
 	
 
-	\$_userlist = D('MemberView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_userlist = D('MemberView')->nofield('password,encrypt')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 	if (empty(\$_userlist)) {
 		\$_userlist = array();
 	}

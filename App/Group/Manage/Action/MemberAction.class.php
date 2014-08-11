@@ -21,7 +21,7 @@ class MemberAction extends CommonAction {
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$list = D('MemberView')->where($where)->order('member.id desc')->limit($limit)->select();
+		$list = D('MemberView')->nofield('password,encrypt')->where($where)->order('member.id desc')->limit($limit)->select();
 
 		$this->page = $page->show();
 		$this->vlist = $list;

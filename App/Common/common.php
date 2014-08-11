@@ -83,11 +83,11 @@ function getCategory($status = 0,$update = 0) {//
     $cate_arr = F($cate_sname);
     if ($update  || !$cate_arr) {
         if($status == 1) {
-            $cate_arr = D('CategoryView')->where(array('category.status' => 1))->order('category.sort')->select();
+            $cate_arr = D('CategoryView')->nofield('content')->where(array('category.status' => 1))->order('category.sort,category.id')->select();
         }else if($status == 2) {//后台栏目专用
-            $cate_arr = D('CategoryView')->where(array('category.type' => 0))->order('category.sort')->select();
+            $cate_arr = D('CategoryView')->nofield('content')->where(array('category.type' => 0))->order('category.sort,category.id')->select();
         }else {
-            $cate_arr = D('CategoryView')->order('category.sort')->select();
+            $cate_arr = D('CategoryView')->nofield('content')->order('category.sort,category.id')->select();
         }
         if (!isset($cate_arr)) {
             $cate_arr = array();
