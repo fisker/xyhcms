@@ -28,13 +28,13 @@ class ArticleAction extends CommonContentAction {
 		
 		//分页
 		import('Class.Page', APP_PATH);
-		$count = D('ArticleView')->where($where)->count();
+		$count = D2('ArcView','article')->where($where)->count();
 
 		$page = new Page($count, 10);		
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('ArticleView')->where($where)->order('article.id DESC')->limit($limit)->select();
+		$art = D2('ArcView','article')->nofield('content')->where($where)->order('article.id DESC')->limit($limit)->select();
 		$this->pid = $pid;
 		$this->keyword = $keyword;
 		$this->page = $page->show();
@@ -359,13 +359,13 @@ class ArticleAction extends CommonContentAction {
 	public function trach() {
 		import('Class.Page', APP_PATH);
 		$where = array('article.status' => 1);
-		$count = D('ArticleView')->where($where)->count();
+		$count = D2('ArcView','article')->where($where)->count();
 
 		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('ArticleView')->where($where)->limit($limit)->select();
+		$art = D2('ArcView','article')->nofield('content')->where($where)->limit($limit)->select();
 
 		$this->pid = I('pid', 0, 'intval');
 		$this->page = $page->show();
@@ -474,7 +474,7 @@ class ArticleAction extends CommonContentAction {
 		}
 
 		$pid = I('get.pid', 0, 'intval');
-		$modelid = D('ArticleView')->where(array('id' => $id))->getField('modelid');
+		$modelid = D2('ArcView','article')->where(array('id' => $id))->getField('modelid');
 
 		if (M('article')->delete($id)) {
 			// delete picture index
@@ -497,7 +497,7 @@ class ArticleAction extends CommonContentAction {
 			$this->error('请选择要彻底删除的项');
 		}
 		$where = array('id' => array('in', $idArr));
-		$modelid = D('ArticleView')->where(array('id' => $idArr[0]))->getField('modelid');//
+		$modelid = D2('ArcView','article')->where(array('id' => $idArr[0]))->getField('modelid');//
 
 		if (M('article')->where($where)->delete()) {
 			// delete picture index

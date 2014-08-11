@@ -206,7 +206,7 @@ class TagLibYang extends TagLib {
 	if ($pagesize > 0) {
 		
 		import('Class.Page', APP_PATH);
-		\$count = D('ArticleView')->where(\$where)->count();
+		\$count = D2('ArcView','article')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
 		
@@ -225,7 +225,7 @@ class TagLibYang extends TagLib {
 	}
 	
 
-	\$_artlist = D('ArticleView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_artlist = D2('ArcView','article')->nofield('content')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
 	if (empty(\$_artlist)) {
 		\$_artlist = array();
@@ -302,7 +302,7 @@ str;
 	if ($pagesize > 0) {
 		
 		import('Class.Page', APP_PATH);
-		\$count = D('ProductView')->where(\$where)->count();
+		\$count = D2('ArcView','product')->where(\$where)->count();
 
 		\$thisPage = new Page(\$count, $pagesize);
 		
@@ -321,7 +321,7 @@ str;
 	}
 	
 
-	\$_prolist = D('ProductView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	\$_prolist = D2('ArcView','product')->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 
 	if (empty(\$_prolist)) {
 		\$_prolist = array();
@@ -579,7 +579,7 @@ str;
 			
 			//import('ORG.Util.Page');
 			import('Class.Page', APP_PATH);
-			\$count = D(ucfirst(\$_tablename ).'View')->where(\$where)->count();
+			\$count = D2('ArcView',"\$_tablename")->where(\$where)->count();
 
 			\$thisPage = new Page(\$count, $pagesize);
 			
@@ -597,7 +597,7 @@ str;
 			\$limit = "$limit";
 		}	
 
-		\$_list = D(ucfirst(\$_tablename ).'View')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+		\$_list = D2('ArcView',"\$_tablename")->nofield('content,pictureurls')->where(\$where)->order("$orderby")->limit(\$limit)->select();
 		if (empty(\$_list)) {
 			\$_list = array();
 		}

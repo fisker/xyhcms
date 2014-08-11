@@ -27,13 +27,13 @@ class ProductAction extends CommonContentAction {
 
 		//分页
 		import('Class.Page', APP_PATH);
-		$count = D('ProductView')->where($where)->count();
+		$count = D2('ArcView','product')->where($where)->count();
 
 		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('ProductView')->where($where)->order('product.id DESC')->limit($limit)->select();
+		$art = D2('ArcView','product')->nofield('content,pictureurls')->where($where)->order('product.id DESC')->limit($limit)->select();
 
 		$this->pid = $pid;
 		$this->keyword = $keyword;
@@ -397,13 +397,13 @@ class ProductAction extends CommonContentAction {
 	public function trach() {
 		import('Class.Page', APP_PATH);
 		$where = array('product.status' => 1);
-		$count = D('ProductView')->where($where)->count();
+		$count = D2('ArcView','product')->where($where)->count();
 
 		$page = new Page($count, 10);
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$art = D('ProductView')->where($where)->order('product.id DESC')->limit($limit)->select();
+		$art = D2('ArcView','product')->nofield('content,pictureurls')->where($where)->order('product.id DESC')->limit($limit)->select();
 
 		$this->pid = I('pid', 0, 'intval');
 		$this->page = $page->show();
@@ -511,7 +511,7 @@ class ProductAction extends CommonContentAction {
 		}
 		
 		$pid = I('get.pid', 0, 'intval');
-		$modelid = D('ProductView')->where(array('id' => $id))->getField('modelid');
+		$modelid = D2('ArcView','product')->where(array('id' => $id))->getField('modelid');
 
 		if (M('product')->delete($id)) {
 			// delete picture index
@@ -534,7 +534,7 @@ class ProductAction extends CommonContentAction {
 			$this->error('请选择要彻底删除的项');
 		}
 		$where = array('id' => array('in', $idArr));
-		$modelid = D('ProductView')->where(array('id' => $idArr[0]))->getField('modelid');//for delete picture index,use
+		$modelid = D2('ArcView','product')->where(array('id' => $idArr[0]))->getField('modelid');//for delete picture index,use
 
 		if (M('product')->where($where)->delete()) {
 			// delete picture index

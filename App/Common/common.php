@@ -905,6 +905,50 @@ function goLinkEncode($weburl = 'http://www.0871k.com/') {
 
 
 
+/**
+ * D2是D方法的扩展
+ * D2函数用于实例化Model 格式 项目://分组/模块 
+ * @param string $name Model资源地址
+ * @param string $tableName 数据表名
+ * @param string $layer 业务层名称
+ * @return Model
+ */
+function D2($name='',$tableName='',$layer='') {
+    if(empty($name)) return new Model;
+    static $_model  =   array();
+    $layer          =   $layer?$layer:C('DEFAULT_M_LAYER');
+    if(strpos($name,'://')) {// 指定项目
+        list($app)  =   explode('://',$name);
+        $name       =   str_replace('://','/'.$layer.'/',$name);
+    }else{
+        $app        =   C('DEFAULT_APP');
+        $name       =   $app.'/'.$layer.'/'.$name;
+    }
+    $_name = empty($tableName)? $name :  $name .'/'.$tableName;
+   
+    if(isset($_model[$_name]))   return $_model[$_name];
+    $path           =   explode('/',$name);
+    if($list = C('EXTEND_GROUP_LIST') && isset($list[$app])){ // 扩展分组
+        $baseUrl    =   $list[$app];
+        import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);
+    }elseif(count($path)>3 && 1 == C('APP_GROUP_MODE')) { // 独立分组
+        $baseUrl    =   $path[0]== '@' ? dirname(BASE_LIB_PATH) : APP_PATH.'../'.$path[0].'/'.C('APP_GROUP_PATH').'/';
+        import($path[2].'/'.$path[1].'/'.$path[3].$layer,$baseUrl);
+    }else{
+        import($name.$layer);
+    } 
+    $class          =   basename($name.$layer);
+    if(class_exists($class)) {
+        $model      = empty($tableName)? new $class(basename($name)) :  new $class(basename($tableName),$tableName)  ;
+    }else {
+        $model      =   new Model(basename($name));
+    }
+    $_model[$_name]  =  $model;
+    return $model;
+}
+
+
+
 /*
 *提示信息
 *$msg   信息内容
