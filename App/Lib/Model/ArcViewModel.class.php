@@ -10,7 +10,8 @@ class ArcViewModel extends ExViewModel {
 	* 架构函数
 	* 取得DB类的实例对象 字段检查
 	* @access public
-	* @param string $tableName 模型名称
+    * @param string $name 模型名称
+	* @param string $tableName 主表名称
 	* @param string $tablePrefix 表前缀
 	* @param mixed $connection 数据库连接信息
 	*/
@@ -18,21 +19,13 @@ class ArcViewModel extends ExViewModel {
 		//
 		$this->viewFields = array(
 		$tableName => array('*','_type' => 'LEFT'),
-		'category' => array(
-		//'name' => 'cate',//v1.1废除
-		'name' => 'catename',
-		'ename' => 'ename',
-		'modelid' => 'modelid',
-		'_on' => $tableName.'.cid = category.id',//_on 对应上面LEFT关联条件
-		//'_type' => 'LEFT'
-		),
-		/*
-		'model' => array(
-		'tablename' => 'tablename',//显示字段name as model
-		'_on' => 'category.modelid = model.id',//_on 对应上面LEFT关联条件
-		),
-		*/
-
+			'category' => array(
+			'name' => 'catename',
+			'ename' => 'ename',
+			'modelid' => 'modelid',
+			'_on' => $tableName.'.cid = category.id',//_on 对应上面LEFT关联条件
+			//'_type' => 'LEFT'
+			),
 		);
 		
 		 // 模型初始化
