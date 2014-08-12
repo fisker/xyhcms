@@ -102,9 +102,14 @@ class TagLibYang extends TagLib {
 		),
 		//v1.5 for blog  Archive
 		'archivelist'	=> array(
-			'attr'	=> 'modelid,limit',
 			'attr'	=> 'modelid,year,month,titlelen,infolen,orderby,limit,pagesize,pageroll,pagetheme',
 			'close'	=> 1,
+		),
+
+		//v1.6 --通用数据表查询 --20140812
+		'datatable'	=> array(
+			'attr'	=> 'table,field,jointype,joinwhere,where,orderby,limit,pagesize,pageroll,pagetheme',//attr 属性列表,arcid[new|20140413] 指定文档ID
+			'close'	=> 1,// close 是否闭合（0 或者1 默认为1，表示闭合）
 		),
 
 
@@ -1288,8 +1293,104 @@ str;
 	}
 
 
+	//通用数据表查询
+	public function _datatable($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'datatable');
+		////非debug参属性参数只处理 一次
+		$table = empty($attr['table'])? 'article': $attr['table'];
+		$field = empty($attr['field'])? '': $attr['field'];
+		$jointype = empty($attr['jointype'])? '': $attr['jointype'];
+		$joinwhere = empty($attr['joinwhere'])? '': $attr['joinwhere'];
+		$where = empty($attr['where'])? '': $attr['where'];
+		$orderby = empty($attr['orderby'])? '' : $attr['orderby'];
+		$limit = empty($attr['limit'])? '10' : $attr['limit'];
+		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
+
+		$table = string2filter($table, '|');
+		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
+		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);//新增加20140513
+		
+
+		
+		$str = <<<str
+<?php
+	\$_table = explode('|', "$table");
+	\$_field = explode('|', "$field");
+	\$_joinwhere = explode('|', "$joinwhere");//表个数-1
+	\$_jointype = 'LEFT JOIN';
+	\$where = "$where";
+	
+	if (empty(\$where)) {
+		\$where = ' 1 = 1';
+	}
 
 
+	\$_field_array = array();
+	foreach (\$_table as \$k => \$v) {
+		\$_field_temp = empty(\$_field[\$k])? array('*') : explode(',', \$_field[\$k]);
+		foreach (\$_field_temp as \$k2 => \$v2) {
+			\$_field_temp[\$k2] = \$v. '.'. \$v2;
+		}
+		\$_field_array = array_merge(\$_field_array, \$_field_temp);
+
+		\$_table[\$k] = C('DB_PREFIX').\$v.' '.\$v
+	}
+
+	\$_field_str = implode(',', \$_field_array);
+	foreach (\$_joinwhere as $k => $v) {
+		\$_joinwhere[$k] = \$_jointype.' '\$_table[\$k+1].' ON '.$v;
+	}
+
+	
+
+	//分页
+	if ($pagesize > 0) {
+		
+		import('Class.Page', APP_PATH);
+		\$count = D2('ArcView','article')->where(\$where)->count();
+		if (count(\$_table) == 1) {	
+			\$count = M(\$_table[0])->where(\$where)->count();
+		}else {
+			\$count = M()->table(\$_table[0])->join(\$_joinwhere)->where(\$where)->count();	
+		}
+
+		\$thisPage = new Page(\$count, $pagesize);
+		
+		\$ename = I('e', '', 'htmlspecialchars,trim');
+		if (!empty(\$ename) && C('URL_ROUTER_ON') == true) {
+			\$thisPage->url = ''.\$ename. '/p';
+		}
+		//设置显示的页数
+		
+		\$thisPage->rollPage = $pageroll;
+		\$thisPage->setConfig('theme',"$pagetheme");
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$page = \$thisPage->show();
+	}else {
+		\$limit = "$limit";
+	}
+	
+	if (count(\$_table) == 1) {	
+		\$_datatable = M(\$_table[0])->field(\$_field_str)->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	}else {
+		\$_datatable = M()->table(\$_table[0])->field(\$_field_str)->join(\$_joinwhere)->
+		where(\$where)->order("$orderby")->limit(\$limit)->select();	
+	}
+
+	if (empty(\$_datatable)) {
+		\$_datatable = array();
+	}
+	
+
+	foreach(\$_datatable as \$autoindex => \$datatable):	
+
+?>
+str;
+	$str .= $content;
+	$str .='<?php endforeach;?>';
+	return $str;
+
+	}
 
 
 
