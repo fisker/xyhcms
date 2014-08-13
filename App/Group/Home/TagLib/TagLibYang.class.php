@@ -80,6 +80,12 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
+		//v1.6 --Review list --20140813
+		'reviewlist'	=> array(
+			'attr'	=> 'modelid,arcid,userid,orderby,limit,pagesize,pageroll,pagetheme',//attr 属性列表
+			'close'	=> 1,
+		),
+
 
 
 		'iteminfo'	=> array(
@@ -1090,6 +1096,65 @@ str;
 	}
 
 	foreach(\$_gbooklist as \$autoindex => \$gbooklist):
+
+
+
+?>
+str;
+	$str .= $content;
+	$str .='<?php endforeach;?>';
+	return $str;
+
+	}
+
+
+	//Review list
+	public function _reviewlist($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'reviewlist');
+		$modelid = !isset($attr['modelid']) || $attr['modelid'] == '' ? 0 : trim($attr['modelid']);
+		$arcid = !isset($attr['arcid']) || $attr['arcid'] == '' ? 0 : trim($attr['arcid']);
+		$userid = !isset($attr['userid']) || $attr['userid'] == '' ? 0 : trim($attr['userid']);		
+		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
+		$limit = empty($attr['limit'])? '10' : $attr['limit'];
+
+		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
+		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
+		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
+		
+
+		
+		$str = <<<str
+<?php
+	\$_modelid = intval($modelid);	
+	\$_arcid = intval($arcid);
+	\$_userid = intval($userid);
+		
+	\where = array('pid' => 0, 'postid' => \$_arcid , 'modelid' => \$_modelid );//test
+
+	//分页
+	if ($pagesize > 0) {
+		
+		import('Class.Page', APP_PATH);
+		\$count = D('CommentView')->where(\where)->count();
+
+		\$thisPage = new Page(\$count, $pagesize);
+		
+
+		//设置显示的页数
+		\$thisPage->rollPage = $pageroll;
+		\$thisPage->setConfig('theme',"$pagetheme");
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$page = \$thisPage->show();
+	}else {
+		\$limit = "$limit";
+	}
+	
+	\$_reviewlist = D('CommentView')->where(\where)->order("$orderby")->limit(\$limit)->select();
+	if (empty(\$_reviewlist)) {
+		\$_reviewlist = array();
+	}
+
+	foreach(\$_reviewlist as \$autoindex => \$reviewlist):
 
 
 
