@@ -1318,3 +1318,18 @@ CREATE TABLE IF NOT EXISTS `#xyh#_special` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 INSERT INTO `#xyh#_special` (`id`, `title`, `shorttitle`, `color`, `author`, `keywords`, `litpic`, `description`, `content`, `publishtime`, `updatetime`, `click`, `cid`, `commentflag`, `flag`, `jumpurl`, `status`, `filename`, `template`, `aid`) VALUES(1, '文章汇集', '', '', '', '', '/uploads/img1/201403/53391df14c069.jpg!200X200.jpg', '文章汇集', NULL, 1398668509, 1398668509, 82, 0, 1, 1, '', 0, '', 'Special_content.html', 1);
+
+
+DROP TABLE IF EXISTS `#xyh#_menu`;
+CREATE TABLE IF NOT EXISTS `#xyh#_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `pid` int(10) unsigned NOT NULL DEFAULT '0',
+  `module` varchar(20) NOT NULL DEFAULT '',
+  `action` varchar(20) DEFAULT '',
+  `parameter` varchar(100) DEFAULT '',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '显示',
+  `sort` smallint(6) NOT NULL DEFAULT '100',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
