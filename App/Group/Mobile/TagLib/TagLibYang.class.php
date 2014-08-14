@@ -80,6 +80,11 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
+		//v1.6 --Review list --20140813
+		'reviewlist'=> array(
+			'attr'	=> 'modelid,arcid,type,userid,orderby,limit,pagesize,pageroll,pagetheme',
+			'close'	=> 1,
+		),
 
 
 		'iteminfo'	=> array(
@@ -1090,6 +1095,111 @@ str;
 	}
 
 	foreach(\$_gbooklist as \$autoindex => \$gbooklist):
+
+
+
+?>
+str;
+	$str .= $content;
+	$str .='<?php endforeach;?>';
+	return $str;
+
+	}
+
+
+	//Review list
+	public function _reviewlist($attr, $content) {
+		$attr = !empty($attr)? $this->parseXmlAttr($attr, 'reviewlist') : null;
+		$modelid = !isset($attr['modelid']) || $attr['modelid'] == '' ? 0 : trim($attr['modelid']);
+		$arcid = !isset($attr['arcid']) || $attr['arcid'] == '' ? 0 : trim($attr['arcid']);		
+		$type = empty($attr['type'])? 0 : intval($attr['type']);//显示形式
+		$userid = !isset($attr['userid']) || $attr['userid'] == '' ? 0 : trim($attr['userid']);		
+		$orderby = empty($attr['orderby'])? 'id DESC' : $attr['orderby'];
+		$limit = empty($attr['limit'])? '10' : $attr['limit'];
+
+		$pagesize = empty($attr['pagesize'])? '0' : $attr['pagesize'];
+		$pageroll = empty($attr['pageroll'])? '5' : $attr['pageroll'];
+		$pagetheme = empty($attr['pagetheme'])? ' %upPage% %linkPage% %downPage% 共%totalPage%页' : htmlspecialchars_decode($attr['pagetheme']);
+		
+
+		
+		$str = <<<str
+<?php
+	\$_modelid = intval($modelid);	
+	\$_arcid = intval($arcid);
+	\$_userid = intval($userid);
+
+
+	\$where['_string'] = '1=1';
+	if (\$_modelid > 0) {
+		\$where['modelid'] = \$_modelid;
+	}
+	if (\$_arcid > 0) {
+		\$where['postid'] = \$_arcid ;
+	}
+
+	if (\$_userid > 0) {
+		\$where['userid'] = \$_userid ;
+	}
+
+	
+	//树形风格，多维数组
+	if ($type == 1) {
+		\$where['pid'] = 0;
+	}
+	
+		
+	
+
+	//分页
+	if ($pagesize > 0) {
+		
+		import('Class.Page', APP_PATH);
+		\$count = D('CommentView')->where(\$where)->count();
+
+		\$thisPage = new Page(\$count, $pagesize);
+		
+
+		//设置显示的页数
+		\$thisPage->rollPage = $pageroll;
+		\$thisPage->setConfig('theme',"$pagetheme");
+		\$limit = \$thisPage->firstRow. ',' .\$thisPage->listRows;	
+		\$page = \$thisPage->show();
+	}else {
+		\$limit = "$limit";
+	}
+	
+	\$_reviewlist = D('CommentView')->where(\$where)->order("$orderby")->limit(\$limit)->select();
+	if (!\$_reviewlist) {
+		\$_reviewlist = array();
+	}
+
+	//$type ,pid >0
+	if ($type == 1 && !empty(\$_reviewlist)) {
+		\$pid_array = array();
+		foreach (\$_reviewlist as \$k => \$v) {
+			\$pid_array[] = \$v['id'];
+			\$_reviewlist[\$k]['child'] = array();//后面就不用初始化
+		}
+		\$where = array('pid' => array('IN', \$pid_array));
+		\$_review_child = D('CommentView')->where(\$where)->select();
+		if (\$_review_child) {
+			foreach (\$_reviewlist as \$k => \$v) {
+				
+				foreach (\$_review_child as \$k2 => \$v2) {
+					if (\$v['id'] == \$v2['pid']) {
+						\$_reviewlist[\$k]['child'][] = \$v2;
+						unset(\$_review_child[\$k2]); //删除已经认领元素,减少内循环
+					}
+				}
+			}
+		}
+
+
+
+	}
+
+	foreach(\$_reviewlist as \$autoindex => \$reviewlist):
 
 
 
