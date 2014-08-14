@@ -130,6 +130,36 @@ class ArticleAction extends CommonContentAction {
 
 		if($id = M('article')->add($data)) {
 
+
+			//内容中的图片
+			$img_arr = array();
+			$pic_first = array();
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
+			preg_match_all($reg, $content, $img_arr, PREG_PATTERN_ORDER);
+			// 匹配出来的不重复图片
+			$img_arr = array_unique($img_arr[1]);
+			if (!empty($img_arr)) {
+				//$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
+				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
+				$dataAtt = array();
+				if ($attid) {
+					//取出本站内的第一张图
+					foreach ($img_arr as $v) {
+						foreach ($attid as $v2) {
+							if ($v == $v2['filepath']) {
+								$pic_first = $v2;
+								break 2;
+							}
+						}
+					}
+					foreach ($attid as $k => $v) {
+						$dataAtt[] = array('attid' => $v['id'],'arcid' => $id, 'modelid' => $modelid);
+					}
+					M('attachmentindex')->addAll($dataAtt);
+				}
+				
+			}	
+
 			//更新上传附件表
 			if (!empty($pic)) {
 				//更新3个小时内的.即10800秒
@@ -139,27 +169,16 @@ class ArticleAction extends CommonContentAction {
 					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => $modelid));
 				}
 				//halt(M('attachment')->getlastsql());
+			}else if (!empty($pic_first)) {
+				M('attachmentindex')->add(array('attid' => $pic_first['id'],'arcid' => $id, 'modelid' => $modelid));
+				
+				$imgtbSize = explode(',', C('cfg_imgthumb_size'));//配置缩略图第一个参数
+                $imgTSize = explode('X', $imgtbSize[0]);
+				M('article')->save(array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1])));
 			}
 
-
-			//内容中的图片
-			$img_arr = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
-			preg_match_all($reg, $content, $img_arr, PREG_PATTERN_ORDER);
-			// 匹配出来的不重复图片
-			$img_arr = array_unique($img_arr[1]);
-			if (!empty($img_arr)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
-				$dataAtt = array();
-				if ($attid) {
-					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
-					}
-					M('attachmentindex')->addAll($dataAtt);
-				}
-				
-			}			
-			//$this->display('/Test:empty');exit();
+		
+			
 
 
 			//更新静态缓存
@@ -264,6 +283,36 @@ class ArticleAction extends CommonContentAction {
 			//del
 			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => $modelid))->delete();
 			
+
+			//内容中的图片
+			$img_arr = array();
+			$pic_first = array();
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
+			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
+			// 匹配出来的不重复图片
+			$img_arr = array_unique($img_arr[1]);
+			//清除本站的图片中的网址--test
+			if (!empty($img_arr)) {
+				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
+				$dataAtt = array();
+				if ($attid) {
+					//取出本站内的第一张图
+					foreach ($img_arr as $v) {
+						foreach ($attid as $v2) {
+							if ($v == $v2['filepath']) {
+								$pic_first = $v2;
+								break 2;
+							}
+						}
+					}
+					foreach ($attid as $v) {
+						$dataAtt[] = array('attid' => $v['id'],'arcid' => $id, 'modelid' => $modelid);
+					}
+					M('attachmentindex')->addAll($dataAtt);
+				}
+				
+			}	
+
 			//更新上传附件表
 			if (!empty($pic)) {
 
@@ -273,27 +322,14 @@ class ArticleAction extends CommonContentAction {
 				if($attid){
 					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => $modelid));
 				}
-				//hetlastsql());
+			}else if (!empty($pic_first)) {
+				M('attachmentindex')->add(array('attid' => $pic_first['id'],'arcid' => $id, 'modelid' => $modelid));
+				
+				$imgtbSize = explode(',', C('cfg_imgthumb_size'));//配置缩略图第一个参数
+                $imgTSize = explode('X', $imgtbSize[0]);
+				M('article')->save(array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1])));
 			}
 
-
-			//内容中的图片
-			$img_arr = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
-			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
-			// 匹配出来的不重复图片
-			$img_arr = array_unique($img_arr[1]);
-			if (!empty($img_arr)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
-				$dataAtt = array();
-				if ($attid) {
-					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
-					}
-					M('attachmentindex')->addAll($dataAtt);
-				}
-				
-			}	
 
 			//更新静态缓存
 			delCacheHtml('List/index_'.$data['cid'].'_', false, 'list:index');
