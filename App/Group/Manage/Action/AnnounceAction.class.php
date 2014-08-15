@@ -64,6 +64,13 @@ class AnnounceAction extends CommonAction {
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			if (!empty($img_arr)) {
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
 				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
 				$dataAtt = array();
 				if ($attid) {
@@ -130,6 +137,13 @@ class AnnounceAction extends CommonAction {
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			if (!empty($img_arr)) {
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
 				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
 				$dataAtt = array();
 				if ($attid) {

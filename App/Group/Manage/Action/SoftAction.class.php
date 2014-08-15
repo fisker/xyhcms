@@ -144,32 +144,76 @@ class SoftAction extends CommonContentAction {
 		
 		if($id = M('soft')->add($data)) {
 
+			//内容中的图片
+			$img_arr = array();
+			$pic_first = array();
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";		
+			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
+			// 匹配出来的不重复图片
+			$img_arr = array_unique($img_arr[1]);
+			$attid_arr = array();
+			
+			if (!empty($img_arr)) {
+
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
+
+				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
+				
+				if ($attid) {
+
+					//只有缩略图为空时,才提取第一张图片
+					if (empty($pic)) {
+						//取出本站内的第一张图
+						foreach ($img_arr as $v) {
+							foreach ($attid as $v2) {
+								if ($v == $v2['filepath']) {
+									$pic_first = $v2;
+									break 2;
+								}
+							}
+						}
+					}
+					//attid 数组
+					foreach ($attid as $v) {
+						$attid_arr[] = $v['id'];
+					}
+				}
+				
+			}	
+
 			//更新上传附件表
-			if (!empty($pic)) {				
+			if (!empty($pic)) {
+
 				$pic = preg_replace('/!(\d+)X(\d+)\.jpg$/i', '', $pic);//清除缩略图的!200X200.jpg后缀
 				$attid = M('attachment')->where(array('filepath' => $pic))->getField('id');
 				if($attid){
-					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => $modelid));
-				}				
+					$attid_arr[] = $attid;
+				}
+			}else if (!empty($pic_first)) {
+				//更新表字段
+				$imgtbSize = explode(',', C('cfg_imgthumb_size'));//配置缩略图第一个参数
+                $imgTSize = explode('X', $imgtbSize[0]);
+                $updata = array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1]));
+                if (!in_array(B_PIC, $flags)) {
+					$updata['flag'] = array('exp','flag+'.B_PIC);
+				}                
+				M('soft')->save($updata);
 			}
 
-
-			//内容中的图片
-			$img_arr = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
-			preg_match_all($reg, $content, $img_arr, PREG_PATTERN_ORDER);
-			// 匹配出来的不重复图片
-			$img_arr = array_unique($img_arr[1]);
-			if (!empty($img_arr)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
+			//attachmentindex入库
+			if (!empty($attid_arr)) {
+				$attid_arr = array_unique($attid_arr);
 				$dataAtt = array();
-				if ($attid) {
-					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
-					}
-					M('attachmentindex')->addAll($dataAtt);
+				foreach ($attid_arr as $v) {
+					$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
 				}
-				
+				M('attachmentindex')->addAll($dataAtt);
 			}
 
 			
@@ -284,33 +328,78 @@ class SoftAction extends CommonContentAction {
 			//del
 			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => $modelid))->delete();
 			
-			//更新上传附件表
-			if (!empty($pic)) {
-				$pic = preg_replace('/!(\d+)X(\d+)\.jpg$/i', '', $pic);//清除缩略图的!200X200.jpg后缀
-				$attid = M('attachment')->where(array('filepath' => $pic))->getField('id');
-				if($attid){
-					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => $modelid));
-				}
-			}
-
-
 			//内容中的图片
 			$img_arr = array();
-			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
+			$pic_first = array();
+			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";		
 			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
+			$attid_arr = array();
+			
 			if (!empty($img_arr)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
-				$dataAtt = array();
+
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
+
+				$attid = M('attachment')->field('id,filepath')->where(array('filepath' => array('in', $img_arr)))->select();
+				
 				if ($attid) {
-					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+
+					//只有缩略图为空时,才提取第一张图片
+					if (empty($pic)) {
+						//取出本站内的第一张图
+						foreach ($img_arr as $v) {
+							foreach ($attid as $v2) {
+								if ($v == $v2['filepath']) {
+									$pic_first = $v2;
+									break 2;
+								}
+							}
+						}
 					}
-					M('attachmentindex')->addAll($dataAtt);
+					//attid 数组
+					foreach ($attid as $v) {
+						$attid_arr[] = $v['id'];
+					}
 				}
 				
+			}	
+
+			//更新上传附件表
+			if (!empty($pic)) {
+
+				$pic = preg_replace('/!(\d+)X(\d+)\.jpg$/i', '', $pic);//清除缩略图的!200X200.jpg后缀
+				$attid = M('attachment')->where(array('filepath' => $pic))->getField('id');
+				if($attid){
+					$attid_arr[] = $attid;
+				}
+			}else if (!empty($pic_first)) {
+				//更新表字段
+				$imgtbSize = explode(',', C('cfg_imgthumb_size'));//配置缩略图第一个参数
+                $imgTSize = explode('X', $imgtbSize[0]);
+                $updata = array('id' => $id, 'litpic' => get_picture($pic_first['filepath'], $imgTSize[0], $imgTSize[1]));
+                if (!in_array(B_PIC, $flags)) {
+					$updata['flag'] = array('exp','flag+'.B_PIC);
+				}                
+				M('soft')->save($updata);
 			}
+
+			//attachmentindex入库
+			if (!empty($attid_arr)) {
+				$attid_arr = array_unique($attid_arr);
+				$dataAtt = array();
+				foreach ($attid_arr as $v) {
+					$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+				}
+				M('attachmentindex')->addAll($dataAtt);
+			}
+
 
 			//更新静态缓存
 			delCacheHtml('List/index_'.$data['cid'].'_', false, 'list:index');

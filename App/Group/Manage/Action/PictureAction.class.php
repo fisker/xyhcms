@@ -148,14 +148,13 @@ class PictureAction extends CommonContentAction {
 		if($id = M('picture')->add($data)) {
 			//更新图片集
 		
+			$attid_arr = array();
 			if (!empty($imgPostUrls)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $imgPostUrls)))->getField('id', true);
-				$dataAtt = array();
+				$attid = M('attachment')->where(array('filepath' => array('in', $imgPostUrls)))->getField('id', true);				
 				if ($attid) {
 					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+						$attid_arr[] = $v;
 					}
-					M('attachmentindex')->addAll($dataAtt);
 				}
 				
 			}
@@ -163,20 +162,38 @@ class PictureAction extends CommonContentAction {
 			//内容中的图片
 			$img_arr = array();
 			$reg = "/<img[^>]*src=\"((.+)\/(.+)\.(jpg|gif|bmp|png))\"/isU";
-			preg_match_all($reg, $content, $img_arr, PREG_PATTERN_ORDER);
+			preg_match_all($reg, $data['content'], $img_arr, PREG_PATTERN_ORDER);
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			if (!empty($img_arr)) {
+
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
+
 				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
 				$dataAtt = array();
 				if ($attid) {
 					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+						$attid_arr[] = $v;
 					}
-					M('attachmentindex')->addAll($dataAtt);
 				}
 				
-			}		
+			}
+
+			//attachmentindex入库
+			if (!empty($attid_arr)) {
+				$attid_arr = array_unique($attid_arr);
+				$dataAtt = array();
+				foreach ($attid_arr as $v) {
+					$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+				}
+				M('attachmentindex')->addAll($dataAtt);
+			}
 
 			
 			//更新静态缓存
@@ -305,14 +322,13 @@ class PictureAction extends CommonContentAction {
 			//del
 			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => $modelid))->delete();
 			//更新图片集		
+			$attid_arr = array();
 			if (!empty($imgPostUrls)) {
-				$attid = M('attachment')->where(array('filepath' => array('in', $imgPostUrls)))->getField('id', true);
-				$dataAtt = array();
+				$attid = M('attachment')->where(array('filepath' => array('in', $imgPostUrls)))->getField('id', true);				
 				if ($attid) {
 					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+						$attid_arr[] = $v;
 					}
-					M('attachmentindex')->addAll($dataAtt);
 				}
 				
 			}
@@ -324,15 +340,33 @@ class PictureAction extends CommonContentAction {
 			// 匹配出来的不重复图片
 			$img_arr = array_unique($img_arr[1]);
 			if (!empty($img_arr)) {
+
+				if(!empty($_SERVER['HTTP_HOST']))
+			        $baseurl = 'http://'.$_SERVER['HTTP_HOST'];
+			    else
+			        $baseurl = rtrim("http://".$_SERVER['SERVER_NAME'],'/');
+			    foreach ($img_arr as $k => $v) {
+			    	$img_arr[$k] = str_replace($baseurl, '', $v);//清除域名前缀			    	
+			    }
+
 				$attid = M('attachment')->where(array('filepath' => array('in', $img_arr)))->getField('id', true);
 				$dataAtt = array();
 				if ($attid) {
 					foreach ($attid as $v) {
-						$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+						$attid_arr[] = $v;
 					}
-					M('attachmentindex')->addAll($dataAtt);
 				}
 				
+			}
+
+			//attachmentindex入库
+			if (!empty($attid_arr)) {
+				$attid_arr = array_unique($attid_arr);
+				$dataAtt = array();
+				foreach ($attid_arr as $v) {
+					$dataAtt[] = array('attid' => $v,'arcid' => $id, 'modelid' => $modelid);
+				}
+				M('attachmentindex')->addAll($dataAtt);
 			}
 
 			//更新静态缓存
