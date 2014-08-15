@@ -2,10 +2,10 @@
 /App/Conf/*
 /App/Runtime/*
 /App/Html/*
-/App/uploads/abc1/*
-/App/uploads/file1/*
-/App/uploads/img1/*
+/uploads/abc1/*
+/uploads/file1/*
+/uploads/img1/*
 /Data/resource/backupdata/*
 /Install/install.lock
 !README.md
-!/App/uploads/file1/201403/
+!/uploads/file1/201403/
