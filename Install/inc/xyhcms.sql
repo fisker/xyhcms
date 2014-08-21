@@ -1284,3 +1284,32 @@ CREATE TABLE IF NOT EXISTS `#xyh#_menu` (
   KEY `pid` (`pid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `#xyh#_abc`;
+CREATE TABLE IF NOT EXISTS `#xyh#_abc` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `remark` varchar(50) DEFAULT '',
+  `width` int(10) unsigned NOT NULL DEFAULT '0',
+  `height` int(10) unsigned NOT NULL DEFAULT '0',
+  `setting` varchar(200) NOT NULL DEFAULT '',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
+  `num` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '调用数',
+  `items` smallint(4) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `#xyh#_abc_detail`;
+CREATE TABLE IF NOT EXISTS `#xyh#_abc_detail` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(60) NOT NULL DEFAULT '',
+  `content` varchar(150) NOT NULL DEFAULT '',
+  `url` varchar(200) NOT NULL DEFAULT '',
+  `starttime` int(10) unsigned NOT NULL DEFAULT '0',
+  `endtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `aid` int(10) unsigned NOT NULL DEFAULT '0',
+  `sort` smallint(5) NOT NULL DEFAULT '0',
+  `status` tinyint(1) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+

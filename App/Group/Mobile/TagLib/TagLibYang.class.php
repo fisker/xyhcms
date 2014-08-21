@@ -86,6 +86,12 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
+		//v1.6 --ad --20140821--debug
+		'abc'	=> array(
+			'attr'	=> 'id,limit',//attr 属性列表
+			'close'	=> 1,
+		),
+
 
 		'iteminfo'	=> array(
 			'attr'	=> 'name,titlelen,limit',
@@ -1210,6 +1216,51 @@ str;
 	return $str;
 
 	}
+
+	//abc[ad]
+	public function _abc($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'abc');
+		$id = !isset($attr['id']) || $attr['id'] == '' ? 0 : trim($attr['id']);
+		$limit = empty($attr['limit'])? '0' : $attr['limit'];
+		
+		$str = <<<str
+<?php
+	\$_id = intval($id);
+	
+	\$where = array('aid'=> \$_id);
+	\$limit = "$limit";
+
+	\$abc_cate = M('abc')->find(\$_id);
+	if (\$abc_cate) {
+		\$limit = empty(\$limit) ? \$abc_cate['num'] : \$limit;
+		\$where['starttime'] = array('lt', time());
+		\$where['endtime'] = array('gt', time());
+		\$_abc = M('abcDetail')->where(\$where)->order('sort')->limit(\$limit)->select();
+	}else {
+		\$_abc = array();
+	}
+	
+	
+
+	
+	if (empty(\$_abc)) {
+		\$_abc = array();
+	}
+
+	foreach(\$_abc as \$autoindex => \$abc):
+		\$abc['width'] = \$abc_cate['width'];
+		\$abc['height'] = \$abc_cate['height'];
+
+
+
+?>
+str;
+	$str .= $content;
+	$str .='<?php endforeach;?>';
+	return $str;
+
+	}
+
 
 
 

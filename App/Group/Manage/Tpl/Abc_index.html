@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">{$type}
+    </div>
+    <div class="operate">
+        <div class="left">
+            <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Abc/add')}')" class="btn_blue" value="添加广告位">     
+        </div>
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Abc/delAll')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th>编号</th>
+                <th>广告位</th>
+                <th>类型</th>
+                <th>尺寸</th>
+                <th>广告数</th>                
+                <th>操作</th>
+            </tr>
+			<foreach name='vlist' item='v'>
+            <tr>
+                <td>{$v.id}</td>
+                <td><a href="{:U(GROUP_NAME. '/Abc/detail',array('aid' => $v['id']), '')}">{$v.name}  [{$v.remark|str2sub=16}]</a></td>
+                <td>
+                    <switch name="v['type']">
+                        <case value="1">文本</case>
+                        <case value="2">图片</case>
+                        <case value="3">flash</case>
+                        <default />其他
+                    </switch>
+                </td>                
+                <td>{$v.width}x{$v.height}</td>
+                <td>{$v.items}</td>
+                <td>
+                    <a href="{:U(GROUP_NAME. '/Abc/detail',array('aid' => $v['id']), '')}">广告列表</a>
+                    <a href="{:U(GROUP_NAME. '/Abc/edit',array('id' => $v['id']), '')}">编辑</a>
+                    <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Abc/del',array('id' => $v['id']), '')}', '确实要删除吗？')">删除</a>
+                    <a href="{:U(GROUP_NAME. '/Abc/addDetail',array('aid' => $v['id']), '')}">添加广告</a>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;">{$page}</div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

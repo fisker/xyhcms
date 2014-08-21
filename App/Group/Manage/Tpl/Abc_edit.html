@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+<script type="text/javascript">
+	
+	function select_type(id) {
+		if (id == 1) {
+			$("#SizeDl").hide();
+		}else {
+			$("#SizeDl").show();
+		}
+		
+	}
+	$(function(){
+		select_type({$vo.type});
+	});
+</script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">添加广告位</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME. '/Abc/edit')}">
+		<dl>
+			<dt>广告位名：</dt>
+			<dd>
+				<input type="text" name="name" class="inp_large" value="{$vo.name}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>广告类型：</dt>
+			<dd>				
+				<select name="type" onChange="select_type(this.value)">
+					<option value="1" <if condition="$vo['type'] eq 1">selected="selected"</if>>文字广告</option>
+					<option value="2" <if condition="$vo['type'] eq 2">selected="selected"</if>>图片广告</option>
+					<option value="3" <if condition="$vo['type'] eq 3">selected="selected"</if>>flash广告</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl id="SizeDl">
+			<dt>尺寸：</dt>
+			<dd>
+				宽：<input type="text" name="width" value="{$vo.width}"  class="inp_small" />px
+				&nbsp;&nbsp;
+				高：<input type="text" name="height" value="{$vo.height}"  class="inp_small" />px
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>显示广告数：</dt>
+			<dd>
+				<input type="text" name="num" value="1"  class="inp_small" value="{$vo.num}" />条
+			</dd>
+		</dl>
+		<dl>
+			<dt>描述：</dt>
+			<dd>
+				<textarea name="remark" class="tarea_default">{$vo.remark}</textarea>
+			</dd>
+		</dl>	
+
+		<dl>
+			<dt>模板：</dt>
+			<dd>
+				<textarea name="setting" class="tarea_default">{$vo.setting}</textarea>
+			</dd>
+		</dl>
+		</div>
+		<div class="form_b">
+			<input type="hidden" name="id" value="{$vo.id}" />	
+			<input type="submit" class="btn_blue" id="submit" value="提 交">
+			<input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Abc/index')}')" class="btn_green" value="取消" />
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>
