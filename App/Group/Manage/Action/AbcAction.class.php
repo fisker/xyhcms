@@ -299,6 +299,13 @@ class AbcAction extends CommonAction {
 	}
 
 
+	//获取广告代码
+	public function getcode() {
+
+		$this->display();
+	}
+
+
 
 
 

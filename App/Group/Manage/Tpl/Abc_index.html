@@ -50,6 +50,8 @@
                 <td>{$v.width}x{$v.height}</td>
                 <td>{$v.items}</td>
                 <td>
+
+                    <a href="{:U(GROUP_NAME. '/Abc/getcode',array('id' => $v['id']), '')}">获取代码</a>
                     <a href="{:U(GROUP_NAME. '/Abc/detail',array('aid' => $v['id']), '')}">广告列表</a>
                     <a href="{:U(GROUP_NAME. '/Abc/edit',array('id' => $v['id']), '')}">编辑</a>
                     <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Abc/del',array('id' => $v['id']), '')}', '确实要删除吗？')">删除</a>

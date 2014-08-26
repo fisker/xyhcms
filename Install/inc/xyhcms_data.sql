@@ -1360,5 +1360,6 @@ CREATE TABLE IF NOT EXISTS `#xyh#_abc_detail` (
   `aid` int(10) unsigned NOT NULL DEFAULT '0',
   `sort` smallint(5) NOT NULL DEFAULT '0',
   `status` tinyint(1) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `aid` (`aid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
