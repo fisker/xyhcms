@@ -92,6 +92,11 @@ class TagLibYang extends TagLib {
 			'close'	=> 1,
 		),
 
+		'ad'	=> array(
+			'attr'	=> 'id,flag',//attr 属性列表,flag[0|1],0为html,1为js
+			'close'	=> 0,
+		),
+
 
 		'iteminfo'	=> array(
 			'attr'	=> 'name,titlelen,limit',
@@ -1261,7 +1266,33 @@ str;
 
 	}
 
+	//ad[ad]
+	public function _ad($attr, $content) {
+		$attr = $this->parseXmlAttr($attr, 'ad');
+		$id = !isset($attr['id']) || $attr['id'] == '' ? 0 : trim($attr['id']);
+		$flag = empty($attr['flag'])? '0' : $attr['flag'];
+		
+		$str = <<<str
+<?php
+	\$_id = intval($id);
 
+	if (!empty(\$_id)) {
+	
+		//js输出
+		if ($flag) {
+			echo '<script type="text/javascript" src="'.U(GROUP_NAME. '/Abc/shows', array('id' => \$_id, 'flag' => $flag)).'"></script>';
+		}else {
+			echo getAbc(\$_id, $flag);
+		}
+		
+	}
+
+
+?>
+str;
+	return $str;
+
+	}
 
 
 

@@ -26,24 +26,31 @@ class AbcAction extends CommonAction {
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
 			$type = I('type', 0,'intval');
+			$data = I('post.', '');
+			$data['name'] = trim($data['name']);
+			$data['type'] = I('type', 0,'intval');
+			$data['setting'] = I('setting', '','');
 
-			if (1 == $type) {
-				$_POST['width'] = 0;
-				$_POST['height'] = 0;
+			if (1 == $data['type']) {
+				$data['width'] = 0;
+				$data['height'] = 0;
 			}
-			//M验证
-			$validate = array(
-				array('name','require','广告位名称必须填写！'), 
-				array('type','require','请选择广告类型！'), 
-				array('name','','广告位名称已经存在！',0,'unique',1), 
-			);
-			$db = M('abc');
-			if (!$db->validate($validate)->create()) {
-				$this->error($db->getError());
+			if (empty($data['name'])) {
+				$this->error('广告位名称必须填写！');
 			}
 
+			if (empty($data['type'])) {
+				$this->error('请选择广告类型！');
+			}
 
-			if($id = M('abc')->add()) {
+
+			$ad = M('abc')->where(array('name' => $data['name']))->find();
+			if ($ad) {
+				$this->error('广告位名称已经存在！');
+			}
+
+
+			if($id = M('abc')->add($data)) {
 				$this->success('添加成功',U(GROUP_NAME. '/Abc/index'));
 			}else {
 				$this->error('添加失败');
@@ -64,6 +71,7 @@ class AbcAction extends CommonAction {
 			$data = I('post.', '');
 			$data['id'] = intval($data['id']);
 			$data['type'] = intval($data['type']);
+			$data['setting'] = I('setting', '','');
 		
 			$data['name'] = trim($data['name']);
 			if (empty($data['name'])) {
@@ -301,9 +309,15 @@ class AbcAction extends CommonAction {
 
 	//获取广告代码
 	public function getcode() {
-
+		$id = I('id', 0, 'intval');
+		if (empty($id)) {
+			$this->error('参数错误！');
+		}
+		
+		$this->id = $id;
 		$this->display();
 	}
+
 
 
 

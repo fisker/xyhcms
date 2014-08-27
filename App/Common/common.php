@@ -296,6 +296,53 @@ function getUploadMaxsize($size = 2048, $cfg = 'cfg_upload_maxsize') {
 }
 
 
+//v1.6 20140827
+function getAbc($id, $flag = 0) {
+        
+        $id = intval($id);
+        if (empty($id)) {
+            return '';
+        }
+    $setting = '';
+    $abc = M('abc')->find($id);
+    if ($abc) {
+        $where = array('aid' => $id,
+                    'starttime' => array('lt', time()),
+                    'endtime'   => array('gt', time()),
+            );
+        $detail = M('abcDetail')->where($where)->order('sort')->limit($abc['num'])->select();
+        if (!$detail) {
+            $detail = array();
+        }
+        
+        $setting = $abc['setting'];
+        $pattern = '/<loop>(.*?)<\/loop>/is';
+        preg_match_all($pattern,$setting,$mat);
+
+        if (!empty($mat[1])) {
+            $rep = array();
+            foreach ($mat[1] as $k => $v) {          
+                $rep[$k] = '';
+                foreach ($detail as $k2 => $v2) {                
+                    $search = array('{$id}', '{$title}', '{$content}', '{$url}', '{$sort}', 
+                                '{$width}', '{$height}','{$autoindex}', '{$autoindex+1}', '{$autoindex+2}');
+                    $replace = array($v2['id'], $v2['title'], $v2['content'],$v2['url'], $v2['sort'],
+                                $abc['width'], $abc['height'], $k2, $k2+1, $k2+2);
+
+                    $rep[$k] .= str_replace($search, $replace, $v);
+                }
+            }
+            $setting = str_replace($mat[0], $rep, $setting);
+        }   
+        
+    }
+
+    //js输出
+    if ($flag) {
+        $setting = 'document.write("'. str_replace(array('"',"\r\n"), array('\"', ''), $setting). '");';
+    }
+        return $setting;
+}
 
 
 /**
