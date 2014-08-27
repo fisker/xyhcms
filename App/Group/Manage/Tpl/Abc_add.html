@@ -12,13 +12,20 @@
 	function select_type(id) {
 		if (id == 1) {
 			$("#SizeDl").hide();
+			$("#setting").html('<loop><a href="{'+'$url}">{'+'$content}</a></loop>');
+		}else if(id == 2) {
+			$("#SizeDl").show();
+			$("#setting").html('<loop><a href="{'+'$url}"><img src="{'+'$content}" /></a></loop>');
 		}else {
 			$("#SizeDl").show();
+			$("#setting").html('<loop><embed src="{'+'$content}" quality="high" width="{'+'$width}" height="{'+'$height}" wmode="opaque" type="application/x-shockwave-flash"></embed></loop>');
 		}
 		
 	}
+
 	$(function(){
 		$("#SizeDl").show();
+		$("#setting").html('<loop><a href="{'+'$url}"><img src="{'+'$content}" /></a></loop>');
 	});
 </script>
 </head>
@@ -69,7 +76,11 @@
 		<dl>
 			<dt>模板：</dt>
 			<dd>
-				<textarea name="setting" class="tarea_default"></textarea>
+				<textarea name="setting" id="setting" class="tarea_default"></textarea>
+				<p>支持html代码,对应字段放到&lt;loop&gt;&lt;/loop&gt;之间。loop为循环列表。</p>
+				<p>可用字段:$title为标题，$content为图片地址或文本内容或动画地址</p>
+				<p>$url为链接地址，$width为广告宽度,$height为广告高度</p>
+				<p>$sort排序数值，$autoindex为自增变量(从0开始递增)，$autoindex+1为自增变量(从1开始递增)</p>
 			</dd>
 		</dl>
 		</div>
