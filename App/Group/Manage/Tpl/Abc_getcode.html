@@ -23,22 +23,36 @@
             <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Abc/index')}')" class="btn_green" value="返回" />               
         </div>
     </div>
-    <div class="list">    
-        <table width="100%">
-            <tr>
-                <td>html代码</td>
-                <td><pre>&lt;yang:ad id='{$id}'&gt;</td>
-            </tr>
-            <tr>
-                <td>js代码</td>
-                <td><pre>&lt;yang:ad id='{$id}' flag='1'&gt;</pre></td>
-            </tr>
-
-            <tr>
-                <td>灵活模式</td>
-                <td><pre>&lt;yang:abc id='{$id}'&gt;&lt;/yang:abc&gt;</pre></td>
-            </tr>
-        </table>
+    <div class="form" style="clear:both;">   
+    <div class="h3">调用方式一</div>
+    <dl><dd>html调用代码(启用静态缓存后，更换广告需要重新生成所有页面)</dd></dl>
+    <dl><dd>
+        <input type="text" name="code1" class="inp_one inp_w250" value="&lt;yang:ad id='{$id}' /&gt;">
+        </dd>
+    </dl> 
+    <div class="h3">调用方式二</div>
+    <dl><dd>js调用代码(启用静态缓存后，更换广告不用重新成所有页面)</dd></dl>
+    <dl><dd>
+        <input type="text" name="code2" class="inp_one inp_w250" value="&lt;yang:ad id='{$id}' flag='1' /&gt;">
+        </dd>
+    </dl> 
+    <div class="h3">调用方式三</div>
+    <dl><dd>标签调用(支持html代码，灵活订制调用)[帮助]</dd></dl>
+    <dl><dd>
+        <textarea name="code3" class="tarea_default">
+&lt;yang:abc id='{$id}' $limit=''&gt;
+<?php 
+echo '{'.'$abc.title}为标签字段'."\r\n";
+echo '{'.'$abc.content}为内容字段(文本),图片地址(图片或动画)'."\r\n";
+echo '{'.'$abc.url}为链接地址'."\r\n";
+echo '{'.'$abc.width}为广告宽度'."\r\n";
+echo '{'.'$abc.height}为广告高度'."\r\n";
+echo '{'.'$abc.autoindex}为自增变量(从0开始)'."\r\n";
+?>......
+&lt;/yang:abc&gt;
+        </textarea>
+        </dd>
+    </dl> 
     </div>
 </div>
 </body>

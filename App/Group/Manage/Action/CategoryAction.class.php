@@ -266,6 +266,7 @@ class CategoryAction extends CommonAction {
 				M($tablename)->where(array('cid' => $id))->delete();
 				$msg = '!!!';
 			}
+			M('categoryAccess')->where(array('catid' => $id))->delete();
 
 			//更新栏目缓存
 			getCategory(0,1);
