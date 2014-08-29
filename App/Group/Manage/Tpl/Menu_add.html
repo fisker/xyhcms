@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+
+		$("#form_do").submit(function(){
+			var name = $("input[name='name']");
+			if($.trim(name.val())==''){
+				name.parent().find("span").remove().end().append("<span class='error'>名称不能为空</span>");
+				return false;			
+			}else {
+				name.parent().find("span").remove().end();
+			}
+
+		});
+
+
+
+    });
+</script>
+
+</head>
+<body>
+<div class="main">
+    <div class="pos">添加菜单</div>
+	<div class="form">
+		<form method='post' id="form_do" name="form_do" action="{:U(GROUP_NAME.'/Menu/add')}">
+		<div id="div_setting_1">
+		<dl>
+			<dt> 上级菜单：</dt>
+			<dd>
+				<select name="pid">
+					<option value="0">顶级菜单</option>
+					<foreach name='cate' item='v'>
+					<option value="{$v.id}" <if condition="$pid eq $v['id']">selected="selected"</if>>{$v.delimiter}{$v.name}</option>
+					</foreach>
+				</select>
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 菜单名称：</dt>
+			<dd>
+				<input type="text" name="name" class="inp_one" />
+			</dd>
+		</dl>
+		<dl>
+			<dt>模块名：</dt>
+			<dd>
+				<input type="text" name="module" class="inp_one" />首字母大写
+			</dd>
+		</dl>
+		<dl>
+			<dt>方法名：</dt>
+			<dd>
+				<input type="text" name="action" class="inp_one" />首字母小写
+			</dd>
+		</dl>	
+
+		<dl>
+			<dt>附加参数：</dt>
+			<dd>
+				<input type="text" name="parameter" class="inp_one" />
+			</dd>
+		</dl>		
+		<dl>
+			<dt> 排序：</dt>
+			<dd>
+				<input type="text" name="sort" class="inp_one" value="1" />
+			</dd>
+		</dl>
+		<dl>
+			<dt> 显示：</dt>
+			<dd>
+				<input type="radio" name="status" value="1" checked="checked"/>显示
+				<input type="radio" name="status" value="0"/>隐藏
+			</dd>
+		</dl>
+
+		</div>
+	
+
+		</div>
+		<div class="form_b">
+			<input type="submit" class="btn_blue" id="submit" value="保存">
+			<input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Menu/index')}')" class="btn_green" value="取消" />
+		</div>
+	   </form>
+	</div>
+
+
+</body>
+</html>

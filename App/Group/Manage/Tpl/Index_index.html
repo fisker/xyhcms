@@ -14,7 +14,7 @@
                 'rnd' : Math.floor(111+Math.random()*100000)
             },
             function(data){
-                var listUl = $('#dl_items_2_4 ul');
+                var listUl = $('#dl_items_2_0 ul');
                 if(!isNaN(data.count) && data.count>0){
                 	listUl.text('');
                 }
@@ -27,7 +27,7 @@
                                
             },'json');
 	}
-
+	get_cate();
 </script>
 <!--[if IE 6]>
 <script src="__PUBLIC__/js/DD_belatedPNG_0.0.8a-min.js" language="javascript" type="text/javascript"></script>
@@ -43,10 +43,9 @@
 <div class="top_logo"> <img src="__PUBLIC__/images/main/logo.png" /> </div>
      <div class="nav" id="nav">
       <ul>
-		  <li id="menu_count"><a class="thisclass" href="{:U(GROUP_NAME. '/Public/main')}" _for="common" target="main"><b>常规管理</b></a></li>
-		  <li id="menu_search"><a href="{:U(GROUP_NAME. '/System/url')}" _for="search" target="main"><b>伪静态|缓存</b></a></li>
-		  <li id="menu_order"><a href="{:U(GROUP_NAME. '/Personal/index')}" _for="content" target="main"><b>我的账户</b></a></li>
-		  <li id="menu_sys"><a href="{:U(GROUP_NAME. '/System/site')}" _for="system" target="main"><b>系统设置</b></a></li>
+      	<foreach name='menu' key='k' item='v'>
+		  <li id="menu_{$k}"><a <empty name='k'>class="thisclass"</empty> href="#" _for="left_menu_{$k}"><b>{$v.name}</b></a></li>
+		</foreach>
       </ul>
     </div>
 	 <div class="top_link">
@@ -64,130 +63,26 @@
 <div class="left">
 <div class="span"></div>
 <div class="menu" id="menu">
-<div id="items_system">
-	<dl id="dl_items_1_1">
-		<dt>系统设置</dt>
+<foreach name='menu' key='k' item='v'>
+<div id="items_left_menu_{$k}">
+	<volist name='v["child"]' key='k2' id='v2'>
+	<dl id="dl_items_{$k2}_{$k}">
+		<dt>{$v2.name}</dt>
 		<dd>
 		<ul>
-		<li><a href="{:U(GROUP_NAME.'/System/site')}" target="main">网站设置</a></li>
-		<li><a href="{:U(GROUP_NAME.'/System/online')}" target="main">在线客服设置</a></li>
-		<li><a href="{:U(GROUP_NAME.'/Model/index')}" target="main">模型管理</a></li>	
-		<li><a href="{:U(GROUP_NAME.'/Itemgroup/index')}" target="main">联动管理</a></li>	
-		<li><a href="{:U(GROUP_NAME.'/Area/index')}" target="main">区域管理</a></li>
-		<li><a href="{:U(GROUP_NAME.'/Database/index')}" target="main">数据库管理</a></li>
+			<volist name='v2["child"]' key='k3' id='v3'>
+			<li><a href="{:U(GROUP_NAME.'/'.$v3['module'].'/'.$v3['action'].'')}" target="main">{$v3.name}</a></li>
+			</volist>
 		</ul>
 		</dd>
 	</dl>
-
+	</volist>	
 	
-	<dl id="dl_items_2_1">
-		<dt>会员管理</dt>
-		<dd>
-		<ul>			
-			<li><a href="{:U(GROUP_NAME.'/Member/index')}" target="main">会员管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Membergroup/index')}" target="main">会员组管理</a></li>
-		</ul>
-		</dd>
-	</dl>
-	
-	<dl id="dl_items_3_1">
-		<dt>用户权限管理</dt>
-		<dd>
-		<ul>
-			<li><a href="{:U(GROUP_NAME.'/Rbac/index')}" target="main">系统用户管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Rbac/role')}" target="main">用户组设置</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Rbac/node')}" target="main">节点列表</a></li>
-		</ul>
-		</dd>
-	</dl>
-	
-	
-	
-</div><!-- Item End -->
-
-<div id="items_content">
-<dl id="dl_items_1_2">
-        <dt>我的账户</dt>
-        <dd>
-          <ul>
-  
-		<li><a href="{:U(GROUP_NAME.'/Personal/index')}" target="main">修改我的信息</a></li>
-		<li><a href="{:U(GROUP_NAME.'/Personal/pwd')}" target="main">修改密码</a></li>
-		</ul>
-</dd>
-</dl>
 </div>
+</foreach>
+<!-- Item End -->
 
-<div id="items_search">
-<dl id="dl_items_1_3">
-	<dt>伪静态|缓存</dt>
-	<dd>
-		<ul>
-			<li><a target="main" href="{:U(GROUP_NAME. '/System/url')}">伪静态|缓存</a></li>
-		</ul>
-	</dd>
-</dl>
-<dl id="dl_items_2_3">
-	<dt>系统缓存更新</dt>
-	<dd>
-		<ul>
-			<li><a target="main" href="{:U(GROUP_NAME. '/System/clearCache')}">清除系统缓存</a></li>
-		</ul>
-	</dd>
-</dl>
-<dl id="dl_items_3_3">
-	<dt>静态缓存更新</dt>
-	<dd>
-		<ul>			
-			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/all')}">一键更新全站</a></li>
-			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/home')}">更新首页</a></li>
-			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/lists')}">更新栏目</a></li>
-			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/shows')}">更新文档</a></li>
-			<li><a target="main" href="{:U(GROUP_NAME. '/ClearHtml/special')}">更新专题</a></li>
-		</ul>
-	</dd>
-</dl>
 
-</div>
-
-<div id="items_common">
-	<dl id="dl_items_1_4">
-		<dt>栏目管理</dt>
-		<dd>
-		<ul>
-			<li style="display:none;"><a href="{:U(GROUP_NAME.'/Public/main')}" target="main">后台首页</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Category/index')}" target="main">栏目管理</a></li>
-		</ul>
-		</dd>
-	</dl>
-		
-	<dl id="dl_items_2_4">
-		<dt>内容管理</dt>
-		<dd>
-		<ul>
-			<foreach name='menudoclist' item='v'>			
-			<li><a href="{:U(GROUP_NAME.'/'. ucfirst($v['tablename']) .'/index', array('pid'=>$v['id']))}" target="main">{$v.name}</a></li>
-			</foreach>
-		</ul>
-		</dd>
-	</dl>
-<dl id="dl_items_3_4">
-	<dt>快捷操作</dt>
-	<dd>
-		<ul>
-			<li><a href="{:U(GROUP_NAME.'/Special/index')}" target="main">专题管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Block/index')}" target="main">自由块管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Abc/index')}" target="main">广告管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Announce/index')}" target="main">公告管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Link/index')}" target="main">友情链接</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Guestbook/index')}" target="main">留言本管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Comment/index')}" target="main">评论管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/Member/index')}" target="main">会员管理</a></li>
-			<li><a href="{:U(GROUP_NAME.'/System/clearCache')}" target="main">清除缓存</a></li> 
-		</ul>
-	</dd>
-</dl>
-</div>
 </div>
 </div>
 <!-- left end -->

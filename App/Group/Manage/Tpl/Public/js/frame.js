@@ -5,7 +5,7 @@
 
 		//菜单切换(测试)
 		bindAdminMenu();
-		ChangeNav("common");
+		ChangeNav("left_menu_0");
 
 		//菜单开关
 		LeftMenuToggle();
@@ -70,6 +70,7 @@
 
 		$("#menu dd ul li a").click(function(){
 			$(this).addClass("thisclass").blur().parents("#menu").find("ul li a").not($(this)).removeClass("thisclass");
+			//$(this).addClass("thisclass").parents("#menu").find("ul li a").not($(this)).removeClass("thisclass");
 			//url = $(this).attr("_href");
 			//main.location.href = url;
 			//return false;
@@ -78,11 +79,12 @@
 
 	function ChangeNav(nav){//菜单跳转
 		$("#nav").find("a").removeClass("thisclass");
-		$("#nav").find("a[_for='"+nav+"']").addClass("thisclass").blur();
+		//$("#nav").find("a[_for='"+nav+"']").addClass("thisclass").blur();
+		$("#nav").find("a[_for='"+nav+"']").addClass("thisclass");
 		$("body").attr("class","showmenu");
 		$("#menu").find("div[id^=items]").hide();
 		$("#menu").find("#items_"+nav).show().find("dl dd").show().find("ul li a").removeClass("thisclass");
-		$("#menu").find("#items_"+nav).show().find("dd ul li a").eq(0).addClass("thisclass").blur();
+		//$("#menu").find("#items_"+nav).show().find("dd ul li a").eq(0).addClass("thisclass").blur();
 	}
 
 	function LeftMenuToggle(){

@@ -145,7 +145,7 @@ class PublicAction extends CommonAction {
 	public function uploadFile() {
 		header("Content-Type:text/html; charset=utf-8");//不然返回中文乱码
 		
-	
+		
 		 //文件上传地址提交给他，并且上传完成之后返回一个信息，让其写入数据库     
         if(empty($_FILES)){  
             //$this->error('必须选择上传文件');              
@@ -154,7 +154,8 @@ class PublicAction extends CommonAction {
 		     			'state' => '必须选择上传文件'
 		     	));
         }else{  
-            $info = $this->_uploadFile();//获取附件信息
+        	$sfile = I('post.sfile', '', 'htmlspecialchars,trim');//判断其他子目录
+            $info = empty($sfile)? $this->_uploadFile() : $this->_uploadFile($sfile);//获取附件信息
           
             //p($info);exit();
 
@@ -433,7 +434,7 @@ class PublicAction extends CommonAction {
 
 
 	//上传文件
-	public function _uploadFile() {
+	public function _uploadFile($sfile = 'file1') {
 		$ext = '';//原文件后缀
 		foreach ($_FILES as $key => $v) {
 			$strtemp = explode('.', $v['name']);
@@ -452,14 +453,13 @@ class PublicAction extends CommonAction {
 		//设置上传文件类型
 		$upload->allowExts = explode(',', C('cfg_upload_file_ext'));
 		//上传目录
-		$upload->savePath ='./uploads/file1/';
+		//$upload->savePath ='./uploads/file1/';
+		$upload->savePath ='./uploads/'.$sfile.'/';
 
 		//$upload->saveRule = 'time';
 		$upload->saveRule = 'uniqid';//设置上传文件规则
 		$upload->uploadReplace = true; //是否存在同名文件是否覆盖	
 
-
-		//$upload->upload('./uploads/file1/')
 		if($upload->upload()) {
 			$info = $upload->getUploadFileInfo();//获取文件信息					
 			//转换成网站根目录绝对路径,.Uploads 转成 /目录/Uploads
