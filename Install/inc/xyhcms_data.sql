@@ -1012,7 +1012,7 @@ INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `
 INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `template_category`, `template_list`, `template_show`, `sort`) VALUES(2, '单页模型', '', 'page', 1, '', 'List_page.html', 'Show_page.html', 2);
 INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `template_category`, `template_list`, `template_show`, `sort`) VALUES(3, '产品模型', '', 'product', 1, '', 'List_product.html', 'Show_product.html', 3);
 INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `template_category`, `template_list`, `template_show`, `sort`) VALUES(4, '图片模型', '', 'picture', 1, '', 'List_picture.html', 'Show_picture.html', 4);
-INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `template_category`, `template_list`, `template_show`, `sort`) VALUES(5, '软件下载模块', '', 'soft', 1, '', 'List_soft.html', 'Show_soft.html', 5);
+INSERT INTO `#xyh#_model` (`id`, `name`, `description`, `tablename`, `status`, `template_category`, `template_list`, `template_show`, `sort`) VALUES(5, '软件下载模型', '', 'soft', 1, '', 'List_soft.html', 'Show_soft.html', 5);
 
 DROP TABLE IF EXISTS `#xyh#_node`;
 CREATE TABLE IF NOT EXISTS `#xyh#_node` (

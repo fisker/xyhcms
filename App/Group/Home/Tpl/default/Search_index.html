@@ -28,10 +28,10 @@
 	<form id="SearchForm" name="SearchForm" method="post" action="{$searchurl}">
 	<ul class="searchFormDiv">
 	<li>
-	  <select name="cid">
-	  	<yang:catlist typeid='0' flag='0' limit='30'>
-	    <option value="{$catlist.id}" <if condition='$catlist.id eq $cid'>selected="selected"</if>>{$catlist.name}</option>
-		</yang:catlist>
+	  <select name="modelid">
+	  	<yang:datatable table='model' field='id,name' where='id != 2' orderby='id' limit='30'>
+	  	<option value="{$datatable.id}" <if condition='$datatable.id eq $modelid'>selected="selected"</if>>{$datatable.name|str_replace='模型','',###}</option>
+		</yang:datatable>
 	    </select>
 	</li>
 	<li>
@@ -46,15 +46,15 @@
 <div class="right f_r">
 	<h3 class="nybt"><span>搜索结果</span></h3>
 	<div class="xbox wzzw ">	
-	<div class="search_title">栏目：{$cate['name']} 关键词： <span class="red">{$keyword}</span></div>
+	<div class="search_title">关键词： <span class="red">{$keyword}</span></div>
 	
 	<ul class="wzli">
-	<if condition='empty($keyword) || empty($cid)'>
+	<if condition='empty($keyword)'>
 	<div>请输入关键词，然后点搜索！</div>
 	<else/>	
-	<yang:list typeid="$cid" keyword='$keyword' pagesize='15'>
-	<li><span>{$list.publishtime|date='Y-m-d',###}</span><a href="{$list.url}" target="_blank">{$list.title}</a></li>
-	</yang:list>
+	<foreach name='vlist' item='v'>
+	<li><span>{$v.publishtime|date='Y-m-d',###}</span><a href="{$v.url}" target="_blank">{$v.title}</a></li>
+	</foreach>
 	</if>
 	
 	</ul>
