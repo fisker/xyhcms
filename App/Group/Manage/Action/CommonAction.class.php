@@ -18,11 +18,6 @@ class CommonAction extends Action {
 		//是否开启验证 且 需要验证控制器或方法
 		if (C('USER_AUTH_ON') && !$noAuth) {
 
-			//方法名称带Handle的，不用验证
-			$HandleStr = 'Handle';
-			//小于$HandleStr长度 或 不带Handle 要验证
-			//if (strlen(ACTION_NAME) <= strlen($HandleStr) || (substr(ACTION_NAME, 0 - strlen($HandleStr)) != $HandleStr)) {}
-
 			import('ORG.Util.RBAC');
 			//单方文件(非分组)，GROUP_NAME不需要，留空，即RBAC::AccessDecision()
 			RBAC::AccessDecision(GROUP_NAME) || $this->error('没有权限');//如果没有权限则返回error

@@ -53,11 +53,13 @@ function flag2Str($flag, $delimiter=' ', $iskey = false, $isarray = false) {
 function check_category_access($catid, $action, $roleid, $flag = 1) {
 	$value = false;
 	static $access = null;
-	if (!is_array($access)) {
+	static $access_cid = 0;
+	if (!is_array($access) || $access_cid != $catid) {
 		$access = M('categoryAccess')->where(array('catid' => $catid))->select();
 		if (empty($access)) {
 			$access = array();
 		}
+		$access_cid = $catid;
 	}	
 	
 	foreach ($access as $v) {
