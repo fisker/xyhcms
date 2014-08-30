@@ -67,12 +67,11 @@
 			}
 		});
 
-		$("#menu dd ul li a").click(function(){
+		//动态元素添加的也能触发
+		$('#menu dd ul').on('click',"li a",function(){
 			$(this).addClass("thisclass").blur().parents("#menu").find("ul li a").not($(this)).removeClass("thisclass");
-			//url = $(this).attr("_href");
-			//main.location.href = url;
-			//return false;
-		});
+		}); 
+
 	}
 
 	function ChangeNav(nav){//菜单跳转
