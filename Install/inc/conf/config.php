@@ -15,7 +15,17 @@ return array(
 	//启动独立分组模式
 	'APP_GROUP_MODE' => 1, //默认是0(旧)，新式分组1[独立分组]
 	//独立分组文件夹名称
-	'APP_GROUP_PATH' => 'Group', //默认是Modules,新式才使用
+	'APP_GROUP_PATH' => 'Group', //默认是Modules,新式才使用	
+
+	/*
+	//开启子域名配置，除默认分组，其他分组只能用子域名访问
+	'APP_SUB_DOMAIN_DEPLOY' => 1,
+	//子域名配置,格式：'子域名'=> array('分组名/[模块名]','var1=a&var2=b');
+	'APP_SUB_DOMAIN_RULES' => array(
+			'admin' => array('Manage/'),//对应域名为admin.xxx.com
+			'm' => array('Mobile/'),//对应域名为m.xxx.com
+		),
+	*/
 
 	//模板路径(分组后，模板目录太深,可以设置此项简化)
 	'TMPL_FILE_DEPR' => '_', // 控制器_方法.html, 控制器/方法.html[默认]
