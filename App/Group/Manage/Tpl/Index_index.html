@@ -70,9 +70,17 @@
 		<dt>{$v2.name}</dt>
 		<dd>
 		<ul>
-			<volist name='v2["child"]' key='k3' id='v3'>
-			<li><a href="{:U(GROUP_NAME.'/'.$v3['module'].'/'.$v3['action'].'')}" target="main">{$v3.name}</a></li>
-			</volist>
+
+      <if condition="$v2['id'] eq 7">
+      <volist name='qmenu' key='k3' id='v3'>
+      <li><a href="{:U(GROUP_NAME.'/'.$v3['module'].'/'.$v3['action'].'', $v3['parameter'])}" target="main">{$v3.name}</a></li>
+      </volist>  
+      <else/>
+      <volist name='v2["child"]' key='k3' id='v3'>
+      <li><a href="{:U(GROUP_NAME.'/'.$v3['module'].'/'.$v3['action'].'', $v3['parameter'])}" target="main">{$v3.name}</a></li>
+      </volist>
+
+      </if>
 		</ul>
 		</dd>
 	</dl>

@@ -5,12 +5,18 @@ class IndexAction extends CommonAction{
 	public function index(){
 		$this->menudoclist = D('CategoryView')->nofield('content')->where(array('pid' => 0 , 'type' => 0))->order('category.sort,category.id')->select();
 
-		$menu = M('menu')->order('sort,id')->select();
+		$menu = M('menu')->where(array('status' => 1))->order('sort,id')->select();
 		if (empty($menu)) {
 			$menu = array();
+		}		
+		$qmenu = M('menu')->where(array('status' => 1, 'quick' => 1))->order('sort,id')->select();
+		if (empty($qmenu)) {
+			$qmenu = array();
 		}
+
 		import('Class.Category', APP_PATH);
 		$this->menu = Category::toLayer($menu);
+		$this->qmenu = $qmenu;
 		$this->display();
 	}
 

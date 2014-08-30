@@ -53,7 +53,6 @@
 		$("#nav").find("a").click(function(){
 			ChangeNav($(this).attr("_for"));
 			//$('#main').get(0).src = $(this).attr("href");
-			//alert($(this).attr("href"));
 		});
 
 		$("#menu").find("dt").click(function(){
@@ -70,7 +69,6 @@
 
 		$("#menu dd ul li a").click(function(){
 			$(this).addClass("thisclass").blur().parents("#menu").find("ul li a").not($(this)).removeClass("thisclass");
-			//$(this).addClass("thisclass").parents("#menu").find("ul li a").not($(this)).removeClass("thisclass");
 			//url = $(this).attr("_href");
 			//main.location.href = url;
 			//return false;
@@ -79,12 +77,10 @@
 
 	function ChangeNav(nav){//菜单跳转
 		$("#nav").find("a").removeClass("thisclass");
-		//$("#nav").find("a[_for='"+nav+"']").addClass("thisclass").blur();
-		$("#nav").find("a[_for='"+nav+"']").addClass("thisclass");
+		$("#nav").find("a[_for='"+nav+"']").addClass("thisclass");//.blur();
 		$("body").attr("class","showmenu");
 		$("#menu").find("div[id^=items]").hide();
-		$("#menu").find("#items_"+nav).show().find("dl dd").show().find("ul li a").removeClass("thisclass");
-		//$("#menu").find("#items_"+nav).show().find("dd ul li a").eq(0).addClass("thisclass").blur();
+		$("#menu").find("#items_"+nav).show().find("dl dd").show().find("ul li a").removeClass("thisclass");//.blur();
 	}
 
 	function LeftMenuToggle(){

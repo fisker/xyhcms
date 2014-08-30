@@ -38,6 +38,7 @@ class MenuAction extends CommonAction {
 		$data['name'] = trim($data['name']);
 		$data['pid'] = intval($data['pid']);
 		$data['module'] = ucfirst($data['module']);
+		$data['parameter'] = I('parameter', '', '');
 
 	
 		//M验证
@@ -90,6 +91,7 @@ class MenuAction extends CommonAction {
 		$data['name'] = trim($data['name']);
 		$pid = $data['pid'] = intval($data['pid']);
 		$data['module'] = ucfirst($data['module']);
+		$data['parameter'] = I('parameter', '', '');
 
 	
 		//M验证
@@ -128,6 +130,18 @@ class MenuAction extends CommonAction {
 	}
 
 
+	//批量更新排序
+	public function qk() {
+		$quicklist = I('quicklist', array(), 'intval');
+
+		M('menu')->where(array('id' => array('GT', 0)))->setField('quick',0);
+		if (!empty($quicklist)) {			
+			M('menu')->where(array('id' => array('IN', $quicklist) ))->setField('quick',1);
+		}
+	
+
+		$this->redirect(GROUP_NAME. '/Menu/index');
+	}
 
 	//修改分类处理
 

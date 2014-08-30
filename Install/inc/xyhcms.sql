@@ -1278,6 +1278,7 @@ CREATE TABLE IF NOT EXISTS `#xyh#_menu` (
   `module` varchar(20) NOT NULL DEFAULT '',
   `action` varchar(20) DEFAULT '',
   `parameter` varchar(100) DEFAULT '',
+  `quick` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '显示',
   `sort` smallint(6) NOT NULL DEFAULT '100',
   PRIMARY KEY (`id`),
@@ -1285,50 +1286,51 @@ CREATE TABLE IF NOT EXISTS `#xyh#_menu` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(1, '常规管理', 0, 'Menu', '', '', 1, 1);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(2, '模块管理', 0, '', '', '', 1, 2);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(3, '系统设置', 0, '', '', '', 1, 3);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(4, '扩展管理', 0, '', '', '', 1, 4);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(5, '栏目管理', 1, '', '', '', 1, 11);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(6, '内容管理', 1, '', '', '', 1, 12);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(7, '快捷操作', 1, '', '', '', 1, 13);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(8, '栏目管理', 5, 'Category', 'index', '', 1, 111);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(9, '内置模块', 2, '', '', '', 1, 21);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(10, '自由块管理', 9, 'Block', 'index', '', 1, 211);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(11, '广告管理', 9, 'Abc', 'index', '', 1, 212);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(12, '专题管理', 9, 'Special', 'index', '', 1, 213);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(13, '公告管理', 9, 'Announce', 'index', '', 1, 214);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(14, '友情链接', 9, 'Link', 'index', '', 1, 215);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(15, '留言本管理', 9, 'Guestbook', 'index', '', 1, 216);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(16, '评论管理', 9, 'Comment', 'index', '', 1, 217);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(17, '系统设置', 3, '', '', '', 1, 31);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(18, '会员管理', 3, 'Menu', '', '', 1, 33);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(19, '管理员管理', 3, 'Menu', '', '', 1, 34);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(20, '网站设置', 17, 'System', 'site', '', 1, 311);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(21, '伪静态|缓存设置', 17, 'System', 'url', '', 1, 312);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(22, '清除系统缓存', 17, 'System', 'clearCache', '', 1, 316);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(23, '在线客服设置', 17, 'System', 'online', '', 1, 313);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(24, '静态缓存', 3, 'Menu', '', '', 1, 32);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(25, '一键更新全站', 24, 'ClearHtml', 'all', '', 1, 321);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(26, '更新首页', 24, 'ClearHtml', 'home', '', 1, 322);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(27, '更新栏目', 24, 'ClearHtml', 'lists', '', 1, 323);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(28, '更新文档', 24, 'ClearHtml', 'shows', '', 1, 324);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(29, '更新专题', 24, 'ClearHtml', 'special', '', 1, 325);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(30, '会员管理', 18, 'Member', 'index', '', 1, 331);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(31, '会员组管理', 18, 'Membergroup', 'index', '', 1, 332);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(32, '系统用户管理', 19, 'Rbac', 'index', '', 1, 341);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(33, '用户组设置', 19, 'Rbac', 'role', '', 1, 342);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(34, '节点列表', 19, 'Rbac', 'node', '', 1, 343);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(35, '扩展管理', 4, 'Menu', '', '', 1, 41);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(36, '我的账户', 4, 'Menu', '', '', 1, 42);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(37, '模型管理', 35, 'Model', 'index', '', 1, 411);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(38, '菜单管理', 35, 'Menu', 'index', '', 1, 412);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(39, '数据库管理', 35, 'Database', 'index', '', 1, 413);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(40, '联动管理', 35, 'Itemgroup', 'index', '', 1, 414);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(41, '区域管理', 35, 'Area', 'index', '', 1, 415);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(42, '修改我的信息', 36, 'Personal', 'index', '', 1, 421);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(43, '修改密码', 36, 'Personal', 'pwd', '', 1, 422);
-INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `status`, `sort`) VALUES(44, '其他模块', 2, '', '', '', 1, 22);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(1, '常规管理', 0, '', '', '', 0, 1, 1);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(2, '模块管理', 0, '', '', '', 0, 1, 2);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(3, '系统设置', 0, '', '', '', 0, 1, 3);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(4, '扩展管理', 0, '', '', '', 0, 1, 4);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(5, '栏目管理', 1, '', '', '', 0, 1, 11);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(6, '内容管理', 1, '', '', '', 0, 1, 12);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(7, '快捷面板', 1, '', '', '', 0, 1, 13);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(8, '栏目管理', 5, 'Category', 'index', '', 0, 1, 111);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(9, '内置模块', 2, '', '', '', 0, 1, 21);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(10, '自由块管理', 9, 'Block', 'index', '', 0, 1, 211);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(11, '广告管理', 9, 'Abc', 'index', '', 1, 1, 212);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(12, '专题管理', 9, 'Special', 'index', '', 0, 1, 213);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(13, '公告管理', 9, 'Announce', 'index', '', 1, 1, 214);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(14, '友情链接', 9, 'Link', 'index', '', 1, 1, 215);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(15, '留言本管理', 9, 'Guestbook', 'index', '', 1, 1, 216);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(16, '评论管理', 9, 'Comment', 'index', '', 1, 1, 217);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(17, '系统设置', 3, '', '', '', 0, 1, 31);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(18, '会员管理', 3, '', '', '', 0, 1, 33);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(19, '管理员管理', 3, '', '', '', 0, 1, 34);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(20, '网站设置', 17, 'System', 'site', '', 0, 1, 311);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(21, '伪静态|缓存设置', 17, 'System', 'url', '', 0, 1, 312);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(22, '清除系统缓存', 17, 'System', 'clearCache', '', 1, 1, 316);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(23, '在线客服设置', 17, 'System', 'online', '', 0, 1, 313);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(24, '静态缓存', 3, '', '', '', 0, 1, 32);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(25, '一键更新全站', 24, 'ClearHtml', 'all', '', 0, 1, 321);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(26, '更新首页', 24, 'ClearHtml', 'home', '', 0, 1, 322);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(27, '更新栏目', 24, 'ClearHtml', 'lists', '', 0, 1, 323);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(28, '更新文档', 24, 'ClearHtml', 'shows', '', 0, 1, 324);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(29, '更新专题', 24, 'ClearHtml', 'special', '', 0, 1, 325);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(30, '会员管理', 18, 'Member', 'index', '', 0, 1, 331);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(31, '会员组管理', 18, 'Membergroup', 'index', '', 0, 1, 332);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(32, '系统用户管理', 19, 'Rbac', 'index', '', 0, 1, 341);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(33, '用户组设置', 19, 'Rbac', 'role', '', 0, 1, 342);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(34, '节点列表', 19, 'Rbac', 'node', '', 0, 1, 343);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(35, '扩展管理', 4, '', '', '', 0, 1, 41);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(36, '我的账户', 4, '', '', '', 0, 1, 42);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(37, '模型管理', 35, 'Model', 'index', '', 0, 1, 411);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(38, '菜单管理', 35, 'Menu', 'index', '', 0, 1, 412);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(39, '数据库管理', 35, 'Database', 'index', '', 0, 1, 413);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(40, '联动管理', 35, 'Itemgroup', 'index', '', 0, 1, 414);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(41, '区域管理', 35, 'Area', 'index', '', 0, 1, 415);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(42, '修改我的信息', 36, 'Personal', 'index', '', 0, 1, 421);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(43, '修改密码', 36, 'Personal', 'pwd', '', 0, 1, 422);
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(44, '其他模块', 2, '', '', '', 0, 1, 22);
+
 
 DROP TABLE IF EXISTS `#xyh#_abc`;
 CREATE TABLE IF NOT EXISTS `#xyh#_abc` (

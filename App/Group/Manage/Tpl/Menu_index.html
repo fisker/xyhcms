@@ -21,9 +21,10 @@
     <div class="operate">
         <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Menu/add')}')" class="btn_blue" value="添加菜单">
         <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/Menu/sort')}','form_do')" class="btn_blue" value="更新排序" />
+        <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/Menu/qk')}','form_do')" class="btn_blue" value="更新快捷面板" />
     </div>
     </div>
-    <div class="list">    
+    <div class="list">   
     <form action="{:U(GROUP_NAME.'/Menu/sort')}" method="post" id="form_do" name="form_do">
         <table width="100%">
             <tr>
@@ -31,6 +32,7 @@
                 <th>名称</th>
                 <th>显示</th>
                 <th>排序</th>
+                <th>快捷</th>
                 <th>操作</th>
             </tr>
 			<foreach name='cate' item='v'>
@@ -39,6 +41,7 @@
                 <td class="aleft">{$v.delimiter}<if condition="$v['pid'] neq 0">├─</if>{$v.name}</td>
    				<td><if condition="$v['status']">是<else/>否</if></td>        
                 <td><input type="text" name="sortlist[{$v.id}]" value="{$v.sort}" id="sortlist" size="5"></td>
+                <td><input type="checkbox" name="quicklist[]" value="{$v.id}" <notempty name="v['quick']"> checked="checked"</notempty> <if condition="$v['level'] neq 3">disabled="disabled"</if> /></td>
                 <td>
                 <if condition="in_array($v['id'],array(6,7))">
                     <a class="disable">添加子菜单</a>
