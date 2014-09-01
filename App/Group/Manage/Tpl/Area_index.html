@@ -21,7 +21,7 @@
     <div class="operate">
         <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Area/add', array('pid' => $pid))}')" class="btn_blue" value="添加地区">
         <input type="button" onclick="doConfirmBatch('{:U(GROUP_NAME.'/Area/del', array('batchFlag' => 1,'pid' => $pid))}', '确实要删除选择项吗？')" class="btn_blue" value="删除">
-        <input type="button" onclick="document.getElementById('form_do').submit();" class="btn_blue" value="更新排序"></div>
+        <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/Area/sort', array('pid' => $pid))}','form_do')" class="btn_blue" value="更新排序"></div>
         <if condition="$pid gt 0">
         <input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Area/index', array('pid' => 0))}')" class="btn_blue" value="返回顶级">
         <else/>
@@ -48,7 +48,7 @@
                 <td class="aleft"><a href="{:U(GROUP_NAME.'/Area/index',array('pid' => $v['id']))}">{$v.name}</a></td>
                 <td >{$v.sname}</td>
 				<td>{$v.ename}</td>
-                <td><input type="text" name="{$v.id}" value="{$v.sort}" /></td>
+                <td><input type="text" name="sortlist[{$v.id}]" value="{$v.sort}" id="sortlist" size="5" /></td>
                 <td>
                 <a href="{:U(GROUP_NAME.'/Area/edit',array('id' => $v['id'], 'pid' => $v['pid']))}">修改</a>
                 <a href="{:U(GROUP_NAME. '/Area/del', array('id' => $v['id'], 'pid' => $v['pid']))}">删除</a>

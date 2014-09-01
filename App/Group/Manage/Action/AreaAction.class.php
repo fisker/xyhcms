@@ -84,15 +84,16 @@ class AreaAction extends CommonAction{
 
 	//批量更新排序
 	public function sort() {
-		$pid = intval($_GET['pid']);
+		$pid = I('get.pid', 0, 'intval');//intval($_GET['pid']);
 		$actionName = strtolower($this->getActionName());
-		//exit();
-		foreach ($_POST as $k => $v) {
-			if ($k == 'key') {
-				continue;
-			}
-			M($actionName)->where(array('id'=>$k))->setField('sort',$v);
-			//echo 'id:'.$k.'___v:'.$v.'<br/>';//debug
+
+		$sortlist = I('sortlist', array(), 'intval');
+		foreach ($sortlist as $k => $v) {
+			$data = array(
+					'id' => $k,
+					'sort' => $v,
+				);
+			M($actionName)->save($data);		
 		}
 		$this->redirect(GROUP_NAME. '/Area/index', array('pid' => $pid));
 	}

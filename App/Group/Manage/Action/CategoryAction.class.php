@@ -260,14 +260,13 @@ class CategoryAction extends CommonAction {
 
 	//批量更新排序
 	public function sort() {
-	
-		foreach ($_POST as $k => $v) {
-			if ($k == 'key') {
-				continue;
-			}
-			M('category')->where(array('id'=>$k))->setField('sort',$v);
-
-			//echo 'id:'.$k.'___v:'.$v.'<br/>';//debug			
+		$sortlist = I('sortlist', array(), 'intval');
+		foreach ($sortlist as $k => $v) {
+			$data = array(
+					'id' => $k,
+					'sort' => $v,
+				);
+			M('category')->save($data);		
 		}
 		$this->redirect(GROUP_NAME. '/Category/index');
 	}

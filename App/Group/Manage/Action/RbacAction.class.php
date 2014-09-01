@@ -55,7 +55,7 @@ class RbacAction extends CommonAction {
 	public function addUser() {
 
 		if (IS_POST) {
-			$this->addUserHandle();
+			$this->addUserPost();
 			exit();
 		}
 
@@ -78,7 +78,7 @@ class RbacAction extends CommonAction {
 	}
 
 	//添加用户处理
-	public function addUserHandle() {
+	public function addUserPost() {
 
 		//M验证
 		$validate = array(
@@ -270,7 +270,7 @@ class RbacAction extends CommonAction {
 	//添加角色
 	public function addRole() {
 		if (IS_POST) {
-			$this->addRoleHandle();
+			$this->addRolePost();
 			exit();
 		}
 		$id = I('id', 0, 'intval');
@@ -286,7 +286,7 @@ class RbacAction extends CommonAction {
 	}
 
 	//添加角色处理
-	public function addRoleHandle() {
+	public function addRolePost() {
 
 		//M验证
 		$validate = array(
@@ -314,8 +314,9 @@ class RbacAction extends CommonAction {
 			exit();
 		}
 
-		$id = I('id',0, 'intval');
-		$name = I('name', '','trim');
+		$data = I('post.');
+		$id = $data['id'] = I('id',0, 'intval');
+		$name = $data['name'] = trim($data['name']);
 		if (empty($name)) {
 			$this->error('用户组名必须填写！');
 		}
@@ -325,7 +326,7 @@ class RbacAction extends CommonAction {
 		}
 
 
-		if (false !== M('role')->save($_POST)) {
+		if (false !== M('role')->save($data)) {
 			$this->success('修改用户组成功', U(GROUP_NAME. '/Rbac/role'));
 		}else {
 			$this->error('修改用户组失败');
@@ -335,7 +336,7 @@ class RbacAction extends CommonAction {
 	//删除角色
 	public function delRole() {
 		$id = I('id',0 , 'intval');
-		$batchFlag = intval($_GET['batchFlag']);
+		$batchFlag = I('get.batchFlag', 0, 'intval');// intval($_GET['batchFlag']);
 		//批量删除
 		if ($batchFlag) {
 			$this->delRoleAll();
@@ -386,7 +387,7 @@ class RbacAction extends CommonAction {
 	//配置权限
 	public function access() {
 		if (IS_POST) {
-			$this->accessHandle();
+			$this->accessPost();
 			exit();
 		}
 		$rid = I('rid', 0, 'intval');
@@ -400,7 +401,7 @@ class RbacAction extends CommonAction {
 	}
 
 	//配置权限处理
-	public function accessHandle() {
+	public function accessPost() {
 		$rid =I('rid',0 , 'intval');
 		$access =array();
 		//组合权限
@@ -437,7 +438,7 @@ class RbacAction extends CommonAction {
 	public function addNode() {
 
 		if (IS_POST) {
-			$this->addNodeHandle();
+			$this->addNodePost();
 			exit();
 		}
 
@@ -463,15 +464,18 @@ class RbacAction extends CommonAction {
 
 
 	//添加节点处理
-	public function addNodeHandle() {
+	public function addNodePost() {
 
-		$name = I('name', '', 'trim');
-		$title = I('title', '', 'trim');
-		if (empty($name) || empty($title)) {
+		$data = I('post.', '');
+		$data['name'] = trim($data['name']);
+		$data['title'] = trim($data['title']);
+		$data['sort'] = I('sort', 0, 'intval');		
+		$data['status'] = I('status', 0, 'intval');
+		if (empty($data['name']) || empty($data['title'])) {
 			$this->error('名称和描述不能为空');
 		}
 
-		if (M('node')->add($_POST)) {
+		if (M('node')->add($data)) {
 			$this->success('添加成功', U(GROUP_NAME. '/Rbac/node'));
 		}else {
 
@@ -483,7 +487,7 @@ class RbacAction extends CommonAction {
 	public function editNode() {
 		
 		if (IS_POST) {
-			$this->editNodeHandle();
+			$this->editNodePost();
 			exit();
 		}
 
@@ -511,15 +515,16 @@ class RbacAction extends CommonAction {
 
 
 	//修改节点处理
-	public function editNodeHandle() {
+	public function editNodePost() {
 
-		$name = I('name', '', 'trim');
-		$title = I('title', '', 'trim');
-		if (empty($name) || empty($title)) {
+		$data = I('post.', '');
+		$data['name'] = trim($data['name']);
+		$data['title'] = trim($data['title']);
+		if (empty($data['name']) || empty($data['title'])) {
 			$this->error('名称和描述不能为空');
 		}
 
-		if (false !== M('node')->save($_POST)) {
+		if (false !== M('node')->save($data)) {
 			$this->success('修改成功', U(GROUP_NAME. '/Rbac/node'));
 		}else {
 

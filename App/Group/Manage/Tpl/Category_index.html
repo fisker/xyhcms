@@ -20,7 +20,7 @@
     <div class="pos">栏目列表</div>    
     <div class="operate">
         <div class="left"><input type="button" onclick="goUrl('{:U(GROUP_NAME. '/Category/add')}')" class="btn_blue" value="添加栏目">
-        <input type="button" onclick="document.getElementById('form_do').submit();" class="btn_blue" value="更新排序"></div>
+        <input type="button" onclick="doGoSubmit('{:U(GROUP_NAME. '/Category/sort')}','form_do')" class="btn_blue" value="更新排序"></div>
     </div>
     <div class="list">    
     <form action="{:U(GROUP_NAME.'/Category/sort')}" method="post" id="form_do" name="form_do">
@@ -41,7 +41,7 @@
                 <td class="aleft">{$v.delimiter}<if condition="$v['pid'] neq 0">├─</if><a href="<if condition='$v.type eq 0'>{:U(GROUP_NAME. '/'.ucfirst($v['tablename']). '/index', array('pid' => $v['id']))}<else/>{:U(GROUP_NAME.'/Category/edit',array('id' => $v['id']))}</if>">{$v.name}</a></td>
                 <td ><if condition='$v.type eq 1'><span style="color:red">外部链接</span><else/>{$v.modelname}</if></td>
 				<td><if condition="$v['status']">是<else/>否</if></td>
-                <td><input type="text" name="{$v.id}" value="{$v.sort}" /></td>
+                <td><input type="text" name="sortlist[{$v.id}]" value="{$v.sort}" id="sortlist" size="5" /></td>
                 <td>
 
                 <a href="{:U(GROUP_NAME.'/Category/add',array('pid' => $v['id']))}">添加子栏目</a>
