@@ -21,9 +21,7 @@ class CommonContentAction extends Action {
 				$pid = I('get.pid', 0, 'intval');
 			}	
 							
-			check_category_access($pid, ACTION_NAME, $adminRole) || $this->error('没有权限');
-			//var_dump(check_category_access($pid, ACTION_NAME, 1));
-			
+			check_category_access($pid, ACTION_NAME, $adminRole) || $this->error('没有权限');			
 
 		}
 

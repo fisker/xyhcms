@@ -51,7 +51,6 @@ class LoginAction extends Action{
 		session('yang_adm_roleid', intval($user['roleid']));
 		session('yang_adm_logintime', date('Y-m-d H:i:s', $user['logintime']));
 		session('yang_adm_loginip', $user['loginip']);
-		//p($_SESSION);exit();
 
 		//超级管理员
 		if (9 == $user['usertype']) {
@@ -60,13 +59,10 @@ class LoginAction extends Action{
 
 		import('ORG.Util.RBAC');
 		RBAC::saveAccessList();//静态方法，读取权限放到session
-		//p($_SESSION);exit();
 
 
 		//跳转
 		$this->redirect(GROUP_NAME.'/Index/index');
-		//redirect(__GROUP__);
-		//$this->success('登录成功',U(GROUP_NAME. '/Index/index'));
 		
 
 

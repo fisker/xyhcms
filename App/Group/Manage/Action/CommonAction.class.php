@@ -20,12 +20,9 @@ class CommonAction extends Action {
 
 			import('ORG.Util.RBAC');
 			//单方文件(非分组)，GROUP_NAME不需要，留空，即RBAC::AccessDecision()
-			RBAC::AccessDecision(GROUP_NAME) || $this->error('没有权限');//如果没有权限则返回error
-			//var_dump(RBAC::AccessDecision(GROUP_NAME));
-			
+			RBAC::AccessDecision(GROUP_NAME) || $this->error('没有权限');//如果没有权限则返回error			
 
 		}
-		//p($_SESSION);
 
 
 
