@@ -44,6 +44,7 @@ class CategoryAction extends CommonAction {
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);		
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
+		$pic = $data['catpic'] = I('catpic', '', 'htmlspecialchars,trim');
 
 		if (isset($data['type']) && $data['type'] ==1 ) {
 			$data['modelid'] = 0;
@@ -93,6 +94,17 @@ class CategoryAction extends CommonAction {
 							);
 				}
 				M('categoryAccess')->addAll($access);
+			}
+
+
+			//更新上传附件表
+			if (!empty($pic)) {
+
+				$pic = preg_replace('/!(\d+)X(\d+)\.jpg$/i', '', $pic);//清除缩略图的!200X200.jpg后缀
+				$attid = M('attachment')->where(array('filepath' => $pic))->getField('id');
+				if($attid){
+					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => 0, 'desc' => 'category'));
+				}
 			}
 
 			getCategory(0,1);//清除栏目缓存
@@ -148,6 +160,7 @@ class CategoryAction extends CommonAction {
 		$data['name'] = trim($data['name']);
 		$data['ename'] = trim($data['ename']);		
 		$data['type'] = empty($data['type'])? 0 : intval($data['type']);
+		$pic = $data['catpic'] = I('catpic', '', 'htmlspecialchars,trim');
 
 		if (isset($data['type']) && $data['type'] ==1 ) {
 			$data['modelid'] = 0;
@@ -223,6 +236,18 @@ class CategoryAction extends CommonAction {
 				M('categoryAccess')->addAll($access);
 			}
 
+			//del
+			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => 0, 'desc' => 'category'))->delete();
+			//更新上传附件表
+			if (!empty($pic)) {
+
+				$pic = preg_replace('/!(\d+)X(\d+)\.jpg$/i', '', $pic);//清除缩略图的!200X200.jpg后缀
+				$attid = M('attachment')->where(array('filepath' => $pic))->getField('id');
+				if($attid){
+					M('attachmentindex')->add(array('attid' => $attid,'arcid' => $id, 'modelid' => 0, 'desc' => 'category'));
+				}
+			}
+
 			getCategory(0,1);//清除栏目缓存
 			getCategory(1,1);
 			getCategory(2,1);
@@ -267,6 +292,8 @@ class CategoryAction extends CommonAction {
 				$msg = '!!!';
 			}
 			M('categoryAccess')->where(array('catid' => $id))->delete();
+			
+			M('attachmentindex')->where(array('arcid' => $id, 'modelid' => 0, 'desc' => 'category'))->delete();
 
 			//更新栏目缓存
 			getCategory(0,1);

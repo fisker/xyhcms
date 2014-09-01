@@ -6,6 +6,12 @@
 <link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.min.js"></script>
+<script type="text/javascript">
+	var data_path = "__DATA__";
+	var tpl_public = "__PUBLIC__";
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/jBox.config.js"></script>
 <script type="text/javascript">
 	$(function(){
 
@@ -85,6 +91,82 @@
 
     });
 </script>
+<script type="text/javascript">
+$(function () {
+	//缩略图上传
+	var litpic_tip = $(".litpic_tip");
+	var btn = $(".litpic_btn span");
+	$("#fileupload").wrap("<form id='myupload' action='{:U(GROUP_NAME. '/Public/upload', array('tb' => 2))}' method='post' enctype='multipart/form-data'></form>");
+    $("#fileupload").change(function(){
+    	if($("#fileupload").val() == "") return;
+		$("#myupload").ajaxSubmit({
+			dataType:  'json',
+			beforeSend: function() {
+        		$('#litpic_show').empty();
+				btn.html("上传中...");
+    		},
+			success: function(data) {
+				//litpic_tip.html("<b>"+data.title+"("+data.size+"k)</b> <span class='delimg' rel='"+data.url+"'>删除</span>");
+				if(data.state == 'SUCCESS'){					
+					litpic_tip.html(""+ data.title +" 上传成功("+data.size+"k)");
+					var img = data.url;//原图
+					var timg = data.turl;//缩略图
+					$('#litpic_show').html("<img src='"+timg+"' width='120'>");
+					$("#litpic").val(timg);
+				}else {
+					litpic_tip.html(data.state);		
+				}			
+					btn.html("添加缩略图");
+
+			},
+			error:function(xhr){
+				btn.html("上传失败");
+				litpic_tip.html(xhr);
+			}
+		});
+	});
+
+	$('#CK_JumpUrl').click(function(){
+            var inputs = $(this).parents('dl').find('input');
+            if($(this).attr('checked')) {
+                $('#JumpUrlDiv').show();
+
+            }else {
+                $('#JumpUrlDiv').hide();
+            }
+            
+     });
+	
+});
+
+
+
+
+$(function () {
+
+	$('#BrowerPicture').click(function(){
+		$.jBox("iframe:{:U(GROUP_NAME.'/Public/browseFile', array('stype' => 'picture'))}",{
+			title:'XYHCMS',
+			width: 650,
+   			height: 350,
+    		buttons: { '关闭': true }
+   			}
+		);
+	});	
+
+});
+
+
+function selectPicture(sfile) {
+	$.jBox.tip("选择文件成功");
+	$.jBox.close(true);
+	$("#litpic").val(sfile);
+	$('#litpic_show').html("<img src='"+sfile+"' width='120'>");
+}
+
+
+
+</script>
 </head>
 <body>
 <div class="main">
@@ -135,6 +217,25 @@
 			<dt>别名(拼音)：</dt>
 			<dd>
 				<input type="text" name="ename" class="inp_one" value="{$data.ename}" /><span>只能包含字母，数字</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>栏目图片：</dt>
+			<dd>
+				<div class="litpic_show">
+				    <div style="float:left;">
+				    <input type="text" class="inp_w250" name="catpic" id="litpic"  value="{$data.catpic}" />
+				    <input type="button" class="btn_blue_b" id="BrowerPicture" value="选择站内图片">
+				    </div>
+						<div class="litpic_btn">
+				        <span>添加图片</span>
+				        <input id="fileupload" type="file" name="mypic">
+				    </div>
+				    <div class="litpic_tip"></div>
+				    <div id="litpic_show">
+				    <if condition="$data['catpic']"><img src="{$data.catpic}" width='120' /></if>
+				    </div>
+				</div>
 			</dd>
 		</dl>	
 		<dl>

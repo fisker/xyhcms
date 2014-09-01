@@ -719,6 +719,7 @@ CREATE TABLE IF NOT EXISTS `#xyh#_category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '栏目分类名称',
   `ename` varchar(200) NOT NULL DEFAULT '' COMMENT '别名',
+  `catpic` varchar(150) NOT NULL DEFAULT '',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类',
   `modelid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属模型',
   `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '类别',
