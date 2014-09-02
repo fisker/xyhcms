@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel='stylesheet' type="text/css" href="__PUBLIC__/css/style.css" />
+<script type="text/javascript" src="__PUBLIC__/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+ <script language="JavaScript">
+        <!--
+        var URL = '__URL__';
+        var APP	 = '__APP__';
+        var SELF='__SELF__';
+        var PUBLIC='__PUBLIC__';
+        //-->
+        </script>
+</head>
+<body>
+<div class="main">
+    <div class="pos">已上传文件管理
+    </div>
+
+    <div class="sub clear"><span>说明：</span>1、引用数：只统计图片类型的文件，被引用的文件建议不删除。2、
+        缩略图:只针对图片类型文件。
+    </div>
+    <div class="list">    
+    <form action="{:U(GROUP_NAME.'/Attachment/delAll')}" method="post" id="form_do" name="form_do">
+        <table width="100%">
+            <tr>
+                <th>编号</th>
+                <th>原文件名称</th>
+                <th>文件地址</th>
+                <th>文件大小</th>
+                <th>缩略图</th>
+                <th>上传时间</th>
+                <th>引用数</th>
+                <th>操作</th>
+            </tr>
+			<foreach name='vlist' item='v'>
+            <tr>
+                <td>{$v.id}</td>
+                <td class="aleft">{$v.title}</td>
+                <td class="aleft">{$v.filepath}</td>
+                <td>{$v.filesize}</td>
+                <td><if condition="$v['haslitpic'] eq 1">有<else/>无</if></td>
+                <td>{$v.uploadtime|date='Y-m-d H:i:s', ###}</td>
+                <td><if condition="empty($v['num'])">{$v.num}<else/><span class="red">{$v.num}</span></if></td>
+                <td>
+                    <if condition="$v['filetype'] eq 1"><a href="{$v.filepath}" target="_blank">预览</a><else/>预览</if>
+                    <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Attachment/del',array('id' => $v['id']), '')}', '确实要删除吗？')">删除</a>
+				</td>
+            </tr>
+            </foreach>
+        </table>
+        <div class="page" style="clear: both;">{$page}</div>
+    </form>
+    </div>
+</div>
+</body>
+</html>
