@@ -11,7 +11,7 @@ class ModelAction extends CommonAction {
 
 	public function add() {	
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}	
 		$this->styleListList = getFileFolderList(APP_PATH . C('APP_GROUP_PATH') . '/Home/Tpl/' .C('cfg_themestyle') , 2, 'List_*');
@@ -19,7 +19,7 @@ class ModelAction extends CommonAction {
 		$this->display();
 	}
 
-	public function addHandle() {
+	public function addPost() {
 
 		//M验证
 		$validate = array(
@@ -52,7 +52,7 @@ class ModelAction extends CommonAction {
 	//编辑
 	public function edit() {
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		$id = I('id', 0, 'intval');
@@ -70,7 +70,7 @@ class ModelAction extends CommonAction {
 
 	//修改分类处理
 
-	public function editHandle() {
+	public function editPost() {
 
 		$id = I('id',0, 'intval');
 		$name = I('name', '', 'trim');
@@ -108,12 +108,16 @@ class ModelAction extends CommonAction {
 
 	//批量更新排序
 	public function sort() {
-		foreach ($_POST as $k => $v) {
-			if ($k == 'key') {
-				continue;
-			}
-			M('model')->where(array('id'=>$k))->setField('sort',$v);
+
+		$sortlist = I('sortlist', array(), 'intval');	
+		foreach ($sortlist as $k => $v) {
+			$data = array(
+					'id' => $k,
+					'sort' => $v,
+				);
+			M('model')->save($data);		
 		}
+
 		$this->redirect(GROUP_NAME. '/Model/index');
 	}
 

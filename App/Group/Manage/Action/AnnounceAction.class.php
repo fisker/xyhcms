@@ -25,14 +25,14 @@ class AnnounceAction extends CommonAction {
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->display();
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 
 		//M验证
 
@@ -47,7 +47,7 @@ class AnnounceAction extends CommonAction {
 			array('starttime','strtotime',1,'function'), 
 			array('endtime','strtotime',1,'function'), 
 			array('posttime','time',1,'function'), 
-			array('status','1',1) ,
+			array('status','1', 1, 'string'),
 		);
 
 		$db = M('announce');
@@ -94,7 +94,7 @@ class AnnounceAction extends CommonAction {
 		$id = I('id', 0, 'intval');
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		
@@ -104,7 +104,7 @@ class AnnounceAction extends CommonAction {
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
 		//M验证
 		$id = I('id', 0, 'intval');
@@ -154,7 +154,7 @@ class AnnounceAction extends CommonAction {
 				}
 				
 			}
-			$this->success('修改成功', U(GROUP_NAME. '/Announce/index', array('pid' => $pid)));
+			$this->success('修改成功', U(GROUP_NAME. '/Announce/index'));
 		}else {
 
 			$this->error('修改失败');
@@ -168,7 +168,7 @@ class AnnounceAction extends CommonAction {
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$batchFlag = intval($_GET['batchFlag']);
+		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
 		if ($batchFlag) {
 			$this->delBatch();

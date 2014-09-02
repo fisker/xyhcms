@@ -31,24 +31,27 @@
             <tr>
                 <th><input type="checkbox" id="check"></th>
                 <th>编号</th>
-                <th>文章标题</th>
+                <th>发布人</th>
+                <th>评论|标题</th>
                 <th>模型</th>
                 <th>发布时间</th>
                 <th>ip</th>
-                <th>发布人</th>
                 <th>操作</th>
             </tr>
 			<foreach name='vlist' item='v'>
             <tr>
                 <td><input type="checkbox" name="key[]" value="{$v.id}"></td>
                 <td>{$v.id}</td>
-                <td><a href="{:U(C('DEFAULT_GROUP'). '/Show/'.$v['tablename'],array('id' => $v['postid']), '').'#'.rand(1000,time())}" target="_blank">{$v.title}({$v.postid})</a></td>
+                <td><if condition="$v['username'] eq ''">{$v.email}<else/>{$v.username}</if></td>
+                <td class="aleft line160">
+                    <div>内容：{$v.content}</div>
+                    文档：{$v.title}[ID:{$v.postid}]</td>
                 <td>{$v.modelname}</if></td>
                 <td>{$v.posttime|date='Y-m-d H:i:s', ###}</td>
                 <td>{$v.ip}</td>
-                <td><if condition="$v['username'] eq ''">{$v.email}<else/>{$v.username}</if></td>
                 <td>
-                    <a href="#">编辑</a>
+                    <a href="{:U(C('DEFAULT_GROUP'). '/Show/'.$v['tablename'],array('id' => $v['postid']), '').'#'.rand(1000,time())}" target="_blank">浏览</a>
+                    <a href="{:U(GROUP_NAME. '/Comment/edit',array('id' => $v['id']), '')}">编辑</a>
                     <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Comment/del',array('id' => $v['id']), '')}', '确实要删除吗？')">删除</a>
 				</td>
             </tr>

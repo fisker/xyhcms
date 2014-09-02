@@ -51,7 +51,7 @@ class PictureAction extends CommonContentAction {
 		$this->pid = I('pid', 0, 'intval');
 
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 
@@ -64,7 +64,7 @@ class PictureAction extends CommonContentAction {
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 
 		$pid = I('pid', 0, 'intval');
 		$cid = I('cid', 0, 'intval');
@@ -214,7 +214,7 @@ class PictureAction extends CommonContentAction {
 		$actionName = strtolower($this->getActionName());	
 		
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 
@@ -244,7 +244,7 @@ class PictureAction extends CommonContentAction {
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
 
 		$data =array(

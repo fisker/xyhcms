@@ -12,7 +12,7 @@ class GuestbookAction extends CommonAction {
 		$page->rollPage = 7;
 		$page->setConfig('theme','%totalRow% %header%  %first% %upPage% %linkPage% %downPage% %end% %nowPage%/%totalPage% 页');
 		$limit = $page->firstRow. ',' .$page->listRows;
-		$list = M('guestbook')->limit($limit)->select();
+		$list = M('guestbook')->order('id DESC')->limit($limit)->select();
 
 		$this->page = $page->show();
 		$this->vlist = $list;
@@ -25,14 +25,14 @@ class GuestbookAction extends CommonAction {
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());		
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->display();
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 
 		//M验证
 		$validate = array(
@@ -64,7 +64,7 @@ class GuestbookAction extends CommonAction {
 		$id = I('id', 0, 'intval');
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->replyHandle();
+			$this->replyPost();
 			exit();
 		}
 
@@ -76,7 +76,7 @@ class GuestbookAction extends CommonAction {
 
 
 	//回复处理
-	public function replyHandle() {
+	public function replyPost() {
 
 		$id = I('id', '', 'intval');
 		$reply = I('reply', '', 'trim');
@@ -106,7 +106,7 @@ class GuestbookAction extends CommonAction {
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$batchFlag = intval($_GET['batchFlag']);
+		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
 		if ($batchFlag) {
 			$this->delBatch();

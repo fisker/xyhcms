@@ -24,7 +24,7 @@ class BlockAction extends CommonAction {
 	public function add() {
 
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->type = '添加自由块';
@@ -33,7 +33,7 @@ class BlockAction extends CommonAction {
 	}
 
 	//
-	public function addHandle() {	
+	public function addPost() {	
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());
 
@@ -114,7 +114,7 @@ class BlockAction extends CommonAction {
 		$actionName = strtolower($this->getActionName());
 
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		
@@ -131,7 +131,7 @@ class BlockAction extends CommonAction {
 
 
 	//修改处理
-	public function editHandle() {
+	public function editPost() {
 		$actionName = strtolower($this->getActionName());
 
 		$id = $data['id'] = I('id', 0, 'intval');
@@ -217,7 +217,7 @@ class BlockAction extends CommonAction {
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$batchFlag = intval($_GET['batchFlag']);
+		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
 		if ($batchFlag) {
 			$this->delBatch();

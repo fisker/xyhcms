@@ -28,7 +28,14 @@ class CommentAction extends CommonAction {
 		$id = I('id', 0, 'intval');
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->editHandle();
+			$data = I('post.');
+			$data['content'] = I('content', '', '');
+			if (false !== M('comment')->save($data)) {
+				$this->success('修改成功', U(GROUP_NAME. '/Comment/index'));
+			}else {
+
+				$this->error('修改失败');
+			}
 			exit();
 		}
 
@@ -37,34 +44,13 @@ class CommentAction extends CommonAction {
 	}
 
 
-	//修改文章处理
-	public function editHandle() {
-
-		$name = I('name', '', 'trim');
-		$url = I('url', '', 'trim');
-		$pic = I('logo', '', 'trim');
-		if (empty($name) || empty($url)) {
-			$this->error('网站名称或网址不能为空');
-		}
-		
-
-		if (false !== M('comment')->save($_POST)) {
-
-			$this->success('修改成功', U(GROUP_NAME. '/Comment/index', array('pid' => $pid)));
-		}else {
-
-			$this->error('修改失败');
-		}
-		
-	}
-
 
 
 	//彻底删除
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$batchFlag = intval($_GET['batchFlag']);
+		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
 		if ($batchFlag) {
 			$this->delBatch();

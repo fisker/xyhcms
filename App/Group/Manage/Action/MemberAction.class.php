@@ -35,15 +35,15 @@ class MemberAction extends CommonAction {
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
-		$this->vlist = M('membergroup')->select();
+		$this->vlist = M('membergroup')->where(array('id'=> array('gt',1)))->select();
 		$this->display();
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 		$password = I('password', '');
 		//M验证
 		$validate = array(
@@ -53,15 +53,6 @@ class MemberAction extends CommonAction {
 			array('email','','邮箱已经存在！',0,'unique',1), //使用这个是否存在，auto就不能自动完成
 		);
 
-		//代替自动完成
-	
-		
-		/*
-		$auto = array ( 
-			array('regtime','time',1,'function'), 
-			array('password','md5',1,'function'),
-		);
-		*/
 
 		$db = M('member');
 		if (!$db->validate($validate)->create()) {
@@ -69,7 +60,7 @@ class MemberAction extends CommonAction {
 		}
 
 
-		$data = $_POST;
+		$data = I('post.');
 		$passwordinfo = I('password', '','get_password');
 		$data['regtime'] = time();
 		$data['password'] = $passwordinfo['password'];
@@ -90,47 +81,48 @@ class MemberAction extends CommonAction {
 		$actionName = strtolower($this->getActionName());
 
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		
-		$this->vlist = M('membergroup')->select();
+		$this->vlist = M('membergroup')->where(array('id'=> array('gt',1)))->select();
 		$this->vo = M($actionName)->find($id);
 		$this->display();
 	}
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
-		$email = I('email', '', 'trim');
-		$id = I('id', 0, 'intval');
-		if (empty($email)) {
+		$data = I('post.');
+		$id = $data['id'] = I('id', 0, 'intval');
+		$data['email'] = trim($data['email']);
+
+		if (empty($data['email'])) {
 			$this->error('电子邮箱必须填写！');
 		}
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
 				$this->error('电子邮箱格式不正确！');
 		}
 		
-		if (M('member')->where(array('email' => $email, 'id' => array('neq', $id)))->find()) {
+		if (M('member')->where(array('email' => $data['email'], 'id' => array('neq', $id)))->find()) {
 			$this->error('失败，邮箱已经存在！');
 		}
 
-		$data = array(
-			'id'		=> $id,
-			'email'		=> $email,
-			'nickname'	=> I('nickname', '', 'trim'),
-			'groupid'	=> I('groupid', 0, 'intval'),
-			'islock' 	=> I('islock', 0, 'intval'),
-		);
-		if(!empty($_POST['password'])) {
+		$data['groupid'] = I('groupid', 0, 'intval');
+		$data['islock'] = I('islock', 0, 'intval');
+		
+		if(!empty($data['password'])) {
 			$passwordinfo = I('password', '','get_password');
 			$data['password'] = $passwordinfo['password'];
 			$data['encrypt'] = $passwordinfo['encrypt'];
+		}else {
+			unset($data['password']);//删除密码，防止被添加
 		}
+	
 
 		if (false !== M('member')->save($data)) {
-			$this->success('修改成功', U(GROUP_NAME. '/Member/index', array('pid' => $pid)));
+			$this->success('修改成功', U(GROUP_NAME. '/Member/index'));
 		}else {
 
 			$this->error('修改失败');

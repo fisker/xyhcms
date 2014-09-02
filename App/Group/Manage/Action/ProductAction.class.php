@@ -50,7 +50,7 @@ class ProductAction extends CommonContentAction {
 		$this->pid = I('pid', 0, 'intval');
 
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 
@@ -63,7 +63,7 @@ class ProductAction extends CommonContentAction {
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 
 		$pid = I('pid', 0, 'intval');
 		$cid = I('cid', 0, 'intval');
@@ -215,7 +215,7 @@ class ProductAction extends CommonContentAction {
 		$actionName = strtolower($this->getActionName());
 
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		
@@ -244,7 +244,7 @@ class ProductAction extends CommonContentAction {
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
 		$data =array(			
 			'id'	=> I('id', 0 , 'intval'),

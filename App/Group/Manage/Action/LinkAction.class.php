@@ -25,14 +25,14 @@ class LinkAction extends CommonAction {
 		//当前控制器名称		
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->addHandle();
+			$this->addPost();
 			exit();
 		}
 		$this->display();
 	}
 
 	//
-	public function addHandle() {
+	public function addPost() {
 
 		$name = I('name', '', 'trim');
 		$url = I('url', '', 'trim');
@@ -74,7 +74,7 @@ class LinkAction extends CommonAction {
 		$id = I('id', 0, 'intval');
 		$actionName = strtolower($this->getActionName());
 		if (IS_POST) {
-			$this->editHandle();
+			$this->editPost();
 			exit();
 		}
 		$this->vo = M($actionName)->find($id);
@@ -83,7 +83,7 @@ class LinkAction extends CommonAction {
 
 
 	//修改文章处理
-	public function editHandle() {
+	public function editPost() {
 
 		$name = I('name', '', 'trim');
 		$url = I('url', '', 'trim');
@@ -105,7 +105,7 @@ class LinkAction extends CommonAction {
 			}
 
 
-			$this->success('修改成功', U(GROUP_NAME. '/Link/index', array('pid' => $pid)));
+			$this->success('修改成功', U(GROUP_NAME. '/Link/index'));
 		}else {
 
 			$this->error('修改失败');
@@ -119,7 +119,7 @@ class LinkAction extends CommonAction {
 	public function del() {
 
 		$id = I('id',0 , 'intval');
-		$batchFlag = isset($_GET['batchFlag'])? intval($_GET['batchFlag']) : 0;
+		$batchFlag = I('get.batchFlag', 0, 'intval');
 		//批量删除
 		if ($batchFlag) {
 			$this->delBatch();

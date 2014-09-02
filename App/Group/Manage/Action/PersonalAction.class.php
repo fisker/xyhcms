@@ -5,7 +5,7 @@ class PersonalAction extends CommonAction {
 	public function index() {
 					
 		if (IS_POST) {
-			$this->indexHandle();
+			$this->indexPost();
 			exit();
 		}
 		$this->type = '修改个人信息';
@@ -16,7 +16,7 @@ class PersonalAction extends CommonAction {
 	
 
 	//修改
-	public function indexHandle() {
+	public function indexPost() {
 
 		$email = I('email', '', 'trim');
 		$id = I('uid', 0, 'intval');
@@ -69,7 +69,7 @@ class PersonalAction extends CommonAction {
 		}
 		
 		$self = M('admin')->field(array('email', 'password' ,'encrypt'))->where(array('id' => $id))->find();
-		if (!self) {
+		if (!$self) {
 			$this->error('用户不存在，请重新登录');
 		}
 
