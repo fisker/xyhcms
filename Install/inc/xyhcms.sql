@@ -1284,7 +1284,7 @@ CREATE TABLE IF NOT EXISTS `#xyh#_menu` (
   `sort` smallint(6) NOT NULL DEFAULT '100',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 
 INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(1, '常规管理', 0, '', '', '', 0, 1, 1);
@@ -1331,7 +1331,7 @@ INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, 
 INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(42, '修改我的信息', 36, 'Personal', 'index', '', 0, 1, 421);
 INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(43, '修改密码', 36, 'Personal', 'pwd', '', 0, 1, 422);
 INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(44, '其他模块', 2, '', '', '', 0, 1, 22);
-
+INSERT INTO `#xyh#_menu` (`id`, `name`, `pid`, `module`, `action`, `parameter`, `quick`, `status`, `sort`) VALUES(45, '已传文件管理', 35, 'Attachment', 'index', '', 0, 1, 416);
 
 DROP TABLE IF EXISTS `#xyh#_abc`;
 CREATE TABLE IF NOT EXISTS `#xyh#_abc` (

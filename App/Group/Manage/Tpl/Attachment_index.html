@@ -44,7 +44,7 @@
                 <td>{$v.filesize}</td>
                 <td><if condition="$v['haslitpic'] eq 1">有<else/>无</if></td>
                 <td>{$v.uploadtime|date='Y-m-d H:i:s', ###}</td>
-                <td><if condition="empty($v['num'])">{$v.num}<else/><span class="red">{$v.num}</span></if></td>
+                <td><if condition="$v['filetype'] eq 1"><span class="red">{$v.num}</span><else/><span>--</span></if></td>
                 <td>
                     <if condition="$v['filetype'] eq 1"><a href="{$v.filepath}" target="_blank">预览</a><else/>预览</if>
                     <a href="javascript:;" onclick="toConfirm('{:U(GROUP_NAME. '/Attachment/del',array('id' => $v['id']), '')}', '确实要删除吗？')">删除</a>

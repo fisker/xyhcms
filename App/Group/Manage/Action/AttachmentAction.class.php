@@ -37,24 +37,25 @@ class AttachmentAction extends CommonAction {
 		if (empty($vo)) {
 			$this->error('不存在');
 		}
-		p(__ROOT__);
-		//p($_SERVER['DOCUMENT_ROOT']);//不能使用，的有虚拟主机不行
-		$list = glob($vo['filepath'].'*');
-		p($list);exit();
-		if ($vo['haslitpic']) {
-			
-            for ($i=0; $i < count($list) ; $i++) { 
-                if (is_file($list[$i])) {                 
-                    unlink($list[$i]);
-                }
-            }
+		//$_SERVER['DOCUMENT_ROOT'];//有的虚拟主机不行
+		$doc_path = str_ireplace(str_replace("\\","/",$_SERVER['SCRIPT_NAME']),'',$_SERVER['SCRIPT_FILENAME']);
+
+		$list = glob($doc_path.$vo['filepath'].'*');
+		
+		if (!empty($list)) {
+			foreach ($list as $v) {
+				$ret = @unlink($v);
+				if (!$ret) {
+					$this->error('删除文件失败！文件：'.$v);
+				}
+			}
 		}
 	
 		if (M('attachment')->delete($id)) {			
 			M('attachmentindex')->where(array('attid' => $id))->delete();
-			$this->success('彻底删除成功', U(GROUP_NAME. '/Attachment/index'));
+			$this->success('删除成功', U(GROUP_NAME. '/Attachment/index'));
 		}else {
-			$this->error('彻底删除失败');
+			$this->error('删除失败');
 		}
 	}
 
